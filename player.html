@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Streamflix — Watch Now</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #141414;
+            --bg-card: #181818;
+            --bg-elevated: #2a2a2a;
+            --red: #E50914;
+            --red-dark: #B20710;
+            --red-glow: rgba(229,9,20,0.4);
+            --text: #ffffff;
+            --text-muted: #b3b3b3;
+            --text-dim: #808080;
+            --green: #46d369;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* ── Navbar ── */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 22px 50px;
+            display: flex; align-items: center; gap: 28px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%);
+            transition: background 0.3s ease, padding 0.3s ease;
+        }
+        .nav.scrolled {
+            background: rgba(20,20,20,0.98);
+            padding: 14px 50px;
+            backdrop-filter: blur(10px);
+        }
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem; font-weight: 900;
+            color: var(--red); letter-spacing: -1px;
+            text-transform: uppercase; cursor: pointer;
+            text-shadow: 0 0 18px var(--red-glow); user-select: none;
+            text-decoration: none;
+        }
+        
+        .nav-right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+        
+        /* Navbar Developer Credits */
+        .nav-credits {
+            display: flex; flex-direction: column; align-items: flex-end;
+            font-size: 0.7rem; line-height: 1.2; color: var(--text-muted);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding-right: 20px;
+        }
+        .nav-credits .dev { color: #fff; font-weight: 600; }
+        .nav-credits .teach { color: var(--red); font-weight: 600; }
+
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 10px 20px; background: rgba(255,255,255,0.1);
+            color: var(--text); text-decoration: none; border-radius: 4px;
+            font-weight: 600; font-size: 14px; transition: all 0.2s;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.2); }
+
+        /* ── Main Container ── */
+        .player-wrapper {
+            padding-top: 120px; /* Space for fixed navbar */
+            padding-bottom: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        /* ── Player Container ── */
+        .player-container {
+            width: 100%; background: #000; border-radius: 8px;
+            overflow: hidden; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .player-container::before { content:''; display:block; padding-top:56.25%; }
+        .player-container iframe {
+            position: absolute; top:0; left:0; width:100%; height:100%; border:none;
+        }
+
+        /* ── Netflix Style Circular Loader ── */
+        .loading-player {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: #000;
+            z-index: 5;
+        }
+        .netflix-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(229, 9, 20, 0.2); /* Dark red track */
+            border-top-color: var(--red); /* Bright red spinner */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ── Details Layout ── */
+        .detail-layout { 
+            display: grid; 
+            grid-template-columns: 300px 1fr; 
+            gap: 40px; 
+            align-items: flex-start;
+        }
+
+        .poster { 
+            width: 100%; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+        .poster img { width:100%; display:block; }
+        .poster:hover { transform: scale(1.02); }
+
+        .info { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 16px; 
+        }
+        .info h1 { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 3rem; 
+            font-weight: 900; 
+            color: var(--text);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 8px;
+        }
+        
+        .meta { 
+            display: flex; 
+            gap: 16px; 
+            color: var(--text-muted); 
+            font-weight: 500; 
+            font-size: 0.95rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .meta .match { color: var(--green); font-weight: 700; }
+        .maturity-badge {
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 2px 8px; border-radius: 2px; font-size: 12px; font-weight: 600;
+            color: var(--text);
+        }
+
+        .genre-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .genre-tag { 
+            background: var(--bg-card); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 30px; 
+            padding: 6px 16px; 
+            font-size: 0.8rem; 
+            color: var(--text);
+        }
+
+        .overview { 
+            color: var(--text-muted); 
+            line-height: 1.6; 
+            font-size: 1rem;
+            margin-top: 16px;
+        }
+
+        .detail-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .detail-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text);
+            font-weight: 700;
+        }
+        .detail-section p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ── Footer ── */
+        footer {
+            padding: 30px 50px;
+            color: var(--text-dim); font-size: 13px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 30px; position: relative; z-index: 5;
+            text-align: center;
+        }
+        .developer-credits {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Inter', sans-serif;
+        }
+        .dev-line {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .dev-line span {
+            color: #fff;
+            font-weight: 700;
+        }
+        .taught-line {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+        .taught-line span {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .nav { padding: 14px 20px; }
+            .nav.scrolled { padding: 10px 20px; }
+            .nav-credits { display: none; }
+            .player-wrapper { padding-left: 20px; padding-right: 20px; padding-top: 90px; }
+            .detail-layout { grid-template-columns: 1fr; gap: 20px; }
+            .poster { max-width: 200px; margin: 0 auto; }
+            .info { text-align: center; align-items: center; }
+            .info h1 { font-size: 2rem; }
+            .meta { justify-content: center; }
+            .genre-tags { justify-content: center; }
+            footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="nav" id="mainNav">
+        <a href="index.html" class="nav-logo">Streamflix</a>
+        <div class="nav-right">
+            <!-- Header Developer Credits -->
+            <div class="nav-credits">
+                <div>Developed by <span class="dev">Deepanshu yadav</span></div>
+                <div>Taught by <span class="teach">Shoeb Bro</span></div>
+            </div>
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="profile-avatar">S</div>
+        </div>
+    </nav>
+
+    <!-- Player & Details Wrapper -->
+    <div class="player-wrapper">
+        <!-- Video Player -->
+        <div class="player-container">
+            <!-- Circular Loader -->
+            <div class="loading-player" id="loadingPlayer">
+                <div class="netflix-spinner"></div>
+            </div>
+            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; encrypted-media; fullscreen" style="display:none;"></iframe>
+        </div>
+
+        <!-- Movie Details -->
+        <div class="detail-layout" id="detailLayout">
+            <div class="poster">
+                <img id="posterImg" src="" alt="Poster">
+            </div>
+            <div class="info">
+                <h1 id="title">Loading title...</h1>
+                <div class="meta" id="meta"></div>
+                <div class="genre-tags" id="genres"></div>
+                <p class="overview" id="overview"></p>
+                
+                <div class="detail-section">
+                    <h3>Cast</h3>
+                    <p id="cast">Loading cast...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Developer Credits -->
+    <footer>
+        <p class="text-gray-600 text-xs">© 2024 Streamflix, Inc. — Infinite Cinema. All movie data provided by TMDB.</p>
+        <div class="developer-credits">
+            <div class="dev-line">Developed and Designed by <span>Deepanshu yadav</span></div>
+            <div class="taught-line">Taught by <span>Shoeb Bro</span></div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // ═══════ Constants ═══════
+            const TMDB_KEY = '6f88c485f6d936e3e93f3ab0758a15f2';
+            const TMDB_BASE = 'https://api.themoviedb.org/3';
+            const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
+            const TMDB_BACK = 'https://image.tmdb.org/t/p/original';
+
+            // ═══════ Get ID and Type from URL ═══════
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            const type = urlParams.get('type') || 'movie';
+
+            async function fetchDetails() {
+                if (!id) {
+                    document.getElementById('title').textContent = "Error: No ID provided in URL.";
+                    return;
+                }
+
+                try {
+                    // Fetch detailed info including cast
+                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits` : `/tv/${id}?append_to_response=credits`;
+                    const sep = endpoint.includes('?') ? '&' : '?';
+                    const res = await fetch(TMDB_BASE + endpoint + sep + 'api_key=' + TMDB_KEY);
+                    if (!res.ok) throw new Error('API fail');
+                    const data = await res.json();
+
+                    // Populate Details
+                    const title = data.title || data.name || 'Untitled';
+                    const year = (data.release_date || data.first_air_date || '').substring(0,4);
+                    const rating = data.vote_average ? Number(data.vote_average).toFixed(1) : '?';
+                    const match = data.vote_average ? Math.round(data.vote_average * 10) : 0;
+                    const runtime = data.runtime || (data.episode_run_time && data.episode_run_time[0]) || '?';
+                    const poster = data.poster_path ? TMDB_IMG + data.poster_path : '';
+                    const cast = data.credits && data.credits.cast ? data.credits.cast.slice(0, 10).map(c => c.name).join(', ') : 'N/A';
+                    const genres = data.genres ? data.genres.map(g => g.name) : [];
+
+                    document.title = `${title} — Streamflix`;
+                    document.getElementById('title').textContent = title;
+                    document.getElementById('posterImg').src = poster;
+                    document.getElementById('overview').textContent = data.overview || 'No description available.';
+                    document.getElementById('cast').textContent = cast;
+                    
+                    document.getElementById('meta').innerHTML = `
+                        <span class="match">${match}% Match</span>
+                        <span>${year}</span>
+                        <span class="maturity-badge">${rating}</span>
+                        <span>${runtime} min</span>
+                    `;
+
+                    document.getElementById('genres').innerHTML = genres.map(g => 
+                        `<div class="genre-tag">${g}</div>`
+                    ).join('');
+
+                    // Setup Video Player (Using VidSrc as it supports TMDB IDs directly)
+                    const playerSrc = `https://vidsrc.xyz/embed/${type}?tmdb=${id}`;
+                    
+                    const iframe = document.getElementById('videoPlayer');
+                    const loading = document.getElementById('loadingPlayer');
+                    
+                    iframe.src = playerSrc;
+                    iframe.onload = () => {
+                        loading.style.display = 'none';
+                        iframe.style.display = 'block';
+                    };
+
+                    // Fallback to hide loading if iframe takes too long or fails silently
+                    setTimeout(() => {
+                        if (loading.style.display !== 'none') {
+                            loading.style.display = 'none';
+                            iframe.style.display = 'block';
+                        }
+                    }, 3000);
+
+                } catch (error) {
+                    console.error("Fetch error:", error);
+                    document.getElementById('title').textContent = "Error loading details. Please check your connection.";
+                }
+            }
+
+            // Nav scroll effect
+            window.addEventListener('scroll', () => { 
+                document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 30); 
+            });
+
+            // Initialize
+            fetchDetails();
+        })();
+    </script>
+</body>
+</html>
