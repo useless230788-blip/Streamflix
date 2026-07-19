@@ -57,7 +57,6 @@
         
         .nav-right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
         
-        /* Navbar Developer Credits */
         .nav-credits {
             display: flex; flex-direction: column; align-items: flex-end;
             font-size: 0.7rem; line-height: 1.2; color: var(--text-muted);
@@ -75,6 +74,13 @@
         }
         .btn-back:hover { background: rgba(255,255,255,0.2); }
 
+        .profile-avatar {
+            width: 32px; height: 32px; border-radius: 4px;
+            background: var(--red); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+        }
+
         /* ── Main Container ── */
         .player-wrapper {
             padding-top: 120px; 
@@ -87,7 +93,7 @@
 
         /* ── Server Tabs ── */
         .server-tabs {
-            display: flex; gap: 12px; margin-bottom: 16px;
+            display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
         }
         .server-btn {
             background: var(--bg-card);
@@ -100,12 +106,24 @@
             font-size: 0.9rem;
             transition: all 0.2s;
             font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         .server-btn:hover { background: var(--bg-elevated); color: #fff; }
         .server-btn.active {
             background: var(--red);
             border-color: var(--red);
             color: #fff;
+            box-shadow: 0 4px 14px var(--red-glow);
+        }
+        .server-badge {
+            font-size: 0.65rem;
+            background: rgba(255,255,255,0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         /* ── Player Container ── */
@@ -125,6 +143,7 @@
         .loading-player {
             position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 18px;
             background: #000;
             z-index: 5;
         }
@@ -135,6 +154,13 @@
             border-top-color: var(--red);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+        }
+        .loading-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -282,7 +308,6 @@
     <nav class="nav" id="mainNav">
         <a href="index.html" class="nav-logo">Streamflix</a>
         <div class="nav-right">
-            <!-- Header Developer Credits -->
             <div class="nav-credits">
                 <div>Developed by <span class="dev">Deepanshu yadav</span></div>
                 <div>Taught by <span class="teach">Shoeb Bro</span></div>
@@ -298,17 +323,31 @@
     <div class="player-wrapper">
         <!-- Server Selection -->
         <div class="server-tabs">
-            <button class="server-btn active" data-server="1">Server 1</button>
-            <button class="server-btn" data-server="2">Server 2</button>
+            <button class="server-btn active" data-server="1">
+                Server 1 <span class="server-badge">Vidsrc</span>
+            </button>
+            <button class="server-btn" data-server="2">
+                Server 2 <span class="server-badge">Videasy</span>
+            </button>
         </div>
 
         <!-- Video Player -->
         <div class="player-container">
-            <!-- Circular Loader -->
             <div class="loading-player" id="loadingPlayer">
                 <div class="netflix-spinner"></div>
+                <div class="loading-text" id="loadingText">Loading Server 1...</div>
             </div>
-            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; encrypted-media; fullscreen" style="display:none;"></iframe>
+            <iframe 
+                id="videoPlayer" 
+                src="about:blank" 
+                frameborder="0"
+                allowfullscreen 
+                webkitallowfullscreen 
+                mozallowfullscreen
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; picture-in-picture-allow"
+                referrerpolicy="no-referrer"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
+                style="display:none;"></iframe>
         </div>
 
         <!-- Movie Details -->
@@ -349,48 +388,92 @@
             // ═══════ Get ID, Type, Season, and Episode from URL ═══════
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            const type = urlParams.get('type') || 'movie';
-            const season = urlParams.get('s') || '1'; // Default to Season 1
-            const episode = urlParams.get('e') || '1'; // Default to Episode 1
+            const type = (urlParams.get('type') || 'movie').toLowerCase();
+            const season = urlParams.get('s') || '1';
+            const episode = urlParams.get('e') || '1';
 
-            // ═══════ Player Sources Config (Accurate to Documentation) ═══════
-            // Vidsrc structure: /embed/movie/{id} or /embed/tv/{id}
-            // Videasy structure: /embed/movie/{id} or /embed/tv/{id}/{season}/{episode}
+            // ═══════ Player Sources Config (Strictly based on Videasy Docs) ═══════
+            // Base URL: https://player.videasy.net/
+            // Docs Params implemented: overlay=true, color=E50914 (Netflix Red), 
+            // nextEpisode=true, episodeSelector=true, autoplayNextEpisode=true
             
-            let vidsrcUrl = `https://vidsrc.to/embed/${type}/${id}`;
-            let videasyUrl = `https://videasy.to/embed/${type}/${id}`;
-            
-            // If it's a TV show, Videasy requires Season and Episode in the URL
+            let videasyUrl;
             if (type === 'tv') {
-                videasyUrl = `https://videasy.to/embed/tv/${id}/${season}/${episode}`;
+                videasyUrl = `https://player.videasy.net/tv/${id}/${season}/${episode}?overlay=true&color=E50914&nextEpisode=true&episodeSelector=true&autoplayNextEpisode=true`;
+            } else {
+                videasyUrl = `https://player.videasy.net/movie/${id}?overlay=true&color=E50914`;
             }
 
             const playerSources = {
-                1: vidsrcUrl,
-                2: videasyUrl
+                1: {
+                    name: 'Vidsrc',
+                    url: `https://vidsrc.to/embed/${type}/${id}`
+                },
+                2: {
+                    name: 'Videasy',
+                    url: videasyUrl
+                }
             };
 
             // ═══════ Player Switching Logic ═══════
             const iframe = document.getElementById('videoPlayer');
             const loading = document.getElementById('loadingPlayer');
+            const loadingText = document.getElementById('loadingText');
+
+            let loadTimeout = null;
+            let currentLoadToken = 0;  // Prevents stale onload handlers
 
             function loadServer(serverNum) {
+                const source = playerSources[serverNum];
+                if (!source) return;
+
+                // Increment token to invalidate any pending onload from previous server
+                const myToken = ++currentLoadToken;
+
                 // Update active button styling
                 document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`.server-btn[data-server="${serverNum}"]`).classList.add('active');
+                const activeBtn = document.querySelector(`.server-btn[data-server="${serverNum}"]`);
+                if (activeBtn) activeBtn.classList.add('active');
 
-                // Show loading spinner and hide iframe
+                // Update loading text
+                loadingText.textContent = `Loading ${source.name}...`;
+
+                // Show loading spinner, hide iframe
                 loading.style.display = 'flex';
                 iframe.style.display = 'none';
 
-                // Set new source
-                iframe.src = playerSources[serverNum];
+                // Clear previous timeout
+                if (loadTimeout) clearTimeout(loadTimeout);
 
-                // When iframe finishes loading, hide spinner and show iframe
-                iframe.onload = () => {
+                // Reset iframe by detaching it from DOM, clearing src, then re-attaching
+                // This forces a fresh load and avoids cross-origin caching issues
+                const parent = iframe.parentNode;
+                parent.removeChild(iframe);
+
+                // Detach stale onload (cross-origin iframes rarely fire this anyway)
+                iframe.onload = null;
+                iframe.removeAttribute('src');
+                iframe.setAttribute('src', source.url);
+
+                // Re-attach with fresh onload handler guarded by token
+                iframe.onload = function() {
+                    // Only respond if this is still the latest load request
+                    if (myToken !== currentLoadToken) return;
                     loading.style.display = 'none';
                     iframe.style.display = 'block';
                 };
+
+                parent.appendChild(iframe);
+
+                // Failsafe timeout — many embed providers (especially cross-origin)
+                // never fire onload reliably, so hide spinner after delay
+                loadTimeout = setTimeout(function() {
+                    if (myToken !== currentLoadToken) return;
+                    if (loading.style.display !== 'none') {
+                        loading.style.display = 'none';
+                        iframe.style.display = 'block';
+                    }
+                }, 3500);
             }
 
             // Attach click listeners to server buttons
@@ -405,21 +488,23 @@
                 }
 
                 try {
-                    // Fetch detailed info including cast
-                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits` : `/tv/${id}?append_to_response=credits`;
+                    const endpoint = type === 'movie' 
+                        ? `/movie/${id}?append_to_response=credits` 
+                        : `/tv/${id}?append_to_response=credits`;
                     const sep = endpoint.includes('?') ? '&' : '?';
                     const res = await fetch(TMDB_BASE + endpoint + sep + 'api_key=' + TMDB_KEY);
                     if (!res.ok) throw new Error('API fail');
                     const data = await res.json();
 
-                    // Populate Details
                     const title = data.title || data.name || 'Untitled';
                     const year = (data.release_date || data.first_air_date || '').substring(0,4);
                     const rating = data.vote_average ? Number(data.vote_average).toFixed(1) : '?';
                     const match = data.vote_average ? Math.round(data.vote_average * 10) : 0;
                     const runtime = data.runtime || (data.episode_run_time && data.episode_run_time[0]) || '?';
                     const poster = data.poster_path ? TMDB_IMG + data.poster_path : '';
-                    const cast = data.credits && data.credits.cast ? data.credits.cast.slice(0, 10).map(c => c.name).join(', ') : 'N/A';
+                    const cast = data.credits && data.credits.cast 
+                        ? data.credits.cast.slice(0, 10).map(c => c.name).join(', ') 
+                        : 'N/A';
                     const genres = data.genres ? data.genres.map(g => g.name) : [];
 
                     document.title = `${title} — Streamflix`;
@@ -441,14 +526,6 @@
 
                     // Load default player (Server 1) once data is ready
                     loadServer('1');
-
-                    // Fallback to hide loading if iframe takes too long or fails silently
-                    setTimeout(() => {
-                        if (loading.style.display !== 'none') {
-                            loading.style.display = 'none';
-                            iframe.style.display = 'block';
-                        }
-                    }, 4000);
 
                 } catch (error) {
                     console.error("Fetch error:", error);
