@@ -120,7 +120,6 @@
             padding-right: 20px;
         }
         .nav-credits .dev { color: #fff; font-weight: 600; }
-        .nav-credits .teach { color: var(--red); font-weight: 600; }
 
         .search-container { position: relative; display: flex; align-items: center; }
         .search-input {
@@ -192,10 +191,12 @@
             height: 92vh; min-height: 620px;
             position: relative; overflow: hidden;
             margin-bottom: -120px; /* Pull rows up over hero */
+            z-index: 1;
         }
         .hero-slide {
             position: absolute; inset:0;
-            background-size: cover; background-position: center top;
+            background-size: cover; 
+            background-position: center top;
             opacity: 0; transition: opacity 1.2s ease;
             will-change: opacity;
         }
@@ -463,15 +464,6 @@
             color: #fff;
             font-weight: 700;
         }
-        .taught-line {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-style: italic;
-        }
-        .taught-line span {
-            color: var(--red);
-            font-weight: 600;
-        }
 
         /* ── Toast ── */
         .toast {
@@ -493,16 +485,32 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        /* ── Responsive ── */
+        /* ── Responsive (Tablets & Landscape Phones) ── */
         @media (max-width: 900px) {
             .nav { padding: 14px 20px; }
             .nav.scrolled { padding: 10px 20px; }
             .nav-links { display: none; }
-            .nav-credits { display: none; } /* Hide credits on mobile to save space */
-            .hero-content { left: 20px; bottom: 25%; }
+            .nav-credits { display: none; } 
+            
+            /* Hero Fixes */
+            .hero {
+                height: 80vh;
+                min-height: 500px;
+                margin-bottom: -60px; /* Reduced pull-up */
+            }
+            .hero-slide {
+                background-position: center center; /* Better framing for landscape */
+            }
+            .hero-content {
+                left: 20px;
+                right: 20px;
+                bottom: 80px; /* Safe spacing from bottom */
+                max-width: 100%;
+            }
             .hero-title { font-size: 2.5rem; }
             .hero-watch, .hero-info { padding: 10px 18px; font-size: 14px; }
-            .hero-dots { right: 20px; bottom: 25%; }
+            .hero-dots { right: 20px; bottom: 20px; }
+            
             .section-title { padding: 0 20px; font-size: 1.1rem; }
             .row-track { padding: 0 20px; }
             .card { width: 180px; }
@@ -512,6 +520,37 @@
             .modal-body { grid-template-columns: 1fr; padding: 20px; }
             .modal-hero-content { left: 20px; right: 20px; }
             .modal-title { font-size: 1.8rem; }
+        }
+        
+        /* ── Mobile Portrait Fix ── */
+        @media (max-width: 600px) {
+            .hero {
+                height: 75vh; 
+                min-height: 450px;
+                margin-bottom: -40px; /* Prevent rows from covering text */
+            }
+            .hero-content {
+                bottom: 50px; /* Explicit safe distance from bottom */
+                max-width: 90%;
+            }
+            .hero-title {
+                font-size: 2rem; 
+                margin-bottom: 10px;
+            }
+            .hero-meta {
+                font-size: 11px; 
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            .hero-label {
+                font-size: 10px;
+                letter-spacing: 2px;
+                margin-bottom: 8px;
+            }
+            .maturity-badge { font-size: 10px; padding: 1px 6px; }
+            .hero-buttons { gap: 8px; }
+            .hero-watch, .hero-info { padding: 8px 16px; font-size: 13px; }
+            .hero-dots { display: none; }
         }
     </style>
 </head>
@@ -541,7 +580,6 @@
             <!-- Header Developer Credits -->
             <div class="nav-credits">
                 <div>Developed by <span class="dev">Deepanshu yadav</span></div>
-                <div>Taught by <span class="teach">Shoeb Bro</span></div>
             </div>
             <div class="search-container">
                 <input type="text" class="search-input" id="searchInput" placeholder="Titles, genres, people..." autocomplete="off">
@@ -607,7 +645,6 @@
         <p class="text-gray-600 text-xs">© 2024 Streamflix, Inc. — Infinite Cinema. All movie data provided by TMDB.</p>
         <div class="developer-credits">
             <div class="dev-line">Developed and Designed by <span>Deepanshu yadav</span></div>
-            <div class="taught-line">Taught by <span>Shoeb Bro</span></div>
         </div>
     </footer>
 
