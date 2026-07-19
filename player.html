@@ -126,17 +126,18 @@
             letter-spacing: 0.5px;
         }
 
-        /* ── Player Container ── */
+        /* ── Player Container (Strict 16:9 as per docs) ── */
         .player-container {
             width: 100%; background: #000; border-radius: 8px;
             overflow: hidden; position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
             margin-bottom: 40px;
             border: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
         }
-        .player-container::before { content:''; display:block; padding-top:56.25%; }
         .player-container iframe {
-            position: absolute; top:0; left:0; width:100%; height:100%; border:none;
+            position: absolute; top:0; left:0; width:100%; height:100%;
         }
 
         /* ── Netflix Style Circular Loader ── */
@@ -331,23 +332,22 @@
             </button>
         </div>
 
-        <!-- Video Player -->
+        <!-- Video Player (Exact Videasy Doc Implementation) -->
         <div class="player-container">
             <div class="loading-player" id="loadingPlayer">
                 <div class="netflix-spinner"></div>
                 <div class="loading-text" id="loadingText">Loading Server 1...</div>
             </div>
-            <iframe 
-                id="videoPlayer" 
-                src="about:blank" 
+            <iframe
+                id="videoPlayer"
+                src=""
+                width="100%"
+                height="100%"
                 frameborder="0"
-                allowfullscreen 
-                webkitallowfullscreen 
-                mozallowfullscreen
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; picture-in-picture-allow"
-                referrerpolicy="no-referrer"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
-                style="display:none;"></iframe>
+                allowfullscreen
+                allow="encrypted-media"
+                style="display: none;">
+            </iframe>
         </div>
 
         <!-- Movie Details -->
@@ -392,11 +392,7 @@
             const season = urlParams.get('s') || '1';
             const episode = urlParams.get('e') || '1';
 
-            // ═══════ Player Sources Config (Strictly based on Videasy Docs) ═══════
-            // Base URL: https://player.videasy.net/
-            // Docs Params implemented: overlay=true, color=E50914 (Netflix Red), 
-            // nextEpisode=true, episodeSelector=true, autoplayNextEpisode=true
-            
+            // ═══════ Player Sources Config ═══════
             let videasyUrl;
             if (type === 'tv') {
                 videasyUrl = `https://player.videasy.net/tv/${id}/${season}/${episode}?overlay=true&color=E50914&nextEpisode=true&episodeSelector=true&autoplayNextEpisode=true`;
@@ -421,13 +417,12 @@
             const loadingText = document.getElementById('loadingText');
 
             let loadTimeout = null;
-            let currentLoadToken = 0;  // Prevents stale onload handlers
+            let currentLoadToken = 0;
 
             function loadServer(serverNum) {
                 const source = playerSources[serverNum];
                 if (!source) return;
 
-                // Increment token to invalidate any pending onload from previous server
                 const myToken = ++currentLoadToken;
 
                 // Update active button styling
@@ -442,31 +437,19 @@
                 loading.style.display = 'flex';
                 iframe.style.display = 'none';
 
-                // Clear previous timeout
                 if (loadTimeout) clearTimeout(loadTimeout);
 
-                // Reset iframe by detaching it from DOM, clearing src, then re-attaching
-                // This forces a fresh load and avoids cross-origin caching issues
-                const parent = iframe.parentNode;
-                parent.removeChild(iframe);
-
-                // Detach stale onload (cross-origin iframes rarely fire this anyway)
-                iframe.onload = null;
-                iframe.removeAttribute('src');
-                iframe.setAttribute('src', source.url);
-
-                // Re-attach with fresh onload handler guarded by token
+                // Set new source directly
                 iframe.onload = function() {
-                    // Only respond if this is still the latest load request
                     if (myToken !== currentLoadToken) return;
                     loading.style.display = 'none';
                     iframe.style.display = 'block';
                 };
 
-                parent.appendChild(iframe);
+                // Directly assign URL (no DOM removal/replacement to avoid attribute mutations)
+                iframe.src = source.url;
 
-                // Failsafe timeout — many embed providers (especially cross-origin)
-                // never fire onload reliably, so hide spinner after delay
+                // Failsafe timeout for cross-origin loads
                 loadTimeout = setTimeout(function() {
                     if (myToken !== currentLoadToken) return;
                     if (loading.style.display !== 'none') {
