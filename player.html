@@ -295,12 +295,13 @@
         </div>
 
         <!-- Video Player Container -->
-        <!-- NOTE: overflow:hidden and border-radius removed from this div to fix Fullscreen API bugs on mobile -->
+        <!-- Removed overflow:hidden and border-radius to fix mobile Fullscreen API blocking -->
         <div style="position: relative; padding-bottom: 56.25%; height: 0; width: 100%; background: #000; margin-bottom: 40px;">
             <div class="loading-player" id="loadingPlayer">
                 <div class="netflix-spinner"></div>
                 <div class="loading-text" id="loadingText">Loading Server 1...</div>
             </div>
+            <!-- Removed sandbox attribute completely to allow native fullscreen on iOS/Android -->
             <iframe
                 id="videoPlayer"
                 src=""
@@ -308,7 +309,6 @@
                 height="100%"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; border: none;"
                 frameborder="0"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-pointer-lock"
                 referrerpolicy="origin"
                 webkitallowfullscreen
                 mozallowfullscreen
