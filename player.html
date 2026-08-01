@@ -304,10 +304,10 @@
             <button class="server-btn" data-server="3">Server 3</button>
             <button class="server-btn" data-server="4">Server 4</button>
             <button class="server-btn" data-server="5">Server 5</button>
+            <button class="server-btn" data-server="6">Server 6</button>
         </div>
 
-        <!-- Video Player (Exact Documentation Implementation) -->
-        <!-- 16:9 Aspect Ratio Container -->
+        <!-- Video Player -->
         <div style="position: relative; padding-bottom: 56.25%; height: 0; width: 100%; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.7); margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.08);">
             <div class="loading-player" id="loadingPlayer">
                 <div class="netflix-spinner"></div>
@@ -377,7 +377,15 @@
                 vidsrcSbsUrl = `https://vidsrc.sbs/embed/movie/${id}`;
             }
 
-            // 2. Nxsha
+            // 2. Zxcstream
+            let zxcstreamUrl;
+            if (type === 'tv') {
+                zxcstreamUrl = `https://zxcstream.xyz/player/tv/${id}/${season}/${episode}`;
+            } else {
+                zxcstreamUrl = `https://zxcstream.xyz/player/movie/${id}`;
+            }
+
+            // 3. Nxsha
             let nxshaUrl;
             if (type === 'tv') {
                 nxshaUrl = `https://web.nxsha.app/embed/tv/${id}/${season}/${episode}`;
@@ -385,7 +393,7 @@
                 nxshaUrl = `https://web.nxsha.app/embed/movie/${id}`;
             }
 
-            // 3. Vidfast
+            // 4. Vidfast
             let vidfastUrl;
             if (type === 'tv') {
                 vidfastUrl = `https://vidfast.vc/tv/${id}/${season}/${episode}?autoPlay=true`;
@@ -393,7 +401,7 @@
                 vidfastUrl = `https://vidfast.vc/movie/${id}?autoPlay=true`;
             }
 
-            // 4. Videasy
+            // 5. Videasy
             let videasyUrl;
             if (type === 'tv') {
                 videasyUrl = `https://player.videasy.net/tv/${id}/${season}/${episode}?overlay=true&color=E50914&nextEpisode=true&episodeSelector=true&autoplayNextEpisode=true`;
@@ -401,15 +409,16 @@
                 videasyUrl = `https://player.videasy.net/movie/${id}?overlay=true&color=E50914`;
             }
 
-            // 5. Vidsrc.to
+            // 6. Vidsrc.to
             let vidsrcToUrl = `https://vidsrc.to/embed/${type}/${id}`;
 
             const playerSources = {
                 1: { name: 'Server 1', url: vidsrcSbsUrl },
-                2: { name: 'Server 2', url: nxshaUrl },
-                3: { name: 'Server 3', url: vidfastUrl },
-                4: { name: 'Server 4', url: videasyUrl },
-                5: { name: 'Server 5', url: vidsrcToUrl }
+                2: { name: 'Server 2', url: zxcstreamUrl },
+                3: { name: 'Server 3', url: nxshaUrl },
+                4: { name: 'Server 4', url: vidfastUrl },
+                5: { name: 'Server 5', url: videasyUrl },
+                6: { name: 'Server 6', url: vidsrcToUrl }
             };
 
             // ═══════ Player Switching Logic ═══════
