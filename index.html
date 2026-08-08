@@ -69,8 +69,11 @@
 
         .rows-wrapper { position: relative; z-index: 5; padding-bottom: 40px; }
         .section { margin: 0 0 36px; position: relative; }
-        .section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; padding: 0 50px; color: var(--text); display: flex; align-items: center; gap: 12px; letter-spacing: -0.3px; cursor: pointer; }
+        .section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; padding: 0 50px; color: var(--text); display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px; cursor: pointer; }
         .section-title:hover { color: var(--red); }
+        .section-title:hover .explore-icon { transform: translateX(4px); }
+        .explore-icon { font-size: 0.8rem; color: var(--red); transition: transform 0.2s; }
+        
         .row-scroll-area { position: relative; }
         .row-track { display: flex; gap: 16px; padding: 0 50px; overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; padding-top: 40px; padding-bottom: 40px; }
         .row-track::-webkit-scrollbar { display: none; }
@@ -141,12 +144,20 @@
         .search-results-grid::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 3px; }
         .search-results-grid::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 3px; }
 
+        /* Category View Styles */
         .category-view { display: none; padding-top: 100px; padding-bottom: 50px; min-height: 100vh; }
         .cat-view-header { padding: 0 50px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
         .cat-view-title { font-size: 2.5rem; font-weight: 800; }
         .btn-back { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(255,255,255,0.1); color: var(--text); text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; transition: all 0.2s; cursor: pointer; border: none; font-family: 'Inter', sans-serif; }
         .btn-back:hover { background: rgba(255,255,255,0.2); }
         .cat-view-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 0 50px; }
+        /* Force cards to fill grid space properly */
+        .cat-view-grid .card { width: 100%; flex: none; } 
+        
+        /* Load More Button */
+        .load-more-btn { display: block; margin: 40px auto; padding: 12px 40px; background: var(--red); color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; font-family: 'Inter', sans-serif; }
+        .load-more-btn:hover { background: var(--red-dark); }
+        .load-more-btn:disabled { background: #555; cursor: not-allowed; }
 
         footer { padding: 30px 50px; color: var(--text-dim); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 30px; position: relative; z-index: 5; text-align: center; }
         .developer-credits { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'Inter', sans-serif; }
@@ -173,6 +184,7 @@
         @media (max-width: 600px) {
             .hero { height: 75vh; min-height: 450px; margin-bottom: -40px; } .hero-content { bottom: 50px; max-width: 90%; } .hero-title { font-size: 2rem; margin-bottom: 10px; } .hero-meta { font-size: 11px; gap: 8px; margin-bottom: 12px; } .hero-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 8px; } .maturity-badge { font-size: 10px; padding: 1px 6px; } .hero-buttons { gap: 8px; } .hero-watch, .hero-info { padding: 8px 16px; font-size: 13px; } .hero-dots { display: none; } .card { width: 130px; }
             .top10-card { height: 210px; } .top10-rank { font-size: 170px; margin-right: -25px; } .top10-poster { width: 140px; height: 210px; }
+            .cat-view-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
         }
     </style>
 </head>
@@ -285,53 +297,34 @@
             let rafId=null, mx=0, my=0;
             document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; if(!rafId) rafId = requestAnimationFrame(()=>{ cursorGlow.style.transform = `translate(${mx}px, ${my}px)`; rafId=null; }); });
 
-            // --- NEW TMDB API ARCHITECTURE ---
+            // --- TMDB API ARCHITECTURE ---
             const API_BASE = '/api/tmdb';
             const TMDB_IMG = 'https://image.tmdb.org/t/p/w342'; 
             const TMDB_BACK = 'https://image.tmdb.org/t/p/original';
-            const tmdbCache = new Map(); // In-memory cache to prevent duplicate calls
+            const tmdbCache = new Map();
 
-            // Fetch with timeout and retry logic
             async function fetchWithRetry(url, retries = 2) {
                 try {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 10000);
                     const res = await fetch(url, { signal: controller.signal });
                     clearTimeout(timeoutId);
-
-                    // Retry on rate limit or server errors
                     if (res.status === 429 || res.status >= 500) {
-                        if (retries > 0) {
-                            await new Promise(r => setTimeout(r, 1000 * (3 - retries))); // 1s, then 2s delay
-                            return fetchWithRetry(url, retries - 1);
-                        }
+                        if (retries > 0) { await new Promise(r => setTimeout(r, 1000 * (3 - retries))); return fetchWithRetry(url, retries - 1); }
                     }
                     return res;
                 } catch (error) {
-                    // Retry on network failure/abort, unless out of retries
-                    if (retries > 0 && error.name !== 'AbortError') {
-                        await new Promise(r => setTimeout(r, 1000 * (3 - retries)));
-                        return fetchWithRetry(url, retries - 1);
-                    }
+                    if (retries > 0 && error.name !== 'AbortError') { await new Promise(r => setTimeout(r, 1000 * (3 - retries))); return fetchWithRetry(url, retries - 1); }
                     throw error;
                 }
             }
 
             async function tmdbFetch(endpoint) {
-                if (tmdbCache.has(endpoint)) {
-                    return tmdbCache.get(endpoint);
-                }
-
+                if (tmdbCache.has(endpoint)) return tmdbCache.get(endpoint);
                 const url = `${API_BASE}?endpoint=${encodeURIComponent(endpoint)}`;
-                
                 try {
                     const res = await fetchWithRetry(url);
-                    
-                    if (!res.ok) {
-                        console.error(`API Error (${res.status}) for ${endpoint}`);
-                        throw new Error(`API fail: ${res.status}`);
-                    }
-                    
+                    if (!res.ok) { console.error(`API Error (${res.status}) for ${endpoint}`); throw new Error(`API fail: ${res.status}`); }
                     const data = await res.json();
                     tmdbCache.set(endpoint, data);
                     return data;
@@ -340,14 +333,13 @@
                     throw error;
                 }
             }
-            // --- END NEW TMDB API ARCHITECTURE ---
 
             const CATEGORIES = {
                 home: [
                     { key:'trending', title:'Trending Now', ep:'/trending/movie/week?page=', type:'movie' },
                     { key:'top_streamflix', title:'Top on Streamflix', ep:'/movie/top_rated?page=', type:'movie' },
                     { key:'action', title:'Action & Adventure', ep:'/discover/movie?with_genres=28&sort_by=popularity.desc&page=', type:'movie' },
-                    { key:'anime', title:'Anime', ep:'/discover/movie?with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=', type:'movie' },
+                    { key:'anime', title:'Anime', ep:'/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=', type:'tv' },
                     { key:'horror', title:'Horror & Thrillers', ep:'/discover/movie?with_genres=27&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'scifi', title:'Sci-Fi & Fantasy', ep:'/discover/movie?with_genres=878&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'comedy', title:'Comedy', ep:'/discover/movie?with_genres=35&sort_by=popularity.desc&page=', type:'movie' },
@@ -376,7 +368,7 @@
                     { key:'scifi_m', title:'Sci-Fi & Fantasy', ep:'/discover/movie?with_genres=878&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'comedy_m', title:'Comedy', ep:'/discover/movie?with_genres=35&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'animation_m', title:'Animation', ep:'/discover/movie?with_genres=16&sort_by=popularity.desc&page=', type:'movie' },
-                    { key:'anime_m', title:'Anime', ep:'/discover/movie?with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=', type:'movie' },
+                    { key:'anime_m', title:'Anime Movies', ep:'/discover/movie?with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'crime_m', title:'Crime & Mystery', ep:'/discover/movie?with_genres=80&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'romance_m', title:'Romance', ep:'/discover/movie?with_genres=10749&sort_by=popularity.desc&page=', type:'movie' },
                     { key:'bollywood_m', title:'Bollywood', ep:'/discover/movie?with_original_language=hi&sort_by=popularity.desc&page=', type:'movie' },
@@ -570,7 +562,7 @@
 
             function createSecHTML(cfg){
                 const sec=document.createElement('div'); sec.className='section'; sec.dataset.key=cfg.key; sec.dataset.page='1'; sec.dataset.type=cfg.type;
-                sec.innerHTML=`<h2 class="section-title">${cfg.title}</h2><div class="row-scroll-area"><button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button><div class="row-track" id="grid-${cfg.key}"></div><button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button></div><div id="sentinel-${cfg.key}" style="height:1px;"></div>`;
+                sec.innerHTML=`<h2 class="section-title">${cfg.title} <i class="fas fa-chevron-right explore-icon"></i></h2><div class="row-scroll-area"><button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button><div class="row-track" id="grid-${cfg.key}"></div><button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button></div><div id="sentinel-${cfg.key}" style="height:1px;"></div>`;
                 const leftBtn = sec.querySelector('.scroll-btn.left'); const rightBtn = sec.querySelector('.scroll-btn.right'); const track = sec.querySelector('.row-track');
                 leftBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.85, behavior: 'smooth' })); rightBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * 0.85, behavior: 'smooth' }));
                 sec.querySelector('.section-title').addEventListener('click', () => showCategoryView(cfg));
@@ -610,7 +602,6 @@
                 },{rootMargin:'400px'}).observe(sentinel);
             }
 
-            // Refactored to use Promise.allSettled so one failure doesn't break the page
             async function initSections(){
                 const container=document.getElementById('sectionsContainer'); 
                 container.innerHTML='';
@@ -641,6 +632,10 @@
                 await Promise.allSettled(promises);
             }
 
+            // Category View Logic with "Load More" Pagination
+            let catViewCfg = null;
+            let catViewPage = 1;
+
             async function showCategoryView(cfg) {
                 document.getElementById('hero').style.display = 'none';
                 document.getElementById('recentSection').style.display = 'none';
@@ -649,20 +644,62 @@
                 document.getElementById('categoryViewTitle').textContent = cfg.title;
                 
                 const grid = document.getElementById('categoryGrid');
-                grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">Loading movies...</div>';
-                window.scrollTo(0, 0);
+                grid.innerHTML = '';
+                
+                // Remove old Load More button if it exists
+                const oldBtn = document.getElementById('loadMoreBtn');
+                if (oldBtn) oldBtn.remove();
+
+                catViewCfg = cfg;
+                catViewPage = 1;
+                
+                await loadCategoryPage();
+            }
+
+            async function loadCategoryPage() {
+                const grid = document.getElementById('categoryGrid');
+                let loadMoreBtn = document.getElementById('loadMoreBtn');
+                
+                if (catViewPage === 1) {
+                    grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">Loading movies...</div>';
+                } else if (loadMoreBtn) {
+                    loadMoreBtn.textContent = 'Loading more...';
+                    loadMoreBtn.disabled = true;
+                }
 
                 try {
-                    const promises = [1, 2, 3, 4].map(p => tmdbFetch(cfg.ep + p));
+                    // Fetch 3 pages (approx 60 results) per batch
+                    const promises = [1, 2, 3].map(offset => tmdbFetch(`${catViewCfg.ep}${catViewPage + offset - 1}`));
                     const results = await Promise.all(promises);
-                    grid.innerHTML = '';
+                    
+                    if (catViewPage === 1) grid.innerHTML = '';
+
+                    let count = 0;
                     results.forEach(res => {
                         (res.results || []).filter(m => m.poster_path).forEach(m => {
-                            grid.appendChild(createCard(m, cfg.type));
+                            grid.appendChild(createCard(m, catViewCfg.type));
+                            count++;
                         });
                     });
-                    if (grid.innerHTML === '') {
+
+                    catViewPage += 3;
+
+                    if (count === 0 && catViewPage === 4) {
                         grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">No movies found.</div>';
+                        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+                    } else {
+                        if (loadMoreBtn) {
+                            loadMoreBtn.style.display = 'block';
+                            loadMoreBtn.textContent = 'Load More';
+                            loadMoreBtn.disabled = false;
+                        } else {
+                            const btn = document.createElement('button');
+                            btn.id = 'loadMoreBtn';
+                            btn.className = 'load-more-btn';
+                            btn.textContent = 'Load More';
+                            btn.addEventListener('click', loadCategoryPage);
+                            document.getElementById('categoryView').appendChild(btn);
+                        }
                     }
                 } catch (e) {
                     grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">Failed to load movies.</div>';
