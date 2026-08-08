@@ -40,39 +40,10 @@
         .server-btn:hover { background: var(--bg-elevated); color: #fff; }
         .server-btn.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
         
-        /* Ad-Blocker Vertical Toggle Wrapper */
-        .ad-toggle-wrapper {
-            margin-left: auto;
-            display: flex;
-            flex-direction: column; /* Stacked vertically */
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            user-select: none;
-        }
-        .ad-toggle-wrapper:hover {
-            background: var(--bg-elevated);
-            border-color: rgba(255,255,255,0.2);
-        }
-        .ad-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .ad-toggle-wrapper { margin-left: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; user-select: none; }
+        .ad-toggle-wrapper:hover { background: var(--bg-elevated); border-color: rgba(255,255,255,0.2); }
+        .ad-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
         .ad-label i { color: var(--text-dim); font-size: 0.75rem; }
-
         .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; border-radius: 22px; transition: .3s; }
@@ -108,7 +79,6 @@
         .extras-section { margin-bottom: 50px; }
         .extras-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--text); display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
         
-        /* Grid Layout for Related Movies / Franchise - Optimized for Mobile */
         .extras-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; padding-bottom: 10px; }
         .card { background: var(--bg-card); border-radius: 6px; position: relative; cursor: pointer; transition: transform 0.4s cubic-bezier(0.5,0,0.1,1), box-shadow 0.4s; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4); text-decoration: none; }
         .card:hover { transform: scale(1.05); z-index: 50; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
@@ -120,8 +90,9 @@
         .card-meta .match { color: var(--gold); font-weight: 700; display: flex; align-items: center; gap: 4px; }
         
         /* TV Episodes List */
-        .season-selector-wrapper { margin-bottom: 24px; }
+        .season-selector-wrapper { margin-bottom: 24px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
         .season-selector { background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.1); color: var(--text); padding: 12px 20px; border-radius: 4px; font-size: 1rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; outline: none; }
+        .episode-count-badge { background: rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
         .episode-list { display: flex; flex-direction: column; gap: 16px; }
         .episode-card { display: flex; gap: 20px; background: var(--bg-card); border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s, background 0.3s; border: 1px solid transparent; text-decoration: none; }
         .episode-card:hover { background: var(--bg-elevated); transform: translateY(-3px); }
@@ -272,19 +243,12 @@
             let episode = urlParams.get('e') || '1';
 
             // ═══════ Player Sources Config ═══════
-            // 1. Vidsrc.sbs
             let vidsrcSbsUrl = type === 'tv' ? `https://vidsrc.sbs/embed/tv/${id}/${season}/${episode}` : `https://vidsrc.sbs/embed/movie/${id}`;
-            // 2. Zxcstream
             let zxcstreamUrl = type === 'tv' ? `https://zxcstream.xyz/player/tv/${id}/${season}/${episode}` : `https://zxcstream.xyz/player/movie/${id}`;
-            // 3. Nxsha
             let nxshaUrl = type === 'tv' ? `https://nxsha.space/embed/tv/${id}/${season}/${episode}?disable_app_ad=true` : `https://nxsha.space/embed/movie/${id}?disable_app_ad=true`;
-            // 4. Vidsrc.wiki
             let vidsrcWikiUrl = type === 'tv' ? `https://vidsrc.wiki/embed/tv/${id}/${season}/${episode}` : `https://vidsrc.wiki/embed/movie/${id}`;
-            // 5. Vidfast
             let vidfastUrl = type === 'tv' ? `https://vidfast.vc/tv/${id}/${season}/${episode}?autoPlay=true` : `https://vidfast.vc/movie/${id}?autoPlay=true`;
-            // 6. Videasy
             let videasyUrl = type === 'tv' ? `https://player.videasy.net/tv/${id}/${season}/${episode}?overlay=true&color=E50914&nextEpisode=true&episodeSelector=true&autoplayNextEpisode=true` : `https://player.videasy.net/movie/${id}?overlay=true&color=E50914`;
-            // 7. Vidsrc.to
             let vidsrcToUrl = `https://vidsrc.to/embed/${type}/${id}`;
 
             const playerSources = {
@@ -363,7 +327,7 @@
                 if (activeBtn) loadServer(activeBtn.dataset.server);
             });
 
-            // ═══════ Extras Rendering Logic (Movies/TV) ═══════
+            // ═══════ Extras Rendering Logic (Movies/TV/Anime) ═══════
             function createCard(item, itemType) {
                 const posterPath = item.poster_path ? TMDB_IMG + item.poster_path : '';
                 const title = item.title || item.name || 'Untitled';
@@ -402,6 +366,13 @@
                 return section;
             }
 
+            // Helper to detect if content is Anime
+            function isAnimeContent(data) {
+                const isAnimation = data.genres && data.genres.some(g => g.id === 16);
+                const isJapanese = data.original_language === 'ja' || data.original_language === 'ja-JP';
+                return isAnimation && isJapanese;
+            }
+
             async function fetchMovieExtras(data) {
                 const extrasContainer = document.getElementById('extrasContainer');
                 extrasContainer.innerHTML = '';
@@ -417,7 +388,8 @@
                 // 2. Recommendations / Related
                 try {
                     const recData = await tmdbFetch(`/movie/${id}/recommendations`);
-                    extrasContainer.appendChild(renderGrid('Related Movies', recData.results, 'movie'));
+                    const titleText = isAnimeContent(data) ? 'Related Anime Movies' : 'Related Movies';
+                    extrasContainer.appendChild(renderGrid(titleText, recData.results, 'movie'));
                 } catch (e) { console.error("Recommendations fetch error", e); }
             }
 
@@ -446,6 +418,13 @@
                     select.appendChild(opt);
                 });
                 selectorWrapper.appendChild(select);
+
+                // Episode Count Badge
+                const epCountBadge = document.createElement('span');
+                epCountBadge.className = 'episode-count-badge';
+                epCountBadge.textContent = '0 Episodes';
+                selectorWrapper.appendChild(epCountBadge);
+
                 section.appendChild(selectorWrapper);
 
                 const episodeList = document.createElement('div');
@@ -460,6 +439,10 @@
                     try {
                         const seasonData = await tmdbFetch(`/tv/${id}/season/${seasonNumber}`);
                         episodeList.innerHTML = '';
+                        
+                        // Update Badge
+                        epCountBadge.textContent = seasonData.episodes.length + ' Episodes';
+                        
                         seasonData.episodes.forEach(ep => {
                             const epCard = document.createElement('a');
                             epCard.href = `player.html?id=${id}&type=tv&s=${seasonNumber}&e=${ep.episode_number}`;
@@ -498,7 +481,8 @@
                 // 2. Recommendations / Related
                 try {
                     const recData = await tmdbFetch(`/tv/${id}/recommendations`);
-                    extrasContainer.appendChild(renderGrid('Related TV Shows', recData.results, 'tv'));
+                    const titleText = isAnimeContent(data) ? 'Related Anime' : 'Related TV Shows';
+                    extrasContainer.appendChild(renderGrid(titleText, recData.results, 'tv'));
                 } catch (e) { console.error("Recommendations fetch error", e); }
             }
 
