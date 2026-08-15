@@ -13,6 +13,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://image.tmdb.org">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,6 +26,9 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; min-height: 100vh; -webkit-font-smoothing: antialiased; position: relative; }
+
+        /* ── Accessibility & Focus ── */
+        :focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 4px; }
 
         /* ── Navbar ── */
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 22px 50px; display: flex; align-items: center; gap: 28px; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); transition: background 0.3s ease, padding 0.3s ease; }
@@ -43,17 +47,19 @@
         /* ── Server Tabs & Toggle Layout ── */
         .server-tabs { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
         .server-buttons-wrapper { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-        .server-btn { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 24px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .server-btn:hover { background: var(--bg-elevated); color: #fff; }
-        .server-btn.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
         
-        .download-btn { background: transparent; border: 1px solid var(--red); color: var(--red); }
+        /* Control visibility of servers. Only Server 1 and active server show by default */
+        .server-btn { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 24px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; font-family: 'Inter', sans-serif; text-decoration: none; display: none; align-items: center; gap: 8px; }
+        .server-btn[data-server="1"] { display: inline-flex; } /* Always show Server 1 */
+        .server-btn.active { display: inline-flex; background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
+        .server-btn:hover { background: var(--bg-elevated); color: #fff; }
+        
+        .download-btn { background: transparent; border: 1px solid var(--red); color: var(--red); display: none; }
         .download-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+        .download-btn.active { display: inline-flex; background: transparent; color: var(--red); box-shadow: none; border-color: var(--red); }
+        .download-btn.active:hover { background: var(--red); color: #fff; }
 
-        .extra-server { display: none; }
-        .extra-server.visible { display: inline-flex; }
-
-        .more-servers-btn { background: transparent; border: 1px dashed rgba(255,255,255,0.2); color: var(--text-muted); padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .more-servers-btn { background: transparent; border: 1px dashed rgba(255,255,255,0.2); color: var(--text-muted); padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; }
         .more-servers-btn:hover { color: #fff; border-color: var(--red); }
 
         .sub-server-wrapper { display: none; margin-top: 12px; margin-bottom: 10px; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -80,9 +86,27 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* ── Player Secure Container ── */
-        /* Added overscroll-behavior and touch-action to prevent mobile browser pull-to-refresh and gesture conflicts */
-        .player-container { position: relative; padding-bottom: 56.25%; height: 0; width: 100%; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.7); margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.08); overscroll-behavior: contain; touch-action: manipulation; }
+        .player-container { position: relative; padding-bottom: 56.25%; height: 0; width: 100%; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.7); margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.08); }
         
+        .fallback-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 10; flex-direction: column; gap: 16px; text-align: center; padding: 20px; }
+        .fallback-overlay p { color: var(--text-muted); font-size: 1rem; max-width: 400px; }
+        .fallback-btn { background: var(--red); color: #fff; border: none; padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 8px; transition: background 0.2s; }
+        .fallback-btn:hover { background: var(--red-dark); }
+
+        /* ── Server Modal Popup ── */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; max-width: 500px; width: 100%; padding: 30px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
+        .modal-close:hover { color: var(--text); }
+        .modal-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; color: var(--text); }
+        .modal-warning { background: rgba(229,9,20,0.1); border: 1px solid var(--red); border-radius: 6px; padding: 15px; color: var(--text); font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; display: flex; gap: 12px; align-items: flex-start; }
+        .modal-warning i { color: var(--red); font-size: 1.2rem; margin-top: 2px; }
+        .modal-server-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+        /* Override hidden display for buttons inside modal */
+        .modal-server-grid .server-btn { display: flex; justify-content: center; }
+
         /* ── Details Layout ── */
         .detail-layout { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: flex-start; }
         .poster { width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
@@ -100,7 +124,7 @@
         .detail-section h3 { font-size: 1.2rem; margin-bottom: 12px; color: var(--text); font-weight: 700; }
         .detail-section p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
 
-        /* ── Extras Section (Similar/Episodes) ── */
+        /* ── Extras Section ── */
         .extras-wrapper { margin-top: 60px; }
         .extras-section { margin-bottom: 50px; }
         .extras-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--text); display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
@@ -175,13 +199,14 @@
         <!-- Server Selection & Toggle -->
         <div class="server-tabs" id="serverTabs">
             <div class="server-buttons-wrapper" id="serverButtonsWrapper"></div>
-            <!-- Secured external link with rel="noopener noreferrer" -->
             <a id="downloadBtn" class="server-btn download-btn" href="#" target="_blank" rel="noopener noreferrer">
                 <i class="fas fa-download"></i> Download
             </a>
-            <button class="more-servers-btn" id="moreServersBtn">More Servers</button>
+            <button class="more-servers-btn" id="moreServersBtn">
+                <i class="fas fa-th-large"></i> More Servers
+            </button>
             
-            <label class="ad-toggle-wrapper" for="adToggleCheckbox">
+            <label class="ad-toggle-wrapper" for="adToggleCheckbox" role="switch" aria-checked="true" aria-label="Popup Blocker Toggle" tabindex="0">
                 <span class="ad-label"><i class="fas fa-shield-alt"></i> Popup Blocker</span>
                 <div class="switch">
                     <input type="checkbox" id="adToggleCheckbox" checked>
@@ -198,15 +223,18 @@
 
         <!-- Video Player Secure Container -->
         <div class="player-container">
-            <div class="loading-player" id="loadingPlayer">
+            <div class="loading-player" id="loadingPlayer" role="status" aria-live="polite">
                 <div class="netflix-spinner"></div>
                 <div class="loading-text" id="loadingText">Loading Server 1...</div>
             </div>
-            <!-- 
-                STRICT SANDBOX: allow-scripts (player logic), allow-same-origin (DRM/Cookies), allow-presentation (Casting).
-                OMITTED: allow-popups, allow-top-navigation, allow-modals (Blocks redirects & popups).
-                ALLOW ATTRIBUTE: Restricted strictly to video playback features.
-            -->
+            
+            <div class="fallback-overlay" id="fallbackOverlay">
+                <p>Video not playing or stuck on a blank screen? The server might require popups to be disabled or is blocking playback.</p>
+                <button class="fallback-btn" id="fallbackNextServerBtn">
+                    <i class="fas fa-forward"></i> Try Next Server
+                </button>
+            </div>
+
             <iframe
                 id="videoPlayer"
                 src="about:blank"
@@ -242,6 +270,19 @@
         <div class="extras-wrapper" id="extrasContainer"></div>
     </div>
 
+    <!-- Server Selection Modal -->
+    <div class="modal-overlay" id="serverModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            <h2 class="modal-title">Select Server</h2>
+            <div class="modal-warning">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>If any server doesn't work, turn off the website popup blocker. For no ads, use Brave browser.</span>
+            </div>
+            <div class="modal-server-grid" id="modalServerButtons"></div>
+        </div>
+    </div>
+
     <footer>
         <p class="text-gray-600 text-xs">© 2024 Streamflix, Inc. — Infinite Cinema. All movie data provided by TMDB.</p>
         <div class="developer-credits">
@@ -252,7 +293,7 @@
     <script>
         (function() {
             // ═══════ DEVELOPMENT LOGGING ═══════
-            const DEV_MODE = true; // Set to false in production
+            const DEV_MODE = true; 
             function devLog(message, type = 'info') {
                 if (DEV_MODE) {
                     const colors = { info: 'color: #46d369', warn: 'color: #ffd700', error: 'color: #E50914' };
@@ -260,15 +301,25 @@
                 }
             }
 
-            // ═══════ TMDB API ARCHITECTURE ═══════
+            // ═══════ TMDB API & SESSION CACHING ═══════
             const TMDB_IMG = 'https://image.tmdb.org/t/p/w342'; 
-            const TMDB_BACK = 'https://image.tmdb.org/t/p/w300'; // Optimized for episode thumbnails
+            const TMDB_BACK = 'https://image.tmdb.org/t/p/w300'; 
 
             async function tmdbFetch(endpoint) {
+                const cacheKey = `tmdb_${endpoint}`;
+                const cached = sessionStorage.getItem(cacheKey);
+                if (cached) {
+                    devLog(`Cache hit: ${endpoint}`);
+                    return JSON.parse(cached);
+                }
+
                 const url = `/api/tmdb?endpoint=${encodeURIComponent(endpoint)}`;
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('API fail');
-                return await res.json();
+                const data = await res.json();
+                
+                sessionStorage.setItem(cacheKey, JSON.stringify(data));
+                return data;
             }
 
             function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -295,14 +346,14 @@
             let nxshaDownloadUrl = type === 'tv' ? `https://nxsha.space/dl/tv/${id}/${season}/${episode}` : `https://nxsha.space/dl/movie/${id}`;
 
             const playerSources = {
-                1: { name: 'Server 1', url: nxshaUrl, extra: false },
-                2: { name: 'Server 2', url: zxcstreamUrl, extra: false },
-                3: { name: 'Server 3', url: vidsrcSbsUrl, extra: false },
-                4: { name: 'Server 4', url: vidsrcWikiUrl, extra: false },
-                5: { name: 'Server 5', url: null, extra: false, isParent: true }, 
-                6: { name: 'Server 6', url: vidfastUrl, extra: true },
-                7: { name: 'Server 7', url: videasyUrl, extra: true },
-                8: { name: 'Server 8', url: vidsrcToUrl, extra: true }
+                1: { name: 'Server 1', url: nxshaUrl, downloadUrl: nxshaDownloadUrl },
+                2: { name: 'Server 2', url: zxcstreamUrl, downloadUrl: null },
+                3: { name: 'Server 3', url: vidsrcSbsUrl, downloadUrl: null },
+                4: { name: 'Server 4', url: vidsrcWikiUrl, downloadUrl: null },
+                5: { name: 'Server 5', url: null, downloadUrl: null, isParent: true }, 
+                6: { name: 'Server 6', url: vidfastUrl, downloadUrl: null },
+                7: { name: 'Server 7', url: videasyUrl, downloadUrl: null },
+                8: { name: 'Server 8', url: vidsrcToUrl, downloadUrl: null }
             };
 
             const vidukiSubServers = {
@@ -313,46 +364,73 @@
             };
 
             // ═══════ Dynamic Server Button Generation ═══════
-            const serverButtonsWrapper = document.getElementById('serverButtonsWrapper');
-            Object.keys(playerSources).forEach(num => {
-                const src = playerSources[num];
-                const btn = document.createElement('button');
-                btn.className = 'server-btn' + (num === '1' ? ' active' : '') + (src.extra ? ' extra-server' : '');
-                btn.dataset.server = num;
-                btn.textContent = `Server ${num}`;
-                btn.addEventListener('click', () => handleServerClick(num));
-                serverButtonsWrapper.appendChild(btn);
-            });
+            const mainServerWrapper = document.getElementById('serverButtonsWrapper');
+            const modalServerWrapper = document.getElementById('modalServerButtons');
+            
+            // Render buttons in both the main UI and the Modal
+            function generateServerButtons() {
+                Object.keys(playerSources).forEach(num => {
+                    const src = playerSources[num];
+                    
+                    // Main UI Button
+                    const mainBtn = document.createElement('button');
+                    mainBtn.className = 'server-btn';
+                    mainBtn.dataset.server = num;
+                    mainBtn.textContent = `Server ${num}`;
+                    mainBtn.addEventListener('click', () => handleServerClick(num));
+                    mainServerWrapper.appendChild(mainBtn);
 
-            document.getElementById('moreServersBtn').addEventListener('click', function() {
-                const extraServers = document.querySelectorAll('.extra-server');
-                extraServers.forEach(s => s.classList.toggle('visible'));
-                this.textContent = this.textContent === 'More Servers' ? 'Less Servers' : 'More Servers';
-            });
+                    // Modal Button
+                    const modalBtn = document.createElement('button');
+                    modalBtn.className = 'server-btn';
+                    modalBtn.dataset.server = num;
+                    modalBtn.textContent = `Server ${num}`;
+                    modalBtn.addEventListener('click', () => {
+                        handleServerClick(num);
+                        closeModal();
+                    });
+                    modalServerWrapper.appendChild(modalBtn);
+                });
+            }
+            generateServerButtons();
+
+            // Modal Logic
+            const serverModal = document.getElementById('serverModal');
+            document.getElementById('moreServersBtn').addEventListener('click', () => serverModal.classList.add('active'));
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            serverModal.addEventListener('click', (e) => { if (e.target === serverModal) closeModal(); });
+            function closeModal() { serverModal.classList.remove('active'); }
 
             // ═══════ Player Switching Logic ═══════
-            let iframe = document.getElementById('videoPlayer'); // Changed to let for recreation
+            let iframe = document.getElementById('videoPlayer');
             const loading = document.getElementById('loadingPlayer');
             const loadingText = document.getElementById('loadingText');
             const adToggleCheckbox = document.getElementById('adToggleCheckbox');
             const subServerWrapper = document.getElementById('subServerWrapper');
             const subServerButtons = document.getElementById('subServerButtons');
+            const fallbackOverlay = document.getElementById('fallbackOverlay');
+            const downloadBtn = document.getElementById('downloadBtn');
 
             let loadTimeout = null;
             let currentLoadToken = 0;
             let isPopupBlockerEnabled = true; 
-            let activeServerName = 'Server 1'; 
-
-            // Strict sandbox configuration that permits playback but blocks popups/redirects
             const STRICT_SANDBOX = "allow-scripts allow-same-origin allow-presentation";
 
             function handleServerClick(serverNum) {
                 const source = playerSources[serverNum];
                 if (!source) return;
 
+                // Remove active from all, add to current. This makes the active button visible in main UI via CSS
                 document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
-                const activeBtn = document.querySelector(`.server-btn[data-server="${serverNum}"]`);
-                if (activeBtn) activeBtn.classList.add('active');
+                document.querySelectorAll(`.server-btn[data-server="${serverNum}"]`).forEach(btn => btn.classList.add('active'));
+
+                // Dynamic Download Button Update
+                if (source.downloadUrl) {
+                    downloadBtn.href = source.downloadUrl;
+                    downloadBtn.classList.add('active');
+                } else {
+                    downloadBtn.classList.remove('active');
+                }
 
                 if (source.isParent) {
                     subServerWrapper.style.display = 'flex';
@@ -391,17 +469,15 @@
 
             function loadServer(serverId, url, serverName) {
                 const myToken = ++currentLoadToken;
-                activeServerName = serverName;
-
                 devLog(`Loading server: ${serverName} (ID: ${serverId})`);
 
                 loadingText.textContent = `Loading ${serverName}...`;
                 loading.style.display = 'flex';
                 iframe.style.display = 'none';
+                fallbackOverlay.style.display = 'none';
 
                 if (loadTimeout) clearTimeout(loadTimeout);
 
-                // Recreate iframe to purge any malicious scripts/event listeners from previous load
                 const parent = iframe.parentNode;
                 const newIframe = document.createElement('iframe');
                 newIframe.id = iframe.id;
@@ -413,11 +489,11 @@
                 newIframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
                 newIframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
                 
-                // Apply strict sandbox
                 if (isPopupBlockerEnabled) {
                     newIframe.setAttribute('sandbox', STRICT_SANDBOX);
                     devLog(`Sandbox applied: ${STRICT_SANDBOX}`);
                 } else {
+                    // Sandbox entirely removed, letting the player open popups/redirects as it wants
                     devLog('WARNING: Popup Blocker is OFF. Sandbox removed.', 'warn');
                 }
 
@@ -444,6 +520,7 @@
 
             adToggleCheckbox.addEventListener('change', function() {
                 isPopupBlockerEnabled = adToggleCheckbox.checked;
+                this.parentNode.setAttribute('aria-checked', isPopupBlockerEnabled);
                 devLog(`Popup Blocker toggled: ${isPopupBlockerEnabled ? 'ON' : 'OFF'}`);
                 
                 const activeMain = document.querySelector('.server-btn.active');
@@ -453,6 +530,24 @@
                 } else if (activeMain) {
                     handleServerClick(activeMain.dataset.server);
                 }
+            });
+
+            document.querySelector('.ad-toggle-wrapper').addEventListener('keydown', function(e) {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    adToggleCheckbox.checked = !adToggleCheckbox.checked;
+                    adToggleCheckbox.dispatchEvent(new Event('change'));
+                }
+            });
+
+            document.getElementById('fallbackNextServerBtn').addEventListener('click', function() {
+                const activeMain = document.querySelector('.server-btn.active');
+                if (!activeMain) return handleServerClick('1');
+                
+                let currentServer = parseInt(activeMain.dataset.server);
+                let nextServer = currentServer + 1;
+                if (nextServer > 8) nextServer = 1;
+                handleServerClick(String(nextServer));
             });
 
             // ═══════ Extras Rendering Logic ═══════
@@ -566,7 +661,8 @@
                         
                         seasonData.episodes.forEach(ep => {
                             const epCard = document.createElement('a');
-                            epCard.href = `player.html?id=${id}&type=tv&s=${seasonNumber}&e=${ep.episode_number}`;
+                            const currentSrv = document.querySelector('.sub-server-btn.active')?.dataset.subserver || document.querySelector('.server-btn.active')?.dataset.server || '1';
+                            epCard.href = `player.html?id=${id}&type=tv&s=${seasonNumber}&e=${ep.episode_number}&srv=${currentSrv}`;
                             epCard.className = 'episode-card';
                             if (seasonNumber == season && ep.episode_number == episode) {
                                 epCard.classList.add('playing');
@@ -608,12 +704,24 @@
             }
 
             // ═══════ Fetch Main Details ═══════
+            function getMaturityRating(data, type) {
+                try {
+                    if (type === 'movie') {
+                        const us = data.release_dates.results.find(r => r.iso_3166_1 === 'US');
+                        if (us && us.release_dates.length > 0) return us.release_dates[0].certification || 'NR';
+                    } else {
+                        const us = data.content_ratings.results.find(r => r.iso_3166_1 === 'US');
+                        if (us) return us.rating || 'NR';
+                    }
+                } catch (e) {}
+                return 'NR';
+            }
+
             async function fetchDetails() {
                 if (!id) { document.getElementById('title').textContent = "Error: No ID provided in URL."; return; }
                 try {
-                    document.getElementById('downloadBtn').href = nxshaDownloadUrl;
-
-                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits` : `/tv/${id}?append_to_response=credits`;
+                    const appendRes = type === 'movie' ? 'credits,release_dates' : 'credits,content_ratings';
+                    const endpoint = `/${type}/${id}?append_to_response=${appendRes}`;
                     const data = await tmdbFetch(endpoint);
 
                     const title = data.title || data.name || 'Untitled';
@@ -624,6 +732,7 @@
                     const poster = data.poster_path ? `https://image.tmdb.org/t/p/w500${data.poster_path}` : '';
                     const cast = data.credits && data.credits.cast ? data.credits.cast.slice(0, 10).map(c => c.name).join(', ') : 'N/A';
                     const genres = data.genres ? data.genres.map(g => g.name) : [];
+                    const maturity = getMaturityRating(data, type);
 
                     document.title = `${title} — Streamflix`;
                     document.getElementById('title').textContent = title;
@@ -635,13 +744,28 @@
                     document.getElementById('meta').innerHTML = `
                         <span class="match">${match}% Match</span>
                         <span>${year}</span>
-                        <span class="maturity-badge">${rating}</span>
+                        <span class="maturity-badge">${maturity}</span>
+                        <span>${rating} <i class="fas fa-star" style="color:var(--gold); font-size:0.7rem;"></i></span>
                         <span>${runtime} min</span>
                     `;
 
                     document.getElementById('genres').innerHTML = genres.map(g => `<div class="genre-tag">${g}</div>`).join('');
 
-                    handleServerClick('1');
+                    const initialServer = urlParams.get('srv') || '1';
+                    if (initialServer.includes('-')) {
+                        const parent = initialServer.split('-')[0];
+                        handleServerClick(parent);
+                        loadSubServer(initialServer);
+                        setTimeout(() => {
+                            const subBtn = document.querySelector(`.sub-server-btn[data-subserver="${initialServer}"]`);
+                            if (subBtn) {
+                                document.querySelectorAll('.sub-server-btn').forEach(b => b.classList.remove('active'));
+                                subBtn.classList.add('active');
+                            }
+                        }, 0);
+                    } else {
+                        handleServerClick(initialServer);
+                    }
 
                     if (type === 'movie') {
                         fetchMovieExtras(data);
