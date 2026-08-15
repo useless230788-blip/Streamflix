@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- ═══════ CONTENT SECURITY POLICY & SECURITY HEADERS ═══════ -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://image.tmdb.org; connect-src 'self'; frame-src 'self' https://nxsha.space https://zxcstream.xyz https://vidsrc.sbs https://vidsrc.wiki https://viduki.net https://vidfast.vc https://player.videasy.net https://vidsrc.to; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <!-- Updated frame-src to allow any https source so third-party players don't get blocked -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
@@ -48,9 +49,8 @@
         .server-tabs { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
         .server-buttons-wrapper { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
         
-        /* Control visibility of servers. Only Server 1 and active server show by default */
         .server-btn { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 24px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; font-family: 'Inter', sans-serif; text-decoration: none; display: none; align-items: center; gap: 8px; }
-        .server-btn[data-server="1"] { display: inline-flex; } /* Always show Server 1 */
+        .server-btn[data-server="1"] { display: inline-flex; } 
         .server-btn.active { display: inline-flex; background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
         .server-btn:hover { background: var(--bg-elevated); color: #fff; }
         
@@ -104,7 +104,6 @@
         .modal-warning { background: rgba(229,9,20,0.1); border: 1px solid var(--red); border-radius: 6px; padding: 15px; color: var(--text); font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; display: flex; gap: 12px; align-items: flex-start; }
         .modal-warning i { color: var(--red); font-size: 1.2rem; margin-top: 2px; }
         .modal-server-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
-        /* Override hidden display for buttons inside modal */
         .modal-server-grid .server-btn { display: flex; justify-content: center; }
 
         /* ── Details Layout ── */
@@ -367,7 +366,6 @@
             const mainServerWrapper = document.getElementById('serverButtonsWrapper');
             const modalServerWrapper = document.getElementById('modalServerButtons');
             
-            // Render buttons in both the main UI and the Modal
             function generateServerButtons() {
                 Object.keys(playerSources).forEach(num => {
                     const src = playerSources[num];
@@ -394,7 +392,6 @@
             }
             generateServerButtons();
 
-            // Modal Logic
             const serverModal = document.getElementById('serverModal');
             document.getElementById('moreServersBtn').addEventListener('click', () => serverModal.classList.add('active'));
             document.getElementById('closeModalBtn').addEventListener('click', closeModal);
@@ -420,11 +417,9 @@
                 const source = playerSources[serverNum];
                 if (!source) return;
 
-                // Remove active from all, add to current. This makes the active button visible in main UI via CSS
                 document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll(`.server-btn[data-server="${serverNum}"]`).forEach(btn => btn.classList.add('active'));
 
-                // Dynamic Download Button Update
                 if (source.downloadUrl) {
                     downloadBtn.href = source.downloadUrl;
                     downloadBtn.classList.add('active');
@@ -493,7 +488,6 @@
                     newIframe.setAttribute('sandbox', STRICT_SANDBOX);
                     devLog(`Sandbox applied: ${STRICT_SANDBOX}`);
                 } else {
-                    // Sandbox entirely removed, letting the player open popups/redirects as it wants
                     devLog('WARNING: Popup Blocker is OFF. Sandbox removed.', 'warn');
                 }
 
