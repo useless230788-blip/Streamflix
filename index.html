@@ -38,7 +38,6 @@
         .nav.scrolled { background: rgba(20,20,20,0.98); padding: 10px 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: -1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 18px var(--red-glow); user-select: none; }
         
-        /* RESTORED OLD HEADER CATEGORY BAR */
         .nav-links { display: none; gap: 22px; font-size: 14px; font-weight: 500; }
         .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; cursor: pointer; }
         .nav-links a:hover, .nav-links a.active { color: var(--text); font-weight: 700; }
@@ -86,15 +85,15 @@
         .bottom-nav a.active { color: var(--text); }
         .bottom-nav a.active i { color: var(--red); transform: translateY(-2px); }
 
-        /* HERO BANNER FIXES */
-        .hero { height: 65vh; min-height: 450px; position: relative; overflow: hidden; z-index: 1; }
+        /* HERO BANNER FIXES (Slightly Taller) */
+        .hero { height: 80vh; min-height: 580px; position: relative; overflow: hidden; z-index: 1; }
         .hero-slide { position: absolute; inset:0; background-size: cover; background-position: center top; opacity: 0; transition: opacity 1.2s ease; will-change: opacity; cursor: pointer; }
         .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 22s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.0) translateY(0); } to { transform: scale(1.1) translateY(-2%); } }
         
         .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 70%), linear-gradient(180deg, transparent 50%, rgba(20,20,20,0.9) 100%); }
         
-        .hero-content { position: absolute; bottom: 60px; left: 50px; z-index: 4; max-width: 550px; width: 80%; }
+        .hero-content { position: absolute; bottom: 80px; left: 50px; z-index: 4; max-width: 550px; width: 80%; }
         .hero-label { font-size: 13px; letter-spacing: 4px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
         .hero-label::before { content: ''; width: 30px; height: 3px; background: var(--red); }
         .hero-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 0.95; margin-bottom: 16px; text-shadow: 2px 4px 24px rgba(0,0,0,0.85); letter-spacing: -2px; }
@@ -109,7 +108,7 @@
         .hero-watch { background: white; color: black; } .hero-watch:hover { background: rgba(255,255,255,0.78); }
         .hero-info { background: rgba(109,109,110,0.7); color: white; } .hero-info:hover { background: rgba(109,109,110,0.5); }
         
-        .hero-dots { position: absolute; bottom: 60px; right: 50px; z-index: 4; display: flex; gap: 6px; }
+        .hero-dots { position: absolute; bottom: 80px; right: 50px; z-index: 4; display: flex; gap: 6px; }
         .hero-dot { width: 28px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s; }
         .hero-dot.active { background: var(--red); }
 
@@ -218,14 +217,14 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        /* Mobile Adjustments for Hero */
+        /* Mobile Adjustments for Hero (Slightly Taller) */
         @media (max-width: 768px) {
-            .hero { height: 55vh; min-height: 350px; margin-bottom: 30px; }
-            .hero-content { bottom: 90px; left: 20px; right: 20px; max-width: 90%; }
+            .hero { height: 70vh; min-height: 420px; margin-bottom: 30px; }
+            .hero-content { bottom: 100px; left: 20px; right: 20px; max-width: 90%; }
             .hero-title { font-size: 2rem; margin-bottom: 12px; }
             .hero-title-logo { max-width: 200px; max-height: 70px; margin-bottom: 12px; }
             .hero-watch, .hero-info { padding: 10px 18px; font-size: 14px; }
-            .hero-dots { bottom: 90px; right: 20px; }
+            .hero-dots { bottom: 100px; right: 20px; }
             .recent-wrap, .rows-wrapper { margin-top: 20px; }
         }
 
@@ -243,7 +242,7 @@
             .nav { padding: 18px 40px; }
             .nav.scrolled { padding: 10px 40px; }
             .nav-logo { font-size: 2rem; }
-            .nav-links { display: flex; } /* Show header links on desktop */
+            .nav-links { display: flex; } 
             .search-icon-btn, .notif-btn { font-size: 1.3rem; }
             .profile-avatar { width: 32px; height: 32px; font-size: 14px; }
             .back-to-top { bottom: 110px; right: 30px; }
@@ -279,7 +278,6 @@
 
     <nav class="nav" id="mainNav">
         <div class="nav-logo">Streamflix</div>
-        <!-- RESTORED HEADER LINKS -->
         <div class="nav-links" id="navLinks">
             <a class="active" data-cat="home">Home</a>
             <a data-cat="tv">TV Shows</a>
@@ -905,7 +903,6 @@
                 });
             }
 
-            // Unified click listener for BOTH top nav and bottom nav
             document.querySelectorAll('[data-cat]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault(); 
