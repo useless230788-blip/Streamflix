@@ -85,33 +85,34 @@
         .bottom-nav a.active { color: var(--text); }
         .bottom-nav a.active i { color: var(--red); transform: translateY(-2px); }
 
-        /* HERO BANNER FIXES (Slightly Taller) */
-        .hero { height: 80vh; min-height: 580px; position: relative; overflow: hidden; z-index: 1; }
+        /* HERO BANNER RESTORED ORIGINAL HEIGHT */
+        .hero { height: 92vh; min-height: 620px; position: relative; overflow: hidden; margin-bottom: 0; z-index: 1; }
         .hero-slide { position: absolute; inset:0; background-size: cover; background-position: center top; opacity: 0; transition: opacity 1.2s ease; will-change: opacity; cursor: pointer; }
         .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 22s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.0) translateY(0); } to { transform: scale(1.1) translateY(-2%); } }
         
-        .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 70%), linear-gradient(180deg, transparent 50%, rgba(20,20,20,0.9) 100%); }
+        .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(180deg, rgba(20,20,20,0) 30%, rgba(20,20,20,0.4) 65%, rgba(20,20,20,0.95) 100%), linear-gradient(90deg, rgba(20,20,20,0.9) 0%, rgba(20,20,20,0.4) 50%, rgba(20,20,20,0) 100%); }
         
-        .hero-content { position: absolute; bottom: 80px; left: 50px; z-index: 4; max-width: 550px; width: 80%; }
+        .hero-content { position: absolute; bottom: 35%; left: 50px; z-index: 4; max-width: 580px; }
         .hero-label { font-size: 13px; letter-spacing: 4px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
         .hero-label::before { content: ''; width: 30px; height: 3px; background: var(--red); }
-        .hero-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 0.95; margin-bottom: 16px; text-shadow: 2px 4px 24px rgba(0,0,0,0.85); letter-spacing: -2px; }
+        .hero-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 0.95; margin-bottom: 18px; text-shadow: 2px 4px 24px rgba(0,0,0,0.85); letter-spacing: -2px; }
         
-        .hero-title-logo { max-width: 350px; width: 100%; max-height: 100px; height: auto; margin-bottom: 16px; object-fit: contain; filter: drop-shadow(2px 4px 24px rgba(0,0,0,0.85)); display: block; }
+        .hero-title-logo { max-width: 500px; width: 100%; max-height: 150px; height: auto; margin-bottom: 18px; object-fit: contain; filter: drop-shadow(2px 4px 24px rgba(0,0,0,0.85)); display: block; }
         
         .hero-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 18px; font-size: 14px; flex-wrap: wrap; }
         .hero-meta .match { color: var(--green); font-weight: 700; }
         .maturity-badge { border: 1px solid rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 2px; font-size: 12px; font-weight: 600; }
         .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-        .hero-watch, .hero-info { display: flex; align-items: center; gap: 10px; padding: 12px 26px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
+        .hero-watch, .hero-info { display: flex; align-items: center; gap: 10px; padding: 13px 30px; border: none; border-radius: 4px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
         .hero-watch { background: white; color: black; } .hero-watch:hover { background: rgba(255,255,255,0.78); }
         .hero-info { background: rgba(109,109,110,0.7); color: white; } .hero-info:hover { background: rgba(109,109,110,0.5); }
         
-        .hero-dots { position: absolute; bottom: 80px; right: 50px; z-index: 4; display: flex; gap: 6px; }
+        .hero-dots { position: absolute; bottom: 35%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         .hero-dot { width: 28px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s; }
         .hero-dot.active { background: var(--red); }
 
+        /* Prevent Overlap */
         .recent-wrap, .rows-wrapper { margin-top: 40px; }
         .recent-wrap { margin-bottom: 40px; display:none; position: relative; }
         
@@ -217,19 +218,23 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        /* Mobile Adjustments for Hero (Slightly Taller) */
-        @media (max-width: 768px) {
-            .hero { height: 70vh; min-height: 420px; margin-bottom: 30px; }
-            .hero-content { bottom: 100px; left: 20px; right: 20px; max-width: 90%; }
-            .hero-title { font-size: 2rem; margin-bottom: 12px; }
-            .hero-title-logo { max-width: 200px; max-height: 70px; margin-bottom: 12px; }
-            .hero-watch, .hero-info { padding: 10px 18px; font-size: 14px; }
-            .hero-dots { bottom: 100px; right: 20px; }
+        /* RESTORED OLD MOBILE HEIGHTS (Without overlap) */
+        @media (max-width: 900px) {
+            .hero { height: 80vh; min-height: 500px; margin-bottom: 0; } 
+            .hero-slide { background-position: center center; } 
+            .hero-content { left: 20px; right: 20px; bottom: 80px; max-width: 100%; } 
+            .hero-title { font-size: 2.5rem; } 
+            .hero-title-logo { max-height: 100px; }
+            .hero-watch, .hero-info { padding: 10px 18px; font-size: 14px; } 
+            .hero-dots { right: 20px; bottom: 20px; }
             .recent-wrap, .rows-wrapper { margin-top: 20px; }
         }
 
-        @media (max-width: 480px) {
-            .hero-title-logo { max-width: 160px; }
+        @media (max-width: 600px) {
+            .hero { height: 75vh; min-height: 450px; margin-bottom: 0; } 
+            .hero-content { bottom: 50px; max-width: 90%; } 
+            .hero-title { font-size: 2rem; margin-bottom: 10px; } 
+            .hero-title-logo { max-height: 80px; margin-bottom: 12px; }
             .hero-meta { font-size: 11px; gap: 8px; margin-bottom: 12px; } 
             .hero-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 8px; } 
             .maturity-badge { font-size: 10px; padding: 1px 6px; } 
