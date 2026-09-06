@@ -38,6 +38,11 @@
         .nav.scrolled { background: rgba(20,20,20,0.98); padding: 10px 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: -1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 18px var(--red-glow); user-select: none; }
         
+        /* RESTORED OLD HEADER CATEGORY BAR */
+        .nav-links { display: none; gap: 22px; font-size: 14px; font-weight: 500; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); font-weight: 700; }
+
         .nav-right { margin-left: auto; display: flex; align-items: center; gap: 18px; position: relative; }
         .search-icon-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 6px; display: flex; align-items: center; }
         .search-icon-btn:hover { color: var(--red); }
@@ -87,16 +92,13 @@
         .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 22s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.0) translateY(0); } to { transform: scale(1.1) translateY(-2%); } }
         
-        /* Stronger shadow at bottom left to make text readable */
         .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, transparent 70%), linear-gradient(180deg, transparent 50%, rgba(20,20,20,0.9) 100%); }
         
-        /* Pin content to bottom left */
         .hero-content { position: absolute; bottom: 60px; left: 50px; z-index: 4; max-width: 550px; width: 80%; }
         .hero-label { font-size: 13px; letter-spacing: 4px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
         .hero-label::before { content: ''; width: 30px; height: 3px; background: var(--red); }
         .hero-title { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 0.95; margin-bottom: 16px; text-shadow: 2px 4px 24px rgba(0,0,0,0.85); letter-spacing: -2px; }
         
-        /* Restrict Logo Size */
         .hero-title-logo { max-width: 350px; width: 100%; max-height: 100px; height: auto; margin-bottom: 16px; object-fit: contain; filter: drop-shadow(2px 4px 24px rgba(0,0,0,0.85)); display: block; }
         
         .hero-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 18px; font-size: 14px; flex-wrap: wrap; }
@@ -107,12 +109,10 @@
         .hero-watch { background: white; color: black; } .hero-watch:hover { background: rgba(255,255,255,0.78); }
         .hero-info { background: rgba(109,109,110,0.7); color: white; } .hero-info:hover { background: rgba(109,109,110,0.5); }
         
-        /* Dots in bottom right */
         .hero-dots { position: absolute; bottom: 60px; right: 50px; z-index: 4; display: flex; gap: 6px; }
         .hero-dot { width: 28px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s; }
         .hero-dot.active { background: var(--red); }
 
-        /* Clear gap to prevent overlap with rows */
         .recent-wrap, .rows-wrapper { margin-top: 40px; }
         .recent-wrap { margin-bottom: 40px; display:none; position: relative; }
         
@@ -243,6 +243,7 @@
             .nav { padding: 18px 40px; }
             .nav.scrolled { padding: 10px 40px; }
             .nav-logo { font-size: 2rem; }
+            .nav-links { display: flex; } /* Show header links on desktop */
             .search-icon-btn, .notif-btn { font-size: 1.3rem; }
             .profile-avatar { width: 32px; height: 32px; font-size: 14px; }
             .back-to-top { bottom: 110px; right: 30px; }
@@ -278,6 +279,14 @@
 
     <nav class="nav" id="mainNav">
         <div class="nav-logo">Streamflix</div>
+        <!-- RESTORED HEADER LINKS -->
+        <div class="nav-links" id="navLinks">
+            <a class="active" data-cat="home">Home</a>
+            <a data-cat="tv">TV Shows</a>
+            <a data-cat="movies">Movies</a>
+            <a data-cat="new">New & Popular</a>
+            <a data-cat="mylist">My List</a>
+        </div>
         <div class="nav-right">
             <button class="search-icon-btn" id="searchIconBtn"><i class="fas fa-search"></i></button>
             <button class="notif-btn" id="notifBtn">
@@ -564,7 +573,7 @@
                 else { watchlist.push({id:id,title,poster,year,type}); toast('Added to My List'); }
                 saveWl(); 
                 refreshHearts();
-                const activeLink = document.querySelector('.bottom-nav a.active');
+                const activeLink = document.querySelector('.bottom-nav a.active') || document.querySelector('.nav-links a.active');
                 if (activeLink && activeLink.dataset.cat === 'mylist') { renderMyListSection(); }
             }
 
@@ -860,7 +869,7 @@
             function closeCategoryView() {
                 document.getElementById('categoryView').style.display = 'none';
                 document.getElementById('sectionsContainer').style.display = 'block';
-                const activeLink = document.querySelector('.bottom-nav a.active');
+                const activeLink = document.querySelector('.bottom-nav a.active') || document.querySelector('.nav-links a.active');
                 if (activeLink && activeLink.dataset.cat === 'home') {
                     document.getElementById('hero').style.display = 'block';
                     startHeroAuto();
@@ -896,12 +905,13 @@
                 });
             }
 
-            document.querySelectorAll('.bottom-nav a').forEach(link => {
+            // Unified click listener for BOTH top nav and bottom nav
+            document.querySelectorAll('[data-cat]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     const cat = link.dataset.cat;
-                    document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
-                    link.classList.add('active');
+                    document.querySelectorAll('[data-cat]').forEach(a => a.classList.remove('active'));
+                    document.querySelectorAll(`[data-cat="${cat}"]`).forEach(a => a.classList.add('active'));
                     
                     loadingSec.clear(); endedSec.clear();
                     closeCategoryView();
