@@ -51,7 +51,6 @@
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 20px var(--red-glow); user-select: none; transition: transform 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); }
         
-        /* RESTORED OLD HEADER CATEGORY STYLE */
         .nav-links { display: flex; gap: 20px; font-size: 14px; font-weight: 500; align-items: center; margin-left: 30px; }
         .nav-links a {
             color: var(--text-muted);
@@ -85,7 +84,6 @@
         .profile-avatar { width: 32px; height: 32px; border-radius: 6px; background: linear-gradient(135deg, #e50914, #4a0408); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); transition: var(--premium-transition); }
         .profile-avatar:hover { transform: scale(1.05); box-shadow: 0 0 0 2px rgba(255,255,255,0.2); }
         
-        /* FLOATING GLASS BOTTOM NAV (PORTRAIT MODE) */
         .bottom-nav { 
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); 
             width: calc(100% - 30px); max-width: 450px; height: 60px; 
@@ -108,7 +106,7 @@
         .bottom-nav a.active i { color: var(--red); transform: translateY(-1px) scale(1.1); }
         .bottom-nav .notif-badge { top: 4px; right: 50%; transform: translateX(20px); }
 
-        /* CINEMATIC HERO WITH BLURRED BACKGROUND */
+        /* OPTIMIZED CINEMATIC HERO */
         .hero-wrap {
             position: relative;
             width: 100%;
@@ -124,14 +122,16 @@
         }
         .hero-bg-layer {
             position: absolute;
-            inset: -10%;
+            inset: -5%;
             z-index: 0;
             background-size: cover;
             background-position: center;
-            filter: blur(40px) brightness(0.35);
+            /* Reduced blur for performance, still looks cinematic */
+            filter: blur(15px) brightness(0.35); 
             transform: scale(1.1);
-            transition: opacity 1s ease-in-out;
+            transition: opacity 0.8s ease-in-out;
             opacity: 0;
+            will-change: opacity;
         }
         .hero-bg-layer.active { opacity: 1; }
         
@@ -142,37 +142,58 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            height: 100%;
             overflow: hidden;
             padding: 40px 0;
         }
         .hero-track {
-            display: flex;
-            align-items: center;
-            transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-            padding: 0 50px;
-        }
-        .hero-card {
-            flex: 0 0 auto;
-            width: 60vw;
-            max-width: 900px;
+            position: relative;
+            width: 100%;
             height: 33.75vw;
             max-height: 506px;
+            /* No layout shifting happens here, just absolute compositing */
+        }
+        .hero-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60vw;
+            max-width: 900px;
+            height: 100%;
             border-radius: 16px;
             overflow: hidden;
-            position: relative;
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-            opacity: 0.3;
-            transform: scale(0.8);
-            margin: 0 20px;
             background: #111;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* BUTTER SMOOTH HARDWARE ACCELERATED TRANSITION */
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.85);
+            transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+            will-change: transform, opacity;
+            pointer-events: none;
+            z-index: 1;
         }
         .hero-card.active {
             opacity: 1;
-            transform: scale(1);
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 10;
+            pointer-events: auto;
             box-shadow: 0 40px 80px rgba(0,0,0,0.9);
         }
+        .hero-card.prev {
+            opacity: 0.4;
+            transform: translate(-115%, -50%) scale(0.8);
+            z-index: 5;
+            pointer-events: auto;
+        }
+        .hero-card.next {
+            opacity: 0.4;
+            transform: translate(15%, -50%) scale(0.8);
+            z-index: 5;
+            pointer-events: auto;
+        }
+        
         .hero-card-bg {
             width: 100%;
             height: 100%;
@@ -380,7 +401,9 @@
             .notif-panel { right: 10px; left: 10px; width: auto; top: 60px; max-height: 65vh; }
             .modal-cast-section { padding: 0 20px 30px; }
             
-            .hero-card { width: 80vw; height: 45vw; margin: 0 10px; }
+            .hero-card { width: 80vw; height: 45vw; }
+            .hero-card.prev { transform: translate(-110%, -50%) scale(0.8); }
+            .hero-card.next { transform: translate(10%, -50%) scale(0.8); }
             .hero-card-overlay { padding: 20px; }
             .hero-card-title { font-size: 2rem; }
             .hero-card-desc { font-size: 13px; -webkit-line-clamp: 2; margin-bottom: 16px; }
@@ -397,12 +420,13 @@
             /* MOBILE HERO RESTORES TO FULLSCREEN */
             .hero-wrap { min-height: 70vh; padding-top: 0; justify-content: flex-end; }
             .hero-slider-container { padding: 0; height: 100%; align-items: stretch; }
-            .hero-track { height: 100%; padding: 0; }
+            .hero-track { height: 100%; }
             .hero-card { 
-                width: 100vw; height: 100%; margin: 0; border-radius: 0; opacity: 0; transform: scale(1);
+                width: 100vw; height: 100%; border-radius: 0; opacity: 0; transform: scale(1);
                 transition: opacity 0.8s ease; box-shadow: none;
             }
             .hero-card.active { opacity: 1; }
+            .hero-card.prev, .hero-card.next { opacity: 0; transform: scale(1); }
             .hero-card-overlay { 
                 background: linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 70%, rgba(10,10,10,1) 100%);
                 padding: 20px; justify-content: flex-end;
@@ -564,6 +588,7 @@
             const API_BASE = '/api/tmdb';
             const TMDB_IMG = 'https://image.tmdb.org/t/p/w342'; 
             const TMDB_BACK = 'https://image.tmdb.org/t/p/w1280'; 
+            const TMDB_BACK_SMALL = 'https://image.tmdb.org/t/p/w780'; // Optimized for background blur
             const TMDB_LOGO = 'https://image.tmdb.org/t/p/w500'; 
             const TMDB_CAST = 'https://image.tmdb.org/t/p/w185';
             const tmdbCache = new Map();
@@ -652,6 +677,7 @@
             let watchlist=[], recent=[], heroMovies=[], heroIdx=0, heroTimer;
             let loadingSec = new Set(), endedSec = new Set();
             let bg1Active = true;
+            let isHeroAnimating = false;
             
             let seenNotifIds = new Set();
             let lastNotifFetch = 0;
@@ -841,11 +867,10 @@
             modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
             document.addEventListener('keydown', (e) => { if(e.key === 'Escape') { closeModal(); closeSearchModal(); closeNotifPanel(); } });
 
-            // CINEMATIC HERO LOGIC WITH BLURRED BG
             function updateHeroBackground(movie) {
                 const bg1 = document.getElementById('heroBg1');
                 const bg2 = document.getElementById('heroBg2');
-                const url = movie.backdrop_path ? TMDB_BACK + movie.backdrop_path : '';
+                const url = movie.backdrop_path ? TMDB_BACK_SMALL + movie.backdrop_path : '';
                 if (bg1Active) {
                     bg2.style.backgroundImage = `url('${url}')`;
                     bg2.classList.add('active');
@@ -864,11 +889,23 @@
                 track.innerHTML = '';
                 
                 if(heroMovies.length === 0) {
-                    track.innerHTML = '<div style="color:#888; text-align:center; width:100%;">No Featured Movies</div>';
+                    track.innerHTML = '<div style="color:#888; text-align:center; width:100%; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">No Featured Movies</div>';
                     return;
                 }
 
-                heroMovies.forEach(async (m, i) => {
+                // PARALLEL FETCHING FOR LOGOS - PREVENTS LAYOUT SHIFTS AND STUTTER
+                const heroData = await Promise.all(heroMovies.map(async m => {
+                    try {
+                        const endpoint = type === 'movie' ? `/movie/${m.id}?append_to_response=images` : `/tv/${m.id}?append_to_response=images`;
+                        const data = await tmdbFetch(endpoint);
+                        const logo = data.images && data.images.logos ? data.images.logos.find(l => l.iso_639_1 === 'en' && l.file_path) : null;
+                        return { ...m, logoPath: logo ? logo.file_path : null };
+                    } catch(e) {
+                        return { ...m, logoPath: null };
+                    }
+                }));
+
+                heroData.forEach((m, i) => {
                     const card = document.createElement('div');
                     card.className = 'hero-card';
                     card.dataset.idx = i;
@@ -878,12 +915,16 @@
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
                     const overview = m.overview ? (m.overview.length > 150 ? m.overview.substring(0, 150) + '...' : m.overview) : 'No description available.';
                     
+                    const titleHtml = m.logoPath 
+                        ? `<img class="hero-card-title-logo" src="${TMDB_LOGO + m.logoPath}" alt="${title}" loading="lazy">` 
+                        : `<h2 class="hero-card-title">${title}</h2>`;
+                    
                     card.innerHTML = `
-                        <img src="${TMDB_BACK+m.backdrop_path}" class="hero-card-bg" alt="${title}">
+                        <img src="${TMDB_BACK+m.backdrop_path}" class="hero-card-bg" alt="${title}" loading="lazy">
                         <div class="hero-card-overlay">
                             <div class="hero-card-label">STREAMFLIX ORIGINAL</div>
                             <div class="hero-card-title-container">
-                                <h2 class="hero-card-title" data-id="${m.id}">${title}</h2>
+                                ${titleHtml}
                             </div>
                             <div class="hero-card-meta">
                                 <div class="hero-card-imdb"><span>IMDb</span> <strong>${rating}</strong></div>
@@ -903,24 +944,6 @@
                     });
                     
                     track.appendChild(card);
-                    
-                    // Fetch logo
-                    try {
-                        const endpoint = type === 'movie' ? `/movie/${m.id}?append_to_response=images` : `/tv/${m.id}?append_to_response=images`;
-                        const data = await tmdbFetch(endpoint);
-                        const logos = data.images && data.images.logos ? data.images.logos.filter(l => l.iso_639_1 === 'en' && l.file_path) : [];
-                        if (logos.length > 0) {
-                            const titleEl = card.querySelector('.hero-card-title');
-                            if (titleEl) {
-                                const logoImg = document.createElement('img');
-                                logoImg.className = 'hero-card-title-logo';
-                                logoImg.src = TMDB_LOGO + logos[0].file_path;
-                                logoImg.alt = titleEl.textContent;
-                                logoImg.loading = 'lazy';
-                                titleEl.replaceWith(logoImg);
-                            }
-                        }
-                    } catch(e) {}
                 });
 
                 document.getElementById('heroPrev').addEventListener('click', () => goHero(heroIdx - 1));
@@ -934,23 +957,25 @@
             }
             
             function goHero(idx) {
+                // DEBOUNCE: Prevent rapid clicks from breaking the transition
+                if (isHeroAnimating) return;
+                isHeroAnimating = true;
+                setTimeout(() => { isHeroAnimating = false; }, 300);
+
                 const items = document.querySelectorAll('.hero-card');
                 if (!items.length) return;
                 heroIdx = (idx + items.length) % items.length;
                 
                 items.forEach((item, i) => {
-                    item.classList.toggle('active', i === heroIdx);
+                    item.classList.remove('active', 'prev', 'next');
+                    if (i === heroIdx) {
+                        item.classList.add('active');
+                    } else if (i === (heroIdx - 1 + items.length) % items.length) {
+                        item.classList.add('prev');
+                    } else if (i === (heroIdx + 1) % items.length) {
+                        item.classList.add('next');
+                    }
                 });
-
-                const track = document.getElementById('heroTrack');
-                const activeCard = items[heroIdx];
-                if (track && activeCard) {
-                    const trackContainer = track.parentElement;
-                    const containerWidth = trackContainer.offsetWidth;
-                    const cardWidth = activeCard.offsetWidth;
-                    const offset = activeCard.offsetLeft - (containerWidth - cardWidth) / 2;
-                    track.style.transform = `translateX(${-offset}px)`;
-                }
 
                 updateHeroBackground(heroMovies[heroIdx]);
                 startHeroAuto();
