@@ -108,56 +108,108 @@
         .bottom-nav a.active i { color: var(--red); transform: translateY(-1px) scale(1.1); }
         .bottom-nav .notif-badge { top: 4px; right: 50%; transform: translateX(20px); }
 
-        /* 3D CINEMATIC HERO (LANDSCAPE) */
-        .hero-3d-wrap {
-            height: 85vh; min-height: 600px; position: relative; overflow: hidden;
-            background: var(--bg); display: flex; justify-content: center; align-items: center;
-            perspective: 1600px; margin-bottom: -80px; z-index: 1; padding-top: 80px;
+        /* CINEMATIC HERO WITH BLURRED BACKGROUND */
+        .hero-wrap {
+            position: relative;
+            width: 100%;
+            min-height: 85vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
+            margin-bottom: -60px;
+            z-index: 1;
         }
-        .hero-3d-track { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
-        .hero-3d-item {
-            position: absolute; top: 50%; left: 50%; width: 45%; height: 80%;
-            border-radius: 12px; overflow: hidden; 
-            transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05); 
-            cursor: pointer; background: #111;
+        .hero-bg-layer {
+            position: absolute;
+            inset: -10%;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+            filter: blur(40px) brightness(0.35);
+            transform: scale(1.1);
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
         }
-        .hero-3d-item.active { z-index: 10; transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        .hero-3d-item.prev { z-index: 5; transform: translate(-85%, -50%) scale(0.75) rotateY(35deg); opacity: 0.5; filter: brightness(0.6); }
-        .hero-3d-item.next { z-index: 5; transform: translate(-15%, -50%) scale(0.75) rotateY(-35deg); opacity: 0.5; filter: brightness(0.6); }
-        .hero-3d-item.hide { z-index: 1; transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+        .hero-bg-layer.active { opacity: 1; }
         
-        .hero-3d-item.prev::after, .hero-3d-item.next::after {
-            content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-            background: linear-gradient(90deg, rgba(229,9,20,0.3) 0%, transparent 60%);
+        .hero-slider-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            overflow: hidden;
+            padding: 40px 0;
         }
-        .hero-3d-item.next::after { background: linear-gradient(-90deg, rgba(229,9,20,0.3) 0%, transparent 60%); }
+        .hero-track {
+            display: flex;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+            padding: 0 50px;
+        }
+        .hero-card {
+            flex: 0 0 auto;
+            width: 60vw;
+            max-width: 900px;
+            height: 33.75vw;
+            max-height: 506px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+            opacity: 0.3;
+            transform: scale(0.8);
+            margin: 0 20px;
+            background: #111;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .hero-card.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+        }
+        .hero-card-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+        }
+        .hero-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%), linear-gradient(90deg, rgba(0,0,0,0.8) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 50px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .hero-card.active .hero-card-overlay { opacity: 1; }
+        .hero-card-label { font-size: 12px; letter-spacing: 6px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; text-transform: uppercase; }
+        .hero-card-title-container { margin-bottom: 16px; min-height: 40px; display: flex; align-items: flex-end; }
+        .hero-card-title { font-family: var(--netflix-sans); font-size: 3rem; font-weight: 900; line-height: 0.95; text-shadow: 2px 4px 20px rgba(0,0,0,0.8); letter-spacing: -2px; margin: 0; }
+        .hero-card-title-logo { max-width: 400px; max-height: 120px; object-fit: contain; filter: drop-shadow(2px 4px 15px rgba(0,0,0,0.9)); }
+        .hero-card-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 16px; font-size: 14px; flex-wrap: wrap; }
+        .hero-card-imdb { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; color: #fff; }
+        .hero-card-imdb span { color: var(--gold); font-weight: 700; }
+        .hero-card-desc { font-size: 15px; line-height: 1.5; color: #ddd; margin-bottom: 24px; max-width: 500px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .hero-card-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-play-btn { background: #fff; color: #000; border: none; padding: 12px 32px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; text-transform: uppercase; }
+        .hero-play-btn:hover { background: rgba(255,255,255,0.8); transform: translateY(-2px); }
+        .hero-info-btn { background: rgba(40,40,40,0.8); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 12px 32px; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); text-transform: uppercase; letter-spacing: 1px; }
+        .hero-info-btn:hover { background: rgba(60,60,60,0.9); transform: translateY(-2px); }
 
-        .hero-3d-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; inset:0; }
-        .hero-3d-overlay {
-            position: absolute; inset: 0; z-index: 3;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, rgba(10,10,10,0.95) 100%), linear-gradient(90deg, rgba(0,0,0,0.9) 0%, transparent 60%);
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 50px;
-        }
-        .hero-3d-label { font-size: 12px; letter-spacing: 6px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; text-transform: uppercase; }
-        .hero-3d-title-container { margin-bottom: 16px; min-height: 40px; display: flex; align-items: flex-end; }
-        .hero-3d-title { font-family: var(--netflix-sans); font-size: 3rem; font-weight: 900; line-height: 0.95; text-shadow: 2px 4px 20px rgba(0,0,0,0.8); letter-spacing: -2px; margin: 0; }
-        .hero-3d-title-logo { max-width: 400px; max-height: 120px; object-fit: contain; margin-bottom: 0; filter: drop-shadow(2px 4px 15px rgba(0,0,0,0.9)); }
-        .hero-3d-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 16px; font-size: 14px; flex-wrap: wrap; }
-        .hero-3d-imdb { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; color: #fff; }
-        .hero-3d-imdb span { color: var(--gold); font-weight: 700; }
-        .hero-3d-year { color: var(--text-muted); }
-        .hero-3d-desc { font-size: 15px; line-height: 1.5; color: #ddd; margin-bottom: 24px; max-width: 500px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .hero-3d-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
-        .hero-3d-play { background: #fff; color: #000; border: none; padding: 12px 32px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; letter-spacing: 1px; text-transform: uppercase; }
-        .hero-3d-play:hover { background: rgba(255,255,255,0.8); transform: translateY(-2px); }
-        .hero-3d-info { background: rgba(40,40,40,0.8); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 12px 32px; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); text-transform: uppercase; letter-spacing: 1px; }
-        .hero-3d-info:hover { background: rgba(60,60,60,0.9); transform: translateY(-2px); }
-        
-        .hero-3d-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 1.2rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; transition: all 0.3s; backdrop-filter: blur(8px); }
-        .hero-3d-nav:hover { background: var(--red); border-color: var(--red); transform: translateY(-50%) scale(1.1); }
-        .hero-3d-nav.prev { left: 30px; }
-        .hero-3d-nav.next { right: 30px; }
+        .hero-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 1.2rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; transition: all 0.3s; backdrop-filter: blur(8px); }
+        .hero-nav:hover { background: var(--red); border-color: var(--red); transform: translateY(-50%) scale(1.1); }
+        .hero-nav.prev { left: 30px; }
+        .hero-nav.next { right: 30px; }
 
         .rows-wrapper { position: relative; z-index: 5; padding-bottom: 40px; }
         .section { margin: 0 0 36px; position: relative; content-visibility: auto; contain-intrinsic-size: 400px; }
@@ -327,6 +379,12 @@
             .search-modal-body { padding: 20px; } .search-results-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; }
             .notif-panel { right: 10px; left: 10px; width: auto; top: 60px; max-height: 65vh; }
             .modal-cast-section { padding: 0 20px 30px; }
+            
+            .hero-card { width: 80vw; height: 45vw; margin: 0 10px; }
+            .hero-card-overlay { padding: 20px; }
+            .hero-card-title { font-size: 2rem; }
+            .hero-card-desc { font-size: 13px; -webkit-line-clamp: 2; margin-bottom: 16px; }
+            .hero-play-btn, .hero-info-btn { padding: 8px 16px; font-size: 12px; }
         }
 
         @media (max-width: 768px) {
@@ -337,31 +395,20 @@
             #movieModal, #searchModal { padding-bottom: 90px; }
             
             /* MOBILE HERO RESTORES TO FULLSCREEN */
-            .hero-3d-wrap {
-                height: 65vh; min-height: 420px; margin-bottom: -40px; padding-top: 0; perspective: none; background: var(--bg);
+            .hero-wrap { min-height: 70vh; padding-top: 0; justify-content: flex-end; }
+            .hero-slider-container { padding: 0; height: 100%; align-items: stretch; }
+            .hero-track { height: 100%; padding: 0; }
+            .hero-card { 
+                width: 100vw; height: 100%; margin: 0; border-radius: 0; opacity: 0; transform: scale(1);
+                transition: opacity 0.8s ease; box-shadow: none;
             }
-            .hero-3d-nav { display: none; }
-            .hero-3d-item {
-                width: 100%; height: 100%; top: 0; left: 0; transform: none !important; border-radius: 0; border: none;
-                opacity: 0; transition: opacity 1s ease; box-shadow: none;
-            }
-            .hero-3d-item.active { opacity: 1; z-index: 2; }
-            .hero-3d-item.prev, .hero-3d-item.next, .hero-3d-item.hide {
-                opacity: 0; transform: none !important;
-            }
-            .hero-3d-item.prev::after, .hero-3d-item.next::after { display: none; }
-            .hero-3d-overlay {
+            .hero-card.active { opacity: 1; }
+            .hero-card-overlay { 
                 background: linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 70%, rgba(10,10,10,1) 100%);
                 padding: 20px; justify-content: flex-end;
             }
-            .hero-3d-content { max-width: 100%; }
-            .hero-3d-label { font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; }
-            .hero-3d-title { font-size: 2.2rem; margin-bottom: 10px; }
-            .hero-3d-title-logo { max-width: 220px; max-height: 100px; }
-            .hero-3d-meta { font-size: 12px; gap: 8px; margin-bottom: 16px; }
-            .hero-3d-desc { font-size: 13px; -webkit-line-clamp: 2; margin-bottom: 16px; }
-            .hero-3d-buttons { width: 100%; gap: 8px; }
-            .hero-3d-play, .hero-3d-info { flex: 1; justify-content: center; padding: 10px 12px; font-size: 14px; }
+            .hero-nav { display: none; }
+            .hero-bg-layer { filter: blur(0) brightness(0.8); }
         }
 
         @media (min-width: 769px) {
@@ -415,7 +462,15 @@
         <div class="notif-body" id="notifBody"></div>
     </div>
 
-    <div class="hero-3d-wrap" id="hero"></div>
+    <div class="hero-wrap" id="hero">
+        <div class="hero-bg-layer" id="heroBg1"></div>
+        <div class="hero-bg-layer" id="heroBg2"></div>
+        <div class="hero-slider-container">
+            <button class="hero-nav prev" id="heroPrev"><i class="fas fa-chevron-left"></i></button>
+            <div class="hero-track" id="heroTrack"></div>
+            <button class="hero-nav next" id="heroNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
     
     <div class="recent-wrap" id="recentSection">
         <h2 class="section-title">Continue Watching</h2>
@@ -596,6 +651,7 @@
             let SECTIONS = CATEGORIES.home;
             let watchlist=[], recent=[], heroMovies=[], heroIdx=0, heroTimer;
             let loadingSec = new Set(), endedSec = new Set();
+            let bg1Active = true;
             
             let seenNotifIds = new Set();
             let lastNotifFetch = 0;
@@ -785,61 +841,68 @@
             modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
             document.addEventListener('keydown', (e) => { if(e.key === 'Escape') { closeModal(); closeSearchModal(); closeNotifPanel(); } });
 
-            // 3D CINEMATIC HERO LOGIC
-            function buildHero(movies, type = 'movie'){
+            // CINEMATIC HERO LOGIC WITH BLURRED BG
+            function updateHeroBackground(movie) {
+                const bg1 = document.getElementById('heroBg1');
+                const bg2 = document.getElementById('heroBg2');
+                const url = movie.backdrop_path ? TMDB_BACK + movie.backdrop_path : '';
+                if (bg1Active) {
+                    bg2.style.backgroundImage = `url('${url}')`;
+                    bg2.classList.add('active');
+                    bg1.classList.remove('active');
+                } else {
+                    bg1.style.backgroundImage = `url('${url}')`;
+                    bg1.classList.add('active');
+                    bg2.classList.remove('active');
+                }
+                bg1Active = !bg1Active;
+            }
+
+            async function buildHero(movies, type = 'movie'){
                 heroMovies = movies.filter(m=>m.backdrop_path).slice(0,5);
-                const heroEl=document.getElementById('hero');
-                heroEl.innerHTML = `
-                    <button class="hero-3d-nav prev" id="heroPrev"><i class="fas fa-chevron-left"></i></button>
-                    <div class="hero-3d-track" id="heroTrack"></div>
-                    <button class="hero-3d-nav next" id="heroNext"><i class="fas fa-chevron-right"></i></button>
-                `;
+                const track = document.getElementById('heroTrack');
+                track.innerHTML = '';
                 
                 if(heroMovies.length === 0) {
-                    heroEl.innerHTML = '<div style="color:#888;">No Featured</div>';
+                    track.innerHTML = '<div style="color:#888; text-align:center; width:100%;">No Featured Movies</div>';
                     return;
                 }
 
-                const track = document.getElementById('heroTrack');
-                
                 heroMovies.forEach(async (m, i) => {
-                    const item = document.createElement('div');
-                    item.className = 'hero-3d-item';
-                    item.dataset.idx = i;
+                    const card = document.createElement('div');
+                    card.className = 'hero-card';
+                    card.dataset.idx = i;
                     
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
                     const overview = m.overview ? (m.overview.length > 150 ? m.overview.substring(0, 150) + '...' : m.overview) : 'No description available.';
                     
-                    item.innerHTML = `
-                        <img src="${TMDB_BACK+m.backdrop_path}" class="hero-3d-bg" alt="${title}">
-                        <div class="hero-3d-overlay">
-                            <div class="hero-3d-content">
-                                <div class="hero-3d-label">STREAMFLIX ORIGINAL</div>
-                                <div class="hero-3d-title-container">
-                                    <h2 class="hero-3d-title" data-id="${m.id}">${title}</h2>
-                                </div>
-                                <div class="hero-3d-meta">
-                                    <div class="hero-3d-imdb"><span>IMDb</span> <strong>${rating}</strong></div>
-                                    <span class="hero-3d-year">${year}</span>
-                                </div>
-                                <p class="hero-3d-desc">${overview}</p>
-                                <div class="hero-3d-buttons">
-                                    <button class="hero-3d-play" data-id="${m.id}" data-type="${type}"><i class="fas fa-play"></i> PLAY NOW</button>
-                                    <button class="hero-3d-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle"></i> More Info</button>
-                                </div>
+                    card.innerHTML = `
+                        <img src="${TMDB_BACK+m.backdrop_path}" class="hero-card-bg" alt="${title}">
+                        <div class="hero-card-overlay">
+                            <div class="hero-card-label">STREAMFLIX ORIGINAL</div>
+                            <div class="hero-card-title-container">
+                                <h2 class="hero-card-title" data-id="${m.id}">${title}</h2>
+                            </div>
+                            <div class="hero-card-meta">
+                                <div class="hero-card-imdb"><span>IMDb</span> <strong>${rating}</strong></div>
+                                <span class="hero-card-year">${year}</span>
+                            </div>
+                            <p class="hero-card-desc">${overview}</p>
+                            <div class="hero-card-buttons">
+                                <button class="hero-play-btn" data-id="${m.id}" data-type="${type}"><i class="fas fa-play"></i> PLAY NOW</button>
+                                <button class="hero-info-btn" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle"></i> More Info</button>
                             </div>
                         </div>
                     `;
                     
-                    item.addEventListener('click', (e) => {
+                    card.addEventListener('click', (e) => {
                         if (e.target.closest('button')) return;
-                        if (item.classList.contains('prev')) rotateHero(-1);
-                        else if (item.classList.contains('next')) rotateHero(1);
+                        if (i !== heroIdx) goHero(i);
                     });
                     
-                    track.appendChild(item);
+                    track.appendChild(card);
                     
                     // Fetch logo
                     try {
@@ -847,10 +910,10 @@
                         const data = await tmdbFetch(endpoint);
                         const logos = data.images && data.images.logos ? data.images.logos.filter(l => l.iso_639_1 === 'en' && l.file_path) : [];
                         if (logos.length > 0) {
-                            const titleEl = item.querySelector('.hero-3d-title');
+                            const titleEl = card.querySelector('.hero-card-title');
                             if (titleEl) {
                                 const logoImg = document.createElement('img');
-                                logoImg.className = 'hero-3d-title-logo';
+                                logoImg.className = 'hero-card-title-logo';
                                 logoImg.src = TMDB_LOGO + logos[0].file_path;
                                 logoImg.alt = titleEl.textContent;
                                 logoImg.loading = 'lazy';
@@ -860,46 +923,40 @@
                     } catch(e) {}
                 });
 
-                document.getElementById('heroPrev').addEventListener('click', () => rotateHero(-1));
-                document.getElementById('heroNext').addEventListener('click', () => rotateHero(1));
-                heroEl.querySelectorAll('.hero-3d-play').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); const id=btn.dataset.id, type=btn.dataset.type; const m = heroMovies.find(hm => hm.id == id); const poster = m && m.poster_path ? TMDB_IMG + m.poster_path : ''; const year = m ? (m.release_date||m.first_air_date||'').substring(0,4) : ''; addRecent(id, btn.closest('.hero-3d-item').querySelector('.hero-3d-title')?.textContent || m.title, poster, year, type); window.location.href=`player.html?id=${id}&type=${type}`; }));
-                heroEl.querySelectorAll('.hero-3d-info').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); openMovieModal(btn.dataset.id, btn.dataset.type); }));
+                document.getElementById('heroPrev').addEventListener('click', () => goHero(heroIdx - 1));
+                document.getElementById('heroNext').addEventListener('click', () => goHero(heroIdx + 1));
+                track.querySelectorAll('.hero-play-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); const id=btn.dataset.id, type=btn.dataset.type; const m = heroMovies.find(hm => hm.id == id); const poster = m && m.poster_path ? TMDB_IMG + m.poster_path : ''; const year = m ? (m.release_date||m.first_air_date||'').substring(0,4) : ''; addRecent(id, btn.closest('.hero-card').querySelector('.hero-card-title')?.textContent || m.title, poster, year, type); window.location.href=`player.html?id=${id}&type=${type}`; }));
+                track.querySelectorAll('.hero-info-btn').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); openMovieModal(btn.dataset.id, btn.dataset.type); }));
                 
                 heroIdx = 0;
-                updateHeroClasses();
+                goHero(0);
                 startHeroAuto();
             }
             
-            function updateHeroClasses() {
-                const items = document.querySelectorAll('.hero-3d-item');
+            function goHero(idx) {
+                const items = document.querySelectorAll('.hero-card');
                 if (!items.length) return;
-                if (items.length === 1) {
-                    items[0].classList.add('active');
-                    return;
-                }
+                heroIdx = (idx + items.length) % items.length;
+                
                 items.forEach((item, i) => {
-                    item.classList.remove('active', 'prev', 'next', 'hide');
-                    if (i === heroIdx) {
-                        item.classList.add('active');
-                    } else if (i === (heroIdx - 1 + items.length) % items.length) {
-                        item.classList.add('prev');
-                    } else if (i === (heroIdx + 1) % items.length) {
-                        item.classList.add('next');
-                    } else {
-                        item.classList.add('hide');
-                    }
+                    item.classList.toggle('active', i === heroIdx);
                 });
-            }
 
-            function rotateHero(dir) {
-                const items = document.querySelectorAll('.hero-3d-item');
-                if (!items.length || items.length === 1) return;
-                heroIdx = (heroIdx + dir + items.length) % items.length;
-                updateHeroClasses();
+                const track = document.getElementById('heroTrack');
+                const activeCard = items[heroIdx];
+                if (track && activeCard) {
+                    const trackContainer = track.parentElement;
+                    const containerWidth = trackContainer.offsetWidth;
+                    const cardWidth = activeCard.offsetWidth;
+                    const offset = activeCard.offsetLeft - (containerWidth - cardWidth) / 2;
+                    track.style.transform = `translateX(${-offset}px)`;
+                }
+
+                updateHeroBackground(heroMovies[heroIdx]);
                 startHeroAuto();
             }
             
-            function startHeroAuto(){ if(heroTimer) clearInterval(heroTimer); if(heroMovies.length>1) heroTimer=setInterval(()=>{ rotateHero(1); },8000); }
+            function startHeroAuto(){ if(heroTimer) clearInterval(heroTimer); if(heroMovies.length>1) heroTimer=setInterval(()=>{ goHero(heroIdx + 1); },8000); }
 
             function createSecHTML(cfg){
                 const sec=document.createElement('div'); sec.className='section'; sec.dataset.key=cfg.key; sec.dataset.page='1'; sec.dataset.type=cfg.type;
