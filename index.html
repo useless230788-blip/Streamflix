@@ -111,11 +111,11 @@
         .hero-landscape .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 20s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.05) translateY(0); } to { transform: scale(1.15) translateY(-3%); } }
         .hero-landscape .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.2) 40%, rgba(10,10,10,0.85) 85%, var(--bg) 100%), linear-gradient(90deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.5) 40%, rgba(10,10,10,0) 70%); }
-        .hero-landscape .hero-content { position: absolute; bottom: 20%; left: 50px; z-index: 4; max-width: 580px; }
+        .hero-landscape .hero-content { position: absolute; bottom: 15%; left: 50px; z-index: 4; max-width: 550px; }
         .hero-landscape .hero-label { font-size: 12px; letter-spacing: 6px; font-weight: 700; color: var(--text-muted); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
         .hero-landscape .hero-label::before { content: ''; width: 40px; height: 2px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
         .hero-landscape .hero-title-container { margin-bottom: 20px; min-height: 50px; display: flex; align-items: flex-end; }
-        .hero-landscape .hero-title { font-family: var(--netflix-sans); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 0.95; text-shadow: 2px 4px 20px rgba(0,0,0,0.8); letter-spacing: -2px; margin: 0; }
+        .hero-landscape .hero-title { font-family: var(--netflix-sans); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 0.95; text-shadow: 2px 4px 20px rgba(0,0,0,0.8); letter-spacing: -2px; margin: 0; }
         .hero-landscape .hero-title-logo { max-width: 450px; max-height: 160px; width: auto; height: auto; object-fit: contain; object-position: left bottom; filter: drop-shadow(2px 4px 15px rgba(0,0,0,0.9)); display: block; }
         .hero-landscape .hero-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 24px; font-size: 14px; flex-wrap: wrap; }
         .hero-landscape .hero-meta .match { color: var(--green); font-weight: 700; }
@@ -125,9 +125,9 @@
         .hero-landscape .hero-watch:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.3); }
         .hero-landscape .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
         .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px); }
-        .hero-landscape .hero-dots { position: absolute; bottom: 20%; right: 50px; z-index: 4; display: flex; gap: 6px; }
+        .hero-landscape .hero-dots { position: absolute; bottom: 15%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         
-        /* PORTRAIT CARD HERO (Mobile) - Ref Image Match */
+        /* PORTRAIT CARD HERO (Mobile) */
         .hero-portrait { display: none; padding-top: 90px; padding-bottom: 10px; position: relative; background: var(--bg); }
         .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 10px; scroll-padding-left: 16px; }
         .hero-portrait .hero-track::-webkit-scrollbar { display: none; }
@@ -173,7 +173,6 @@
         .card { flex: 0 0 auto; width: 200px; background: var(--bg-card); border-radius: 8px; position: relative; cursor: pointer; transition: var(--premium-transition); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); }
         .card:hover { transform: scale(1.08) translateY(-8px); z-index: 50; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); }
         .card-thumb { position: relative; width: 100%; padding-top: 150%; background: #111; overflow: hidden; }
-        /* Image Fade-in Fix */
         .card-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease, opacity 0.3s ease; opacity: 0; }
         .card-thumb img.loaded { opacity: 1; }
         .card:hover .card-thumb img.loaded { transform: scale(1.1); }
@@ -290,12 +289,13 @@
 
         .category-view { display: none; padding-top: 90px; padding-bottom: 50px; min-height: 100vh; }
         .cat-view-header { padding: 0 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
-        .cat-view-title { font-family: var(--netflix-sans); font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .cat-view-title { font-family: var(--netflix-sans); font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 5px; }
+        .result-count { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
         .btn-back { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(255,255,255,0.08); color: var(--text); text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; transition: var(--premium-transition); cursor: pointer; border: 1px solid rgba(255,255,255,0.1); font-family: 'Inter', sans-serif; height: fit-content; }
         .btn-back:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.2); transform: translateX(-4px); }
         
         /* FILTER BAR STYLES */
-        .filter-bar { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; margin-bottom: 15px; }
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
         .filter-bar::-webkit-scrollbar { display: none; }
         .filter-select {
             appearance: none; -webkit-appearance: none;
@@ -313,11 +313,22 @@
         .filter-select option { background: #141414; color: #fff; }
         
         .active-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .chip { background: rgba(229,9,20,0.2); color: #fff; border: 1px solid var(--red); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--premium-transition); }
+        .chip { background: rgba(229,9,20,0.2); color: #fff; border: 1px solid var(--red); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--premium-transition); animation: chipPop 0.3s ease; }
+        @keyframes chipPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .chip:hover { background: rgba(229,9,20,0.4); }
         .chip i { font-size: 10px; }
         .clear-filters-btn { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--premium-transition); font-family: 'Inter', sans-serif; }
         .clear-filters-btn:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
+
+        .mobile-filter-btn { display: none; padding: 8px 16px; background: rgba(229,9,20,0.2); color: #fff; border: 1px solid var(--red); border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; align-items: center; gap: 8px; margin-bottom: 15px; }
+        
+        .bottom-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-elevated); border-radius: 20px 20px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); z-index: 1200; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); padding: 20px; max-height: 80vh; overflow-y: auto; }
+        .bottom-sheet.open { transform: translateY(0); }
+        .bottom-sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .bottom-sheet-header h3 { font-size: 1.2rem; font-weight: 700; }
+        .sheet-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+        .sheet-body { display: flex; flex-direction: column; gap: 15px; }
+        .sheet-body .filter-select { width: 100%; padding: 12px 30px 12px 14px; }
 
         .cat-view-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 0 50px; }
         .cat-view-grid .card { width: 100%; flex: none; } 
@@ -325,6 +336,13 @@
         .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; grid-column: 1 / -1; }
         .empty-state i { font-size: 3rem; margin-bottom: 20px; color: var(--text-dim); }
         .empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
+
+        /* SKELETON LOADER */
+        .skeleton-card { width: 100%; background: var(--bg-card); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .skeleton-thumb { width: 100%; padding-top: 150%; background: linear-gradient(90deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        .skeleton-text { height: 12px; margin: 10px; border-radius: 4px; background: linear-gradient(90deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        .skeleton-text.short { width: 50%; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
         .load-more-btn { display: block; margin: 40px auto; padding: 14px 50px; background: var(--red); color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--premium-transition); font-family: 'Inter', sans-serif; box-shadow: 0 8px 20px var(--red-glow); }
         .load-more-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 12px 24px var(--red-glow); }
@@ -367,11 +385,17 @@
             .hero-landscape { display: none; }
             .hero-portrait { display: block; }
             .card { width: 140px; }
+            
+            /* Mobile Filter UI */
+            .desktop-filters { display: none !important; }
+            .mobile-filter-btn { display: inline-flex; }
         }
 
         @media (min-width: 769px) {
             .bottom-nav { display: none; }
             .nav-links { display: flex; }
+            .mobile-filter-btn { display: none; }
+            .bottom-sheet { display: none; }
         }
     </style>
 </head>
@@ -435,7 +459,11 @@
         <div class="cat-view-header">
             <div style="flex:1; width: 100%;">
                 <h1 class="cat-view-title" id="categoryViewTitle">Category</h1>
-                <div class="filter-bar" id="catFilterBar">
+                <div class="result-count" id="resultCount"></div>
+                
+                <button class="mobile-filter-btn" id="openFilterSheet"><i class="fas fa-sliders-h"></i> Filters</button>
+                
+                <div class="filter-bar desktop-filters" id="catFilterBar">
                     <select class="filter-select" id="catSortBy">
                         <option value="popularity.desc">Sort: Popular</option>
                         <option value="vote_average.desc">Sort: Top Rated</option>
@@ -463,12 +491,24 @@
                         <option value="6">6+ Stars</option>
                         <option value="5">5+ Stars</option>
                     </select>
+                    <select class="filter-select" id="catCountry"><option value="">All Countries</option></select>
                 </div>
                 <div class="active-chips" id="catActiveChips"></div>
             </div>
             <button class="btn-back" id="closeCategoryView"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home</button>
         </div>
         <div class="cat-view-grid" id="categoryGrid"></div>
+    </div>
+
+    <!-- Mobile Bottom Sheet for Filters -->
+    <div class="bottom-sheet" id="filterSheet">
+        <div class="bottom-sheet-header">
+            <h3>Filter & Sort</h3>
+            <button class="sheet-close" id="closeFilterSheet">&times;</button>
+        </div>
+        <div class="sheet-body" id="sheetBody">
+            <!-- Cloned selects will go here -->
+        </div>
     </div>
 
     <div class="modal-overlay" id="movieModal" role="dialog" aria-modal="true">
@@ -507,7 +547,8 @@
                     <i class="fas fa-search" aria-hidden="true"></i>
                     <input type="text" id="modalSearchInput" placeholder="Search for movies, TV shows..." autocomplete="off" aria-label="Search query">
                 </div>
-                <div class="filter-bar" id="searchFilterBar">
+                <button class="mobile-filter-btn" id="openSearchFilterSheet" style="margin-bottom: 15px;"><i class="fas fa-sliders-h"></i> Search Filters</button>
+                <div class="filter-bar desktop-filters" id="searchFilterBar">
                     <select class="filter-select" id="searchType">
                         <option value="multi">All</option>
                         <option value="movie">Movies</option>
@@ -551,13 +592,6 @@
         });
 
         (function() {
-            // Image Fade-in Helper
-            document.addEventListener('load', (e) => {
-                if (e.target.tagName === 'IMG' && e.target.classList.contains('card-thumb-img')) {
-                    e.target.classList.add('loaded');
-                }
-            }, true);
-
             const canvas = document.getElementById('starCanvas');
             const ctx = canvas.getContext('2d');
             let stars = [];
@@ -579,7 +613,7 @@
 
             const API_BASE = '/api/tmdb';
             const TMDB_IMG = 'https://image.tmdb.org/t/p/w342'; 
-            const TMDB_BACK = 'https://image.tmdb.org/t/p/w780'; // Optimized size
+            const TMDB_BACK = 'https://image.tmdb.org/t/p/w780'; 
             const TMDB_LOGO = 'https://image.tmdb.org/t/p/w500'; 
             const TMDB_CAST = 'https://image.tmdb.org/t/p/w185';
             const tmdbCache = new Map();
@@ -628,31 +662,28 @@
                 }
             }
 
-            const GENRES = {
-                movie: { 28: 'Action', 12: 'Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 14: 'Fantasy', 36: 'History', 27: 'Horror', 10402: 'Music', 9648: 'Mystery', 10749: 'Romance', 878: 'Sci-Fi', 53: 'Thriller', 10752: 'War', 37: 'Western' },
-                tv: { 10759: 'Action & Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 10762: 'Kids', 9648: 'Mystery', 10763: 'News', 10764: 'Reality', 10765: 'Sci-Fi & Fantasy', 10766: 'Soap', 10767: 'Talk', 10768: 'War & Politics', 37: 'Western' }
-            };
+            // Dynamic Genres & Languages
+            let GENRES = { movie: {}, tv: {} };
             const LANGUAGES = { en: 'English', hi: 'Hindi', ja: 'Japanese', ko: 'Korean', es: 'Spanish', fr: 'French', ta: 'Tamil', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', bn: 'Bengali', zh: 'Chinese', de: 'German', it: 'Italian' };
+            const COUNTRIES = { US: 'United States', IN: 'India', GB: 'United Kingdom', JP: 'Japan', KR: 'South Korea', FR: 'France', DE: 'Germany', CA: 'Canada', AU: 'Australia' };
+
+            async function fetchGenres() {
+                try {
+                    const [movieRes, tvRes] = await Promise.all([tmdbFetch('/genre/movie/list'), tmdbFetch('/genre/tv/list')]);
+                    movieRes.genres.forEach(g => GENRES.movie[g.id] = g.name);
+                    tvRes.genres.forEach(g => GENRES.tv[g.id] = g.name);
+                } catch(e) { console.error("Failed to fetch genres", e); }
+            }
             
-            function populateGenreDropdown(elId, type) {
+            function populateDropdown(elId, dataMap, placeholder) {
                 const sel = document.getElementById(elId);
+                if (!sel) return;
                 const currentVal = sel.value;
-                sel.innerHTML = '<option value="">All Genres</option>';
-                for (const [id, name] of Object.entries(GENRES[type])) {
-                    const opt = document.createElement('option');
-                    opt.value = id; opt.textContent = name;
-                    sel.appendChild(opt);
+                sel.innerHTML = `<option value="">${placeholder}</option>`;
+                for (const [id, name] of Object.entries(dataMap)) {
+                    sel.innerHTML += `<option value="${id}">${name}</option>`;
                 }
                 sel.value = currentVal;
-            }
-            function populateLangDropdown(elId) {
-                const sel = document.getElementById(elId);
-                sel.innerHTML = '<option value="">All Languages</option>';
-                for (const [code, name] of Object.entries(LANGUAGES)) {
-                    const opt = document.createElement('option');
-                    opt.value = code; opt.textContent = name;
-                    sel.appendChild(opt);
-                }
             }
 
             const CATEGORIES = {
@@ -765,6 +796,17 @@
                 card.querySelector('.card-heart').addEventListener('click', e => { e.stopPropagation(); toggleWl(id, title, posterPath, year, type); updateHeart(card, id); });
                 card.querySelector('.play-btn').addEventListener('click', e => { e.stopPropagation(); addRecent(id, title, posterPath, year, type); window.location.href=`player.html?id=${id}&type=${type}`; });
                 updateHeart(card, id);
+                return card;
+            }
+
+            function createSkeleton() {
+                const card = document.createElement('div');
+                card.className = 'skeleton-card';
+                card.innerHTML = `
+                    <div class="skeleton-thumb"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text short"></div>
+                `;
                 return card;
             }
 
@@ -921,6 +963,7 @@
                     if (modal.classList.contains('active')) closeModal();
                     if (searchModal.classList.contains('active')) closeSearchModal();
                     closeNotifPanel();
+                    closeFilterSheet();
                 }
                 if (e.key === 'Tab' && activeModal) {
                     const focusable = activeModal.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
@@ -1186,62 +1229,101 @@
                 if (query) endpoint += `&with_text_query=${encodeURIComponent(query)}`;
                 if (filters.genre) endpoint += `&with_genres=${filters.genre}`;
                 if (filters.lang) endpoint += `&with_original_language=${filters.lang}`;
+                if (filters.country) endpoint += `&with_origin_country=${filters.country}`;
                 if (filters.year) {
-                    if (filters.year === '2020-2023') endpoint += `&primary_release_date.gte=2020-01-01&primary_release_date.lte=2023-12-31`;
-                    else if (filters.year === '2010-2019') endpoint += `&primary_release_date.gte=2010-01-01&primary_release_date.lte=2019-12-31`;
-                    else if (filters.year === 'before2010') endpoint += `&primary_release_date.lte=2009-12-31`;
-                    else endpoint += `&primary_release_date.gte=${filters.year}-01-01&primary_release_date.lte=${filters.year}-12-31`;
+                    const dateField = type === 'movie' ? 'primary_release_date' : 'first_air_date';
+                    if (filters.year === '2020-2023') endpoint += `&${dateField}.gte=2020-01-01&${dateField}.lte=2023-12-31`;
+                    else if (filters.year === '2010-2019') endpoint += `&${dateField}.gte=2010-01-01&${dateField}.lte=2019-12-31`;
+                    else if (filters.year === 'before2010') endpoint += `&${dateField}.lte=2009-12-31`;
+                    else endpoint += `&${dateField}.gte=${filters.year}-01-01&${dateField}.lte=${filters.year}-12-31`;
                 }
                 if (filters.rating) endpoint += `&vote_average.gte=${filters.rating}`;
                 return endpoint;
             }
 
-            function renderCatChips() {
-                const chipsContainer = document.getElementById('catActiveChips');
+            function renderChips(containerId, state, type) {
+                const chipsContainer = document.getElementById(containerId);
                 chipsContainer.innerHTML = '';
-                const filters = {
-                    genre: document.getElementById('catGenre').value,
-                    lang: document.getElementById('catLang').value,
-                    year: document.getElementById('catYear').value,
-                    rating: document.getElementById('catRating').value
-                };
                 
                 let activeCount = 0;
-                if (filters.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[catViewType][filters.genre]} <i class="fas fa-times"></i></div>`; }
-                if (filters.lang) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="lang">${LANGUAGES[filters.lang]} <i class="fas fa-times"></i></div>`; }
-                if (filters.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${filters.year} <i class="fas fa-times"></i></div>`; }
-                if (filters.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${filters.rating}+ <i class="fas fa-times"></i></div>`; }
+                if (type !== 'multi' && containerId === 'searchActiveChips') { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="type">${type === 'movie' ? 'Movies' : 'TV'} <i class="fas fa-times"></i></div>`; }
+                if (state.sort && state.sort !== 'popularity.desc') { activeCount++; const sortText = document.getElementById(containerId === 'catActiveChips' ? 'catSortBy' : 'searchSortBy')?.selectedOptions[0]?.text || 'Sort'; chipsContainer.innerHTML += `<div class="chip" data-filter="sort">${sortText} <i class="fas fa-times"></i></div>`; }
+                if (state.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[type === 'tv' ? 'tv' : 'movie'][state.genre]} <i class="fas fa-times"></i></div>`; }
+                if (state.lang) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="lang">${LANGUAGES[state.lang]} <i class="fas fa-times"></i></div>`; }
+                if (state.country) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="country">${COUNTRIES[state.country]} <i class="fas fa-times"></i></div>`; }
+                if (state.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${state.year} <i class="fas fa-times"></i></div>`; }
+                if (state.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${state.rating}+ <i class="fas fa-times"></i></div>`; }
                 
                 if (activeCount > 0) {
-                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearCatFilters">Clear All</button>`;
-                    document.getElementById('clearCatFilters').addEventListener('click', clearCatFilters);
+                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clear${containerId}">Clear All</button>`;
+                    document.getElementById(`clear${containerId}`).addEventListener('click', () => {
+                        clearFilters(containerId === 'catActiveChips' ? 'cat' : 'search');
+                    });
                     chipsContainer.querySelectorAll('.chip').forEach(chip => {
                         chip.addEventListener('click', () => {
                             const filterKey = chip.dataset.filter;
-                            const selectId = 'cat' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1);
-                            document.getElementById(selectId).value = '';
-                            handleCatFilterChange();
+                            const prefix = containerId === 'catActiveChips' ? 'cat' : 'search';
+                            const selectId = prefix + filterKey.charAt(0).toUpperCase() + filterKey.slice(1);
+                            if (filterKey === 'type') document.getElementById('searchType').value = 'multi';
+                            else document.getElementById(selectId).value = '';
+                            handleFilterChange(containerId === 'catActiveChips' ? 'cat' : 'search');
                         });
                     });
                 }
             }
-
-            function clearCatFilters() {
-                document.getElementById('catGenre').value = '';
-                document.getElementById('catLang').value = '';
-                document.getElementById('catYear').value = '';
-                document.getElementById('catRating').value = '';
-                document.getElementById('catSortBy').value = 'popularity.desc';
-                handleCatFilterChange();
+            
+            function clearFilters(scope) {
+                if (scope === 'cat') {
+                    ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.value = id === 'catSortBy' ? 'popularity.desc' : '';
+                    });
+                    handleFilterChange('cat');
+                } else {
+                    ['searchType', 'searchGenre', 'searchYear', 'searchRating'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.value = id === 'searchType' ? 'multi' : '';
+                    });
+                    handleFilterChange('search');
+                    if (modalSearchInput.value.trim().length >= 2) modalSearchInput.dispatchEvent(new Event('input'));
+                }
             }
 
-            function handleCatFilterChange() {
-                renderCatChips();
-                clearTimeout(catDebounceTimer);
-                catDebounceTimer = setTimeout(() => {
-                    catViewPage = 1;
-                    loadCategoryPage();
-                }, 300);
+            function handleFilterChange(scope) {
+                if (scope === 'cat') {
+                    renderCatChips();
+                    clearTimeout(catDebounceTimer);
+                    catDebounceTimer = setTimeout(() => { catViewPage = 1; loadCategoryPage(); }, 300);
+                } else {
+                    renderSearchChips();
+                    if (modalSearchInput.value.trim().length >= 2) {
+                        clearTimeout(searchDebounceTimer);
+                        searchDebounceTimer = setTimeout(() => { modalSearchInput.dispatchEvent(new Event('input')); }, 300);
+                    }
+                }
+            }
+
+            function getFilterState(scope) {
+                const prefix = scope === 'cat' ? 'cat' : 'search';
+                return {
+                    sort: document.getElementById(prefix + 'SortBy')?.value || 'popularity.desc',
+                    genre: document.getElementById(prefix + 'Genre')?.value || '',
+                    lang: document.getElementById(prefix + 'Lang')?.value || '',
+                    year: document.getElementById(prefix + 'Year')?.value || '',
+                    rating: document.getElementById(prefix + 'Rating')?.value || '',
+                    country: document.getElementById(prefix + 'Country')?.value || ''
+                };
+            }
+
+            function renderCatChips() {
+                const state = getFilterState('cat');
+                renderChips('catActiveChips', state, catViewType);
+            }
+
+            function renderSearchChips() {
+                const type = document.getElementById('searchType').value;
+                const state = getFilterState('search');
+                renderChips('searchActiveChips', state, type === 'multi' ? 'movie' : type);
             }
 
             async function showCategoryView(cfg) {
@@ -1250,15 +1332,17 @@
                 document.getElementById('sectionsContainer').style.display = 'none';
                 document.getElementById('categoryView').style.display = 'block';
                 document.getElementById('categoryViewTitle').textContent = cfg.title;
+                document.getElementById('resultCount').textContent = '';
                 
                 catViewCfg = cfg;
                 catViewType = cfg.type;
                 catViewPage = 1;
                 
-                populateGenreDropdown('catGenre', catViewType);
-                populateLangDropdown('catLang');
-                clearCatFilters(); // This will trigger initial load
-                
+                populateDropdown('catGenre', GENRES[catViewType], 'All Genres');
+                populateDropdown('catLang', LANGUAGES, 'All Languages');
+                populateDropdown('catCountry', COUNTRIES, 'All Countries');
+                clearFilters('cat');
+
                 const grid = document.getElementById('categoryGrid');
                 grid.innerHTML = '';
                 const oldBtn = document.getElementById('loadMoreBtn');
@@ -1268,31 +1352,28 @@
             async function loadCategoryPage() {
                 const grid = document.getElementById('categoryGrid');
                 let loadMoreBtn = document.getElementById('loadMoreBtn');
-                
-                const filters = {
-                    sort: document.getElementById('catSortBy').value,
-                    genre: document.getElementById('catGenre').value,
-                    lang: document.getElementById('catLang').value,
-                    year: document.getElementById('catYear').value,
-                    rating: document.getElementById('catRating').value
-                };
+                const state = getFilterState('cat');
 
                 if (catViewPage === 1) {
-                    grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+                    grid.innerHTML = '';
+                    for(let i=0; i<18; i++) grid.appendChild(createSkeleton());
                 } else if (loadMoreBtn) {
                     loadMoreBtn.textContent = 'Loading more...';
                     loadMoreBtn.disabled = true;
                 }
 
                 try {
-                    const endpoint = buildDiscoverUrl(catViewType, catViewPage, filters);
+                    const endpoint = buildDiscoverUrl(catViewType, catViewPage, state);
                     const data = await tmdbFetch(endpoint);
                     const results = (data.results || []).filter(m => m.poster_path);
                     
-                    if (catViewPage === 1) grid.innerHTML = '';
+                    if (catViewPage === 1) {
+                        grid.innerHTML = '';
+                        document.getElementById('resultCount').textContent = `${data.total_results || 0} Movies Found`;
+                    }
 
                     if (results.length === 0 && catViewPage === 1) {
-                        grid.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><h3>No movies found</h3><p>Try adjusting your filters.</p><br><button class="clear-filters-btn" onclick="clearCatFilters()">Clear Filters</button></div>`;
+                        grid.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><h3>No movies found</h3><p>Try adjusting your filters.</p><br><button class="clear-filters-btn" onclick="clearFilters('cat')">Clear Filters</button></div>`;
                         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
                         return;
                     }
@@ -1321,9 +1402,8 @@
                 }
             }
 
-            // Bind Category Filter Events
-            ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating'].forEach(id => {
-                document.getElementById(id).addEventListener('change', handleCatFilterChange);
+            ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'].forEach(id => {
+                document.getElementById(id).addEventListener('change', () => handleFilterChange('cat'));
             });
 
             function closeCategoryView() {
@@ -1337,6 +1417,30 @@
                 if (recent.length > 0) document.getElementById('recentSection').style.display = 'block';
             }
             document.getElementById('closeCategoryView').addEventListener('click', closeCategoryView);
+
+            // Mobile Filter Sheet Logic
+            function openFilterSheet() {
+                const sheet = document.getElementById('filterSheet');
+                const sheetBody = document.getElementById('sheetBody');
+                sheetBody.innerHTML = '';
+                const filters = ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'];
+                filters.forEach(id => {
+                    const original = document.getElementById(id);
+                    if (original) {
+                        const clone = original.cloneNode(true);
+                        clone.id = id + '_clone';
+                        clone.addEventListener('change', () => {
+                            original.value = clone.value;
+                            handleFilterChange('cat');
+                        });
+                        sheetBody.appendChild(clone);
+                    }
+                });
+                sheet.classList.add('open');
+            }
+            function closeFilterSheet() { document.getElementById('filterSheet').classList.remove('open'); }
+            document.getElementById('openFilterSheet').addEventListener('click', openFilterSheet);
+            document.getElementById('closeFilterSheet').addEventListener('click', closeFilterSheet);
 
             function renderMyListSection() {
                 const container = document.getElementById('sectionsContainer');
@@ -1386,58 +1490,31 @@
             let searchTimeout;
             let searchDebounceTimer;
 
-            function renderSearchChips() {
-                const chipsContainer = document.getElementById('searchActiveChips');
-                chipsContainer.innerHTML = '';
-                const type = document.getElementById('searchType').value;
-                const genre = document.getElementById('searchGenre').value;
-                const year = document.getElementById('searchYear').value;
-                const rating = document.getElementById('searchRating').value;
-                
-                let activeCount = 0;
-                if (type !== 'multi') { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="type">${type === 'movie' ? 'Movies' : 'TV'} <i class="fas fa-times"></i></div>`; }
-                if (genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[type === 'tv' ? 'tv' : 'movie'][genre]} <i class="fas fa-times"></i></div>`; }
-                if (year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${year} <i class="fas fa-times"></i></div>`; }
-                if (rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${rating}+ <i class="fas fa-times"></i></div>`; }
-                
-                if (activeCount > 0) {
-                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearSearchFilters">Clear All</button>`;
-                    document.getElementById('clearSearchFilters').addEventListener('click', clearSearchFilters);
-                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
-                        chip.addEventListener('click', () => {
-                            const filterKey = chip.dataset.filter;
-                            if (filterKey === 'type') document.getElementById('searchType').value = 'multi';
-                            else document.getElementById('search' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1)).value = '';
-                            handleSearchFilterChange();
+            function openSearchFilterSheet() {
+                const sheet = document.getElementById('filterSheet');
+                const sheetBody = document.getElementById('sheetBody');
+                sheetBody.innerHTML = '';
+                const filters = ['searchType', 'searchGenre', 'searchYear', 'searchRating'];
+                filters.forEach(id => {
+                    const original = document.getElementById(id);
+                    if (original) {
+                        const clone = original.cloneNode(true);
+                        clone.id = id + '_clone';
+                        clone.addEventListener('change', () => {
+                            original.value = clone.value;
+                            handleFilterChange('search');
                         });
-                    });
-                }
+                        sheetBody.appendChild(clone);
+                    }
+                });
+                sheet.classList.add('open');
             }
-
-            function clearSearchFilters() {
-                document.getElementById('searchType').value = 'multi';
-                document.getElementById('searchGenre').value = '';
-                document.getElementById('searchYear').value = '';
-                document.getElementById('searchRating').value = '';
-                handleSearchFilterChange();
-            }
-
-            function handleSearchFilterChange() {
-                const type = document.getElementById('searchType').value;
-                populateGenreDropdown('searchGenre', type === 'multi' ? 'movie' : type);
-                renderSearchChips();
-                if (modalSearchInput.value.trim().length >= 2) {
-                    clearTimeout(searchDebounceTimer);
-                    searchDebounceTimer = setTimeout(() => {
-                        modalSearchInput.dispatchEvent(new Event('input'));
-                    }, 300);
-                }
-            }
+            document.getElementById('openSearchFilterSheet').addEventListener('click', openSearchFilterSheet);
 
             document.getElementById('searchIconBtn').addEventListener('click', () => {
                 closeNotifPanel();
                 openModalUI(searchModal);
-                populateGenreDropdown('searchGenre', 'movie');
+                populateDropdown('searchGenre', GENRES.movie, 'All Genres');
                 setTimeout(() => modalSearchInput.focus(), 100);
             });
 
@@ -1445,7 +1522,7 @@
             searchModal.addEventListener('click', (e) => { if(e.target === searchModal) closeSearchModal(); });
 
             ['searchType', 'searchGenre', 'searchYear', 'searchRating'].forEach(id => {
-                document.getElementById(id).addEventListener('change', handleSearchFilterChange);
+                document.getElementById(id).addEventListener('change', () => handleFilterChange('search'));
             });
 
             modalSearchInput.addEventListener('input', function() {
@@ -1453,32 +1530,25 @@
                 const q = this.value.trim();
                 if (q.length < 2) { searchResultsGrid.innerHTML = ''; return; }
                 
-                searchResultsGrid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 30px;"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+                searchResultsGrid.innerHTML = '';
+                for(let i=0; i<6; i++) searchResultsGrid.appendChild(createSkeleton());
                 
                 searchTimeout = setTimeout(async () => {
                     try {
                         const type = document.getElementById('searchType').value;
-                        const genre = document.getElementById('searchGenre').value;
-                        const year = document.getElementById('searchYear').value;
-                        const rating = document.getElementById('searchRating').value;
+                        const state = getFilterState('search');
+                        
+                        const discoverType = type === 'multi' ? 'movie' : type;
+                        const hasFilters = state.genre || state.year || state.rating;
                         
                         let items = [];
                         
-                        // If filters are active, use /discover with text query
-                        if (genre || year || rating || type !== 'multi') {
-                            const discoverType = type === 'multi' ? 'movie' : type;
-                            const filters = {
-                                sort: 'popularity.desc',
-                                genre: genre,
-                                year: year,
-                                rating: rating
-                            };
-                            const endpoint = buildDiscoverUrl(discoverType, 1, filters, q);
+                        if (hasFilters || type !== 'multi') {
+                            const endpoint = buildDiscoverUrl(discoverType, 1, state, q);
                             const data = await tmdbFetch(endpoint);
                             items = (data.results || []).filter(r => r.poster_path).slice(0, 18);
                             items.forEach(item => item.media_type = discoverType);
                         } else {
-                            // Standard search
                             const data = await tmdbFetch(`/search/multi?query=` + encodeURIComponent(q));
                             items = (data.results || []).filter(r => ['movie','tv'].includes(r.media_type) && r.poster_path).slice(0, 18);
                         }
@@ -1606,6 +1676,7 @@
                 try {
                     loadStorage(); 
                     renderRecent();
+                    await fetchGenres();
                     await initSections();
                     const thirtyMins = 30 * 60 * 1000;
                     if (Date.now() - lastNotifFetch > thirtyMins) { refreshNotifications(); } 
