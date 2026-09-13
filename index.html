@@ -51,7 +51,7 @@
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 20px var(--red-glow); user-select: none; transition: transform 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); }
         
-        /* INDIVIDUAL PILL STYLE CATEGORY BAR */
+        /* INDIVIDUAL PILL STYLE CATEGORY BAR (TEXT ONLY) */
         .nav-links { display: flex; gap: 8px; font-size: 13px; font-weight: 500; align-items: center; }
         .nav-links a {
             color: var(--text-muted);
@@ -64,18 +64,13 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             transition: var(--premium-transition);
             white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             letter-spacing: 0.3px;
         }
-        .nav-links a i { font-size: 0.85rem; opacity: 0.8; }
         .nav-links a:hover {
             color: #fff;
             background: rgba(255,255,255,0.16);
             border-color: rgba(255,255,255,0.2);
         }
-        .nav-links a:hover i { opacity: 1; }
         .nav-links a.active {
             color: #fff;
             font-weight: 700;
@@ -83,7 +78,6 @@
             border-color: rgba(0,0,0,0.2);
             box-shadow: 0 4px 15px var(--red-glow), inset 0 1px 0 rgba(255,255,255,0.25);
         }
-        .nav-links a.active i { opacity: 1; }
         
         .nav-right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
         .nav-credits { display: flex; flex-direction: column; align-items: flex-end; font-size: 0.7rem; line-height: 1.2; color: var(--text-muted); border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px; }
@@ -138,7 +132,7 @@
         .hero-landscape .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 20s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.05) translateY(0); } to { transform: scale(1.15) translateY(-3%); } }
         .hero-landscape .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.2) 40%, rgba(10,10,10,0.85) 85%, var(--bg) 100%), linear-gradient(90deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.5) 40%, rgba(10,10,10,0) 70%); }
-        .hero-landscape .hero-content { position: absolute; bottom: 35%; left: 50px; z-index: 4; max-width: 580px; }
+        .hero-landscape .hero-content { position: absolute; bottom: 20%; left: 50px; z-index: 4; max-width: 580px; }
         .hero-landscape .hero-label { font-size: 12px; letter-spacing: 6px; font-weight: 700; color: var(--text-muted); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
         .hero-landscape .hero-label::before { content: ''; width: 40px; height: 2px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
         .hero-landscape .hero-title-container { margin-bottom: 20px; min-height: 50px; display: flex; align-items: flex-end; }
@@ -152,7 +146,7 @@
         .hero-landscape .hero-watch:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.3); }
         .hero-landscape .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
         .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px); }
-        .hero-landscape .hero-dots { position: absolute; bottom: 35%; right: 50px; z-index: 4; display: flex; gap: 6px; }
+        .hero-landscape .hero-dots { position: absolute; bottom: 20%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         
         /* PORTRAIT VERTICAL HERO (Mobile) */
         .hero-portrait { display: none; padding-top: 100px; margin-bottom: -40px; position: relative; }
@@ -356,6 +350,9 @@
             body { padding-bottom: 90px; } 
             .back-to-top { bottom: 90px; } 
             #movieModal, #searchModal { padding-bottom: 90px; }
+            .nav { justify-content: space-between; padding: 12px 16px; }
+            .nav-logo { font-size: 1.4rem; margin: 0; }
+            .nav-right { gap: 10px; margin-left: 0; }
 
             /* SWITCH HEROES ON MOBILE */
             .hero-landscape { display: none; }
@@ -380,34 +377,34 @@
     <nav class="nav" id="mainNav">
         <div class="nav-logo">Streamflix</div>
         <div class="nav-links" id="navLinks">
-            <a class="active" data-cat="home"><i class="fas fa-clapperboard"></i> Home</a>
-            <a data-cat="tv"><i class="fas fa-tv"></i> TV Shows</a>
-            <a data-cat="movies"><i class="fas fa-film"></i> Movies</a>
-            <a data-cat="new"><i class="fas fa-fire"></i> New & Popular</a>
-            <a data-cat="mylist"><i class="fas fa-bookmark"></i> My List</a>
+            <a class="active" data-cat="home">Home</a>
+            <a data-cat="tv">TV Shows</a>
+            <a data-cat="movies">Movies</a>
+            <a data-cat="new">New & Popular</a>
+            <a data-cat="mylist">My List</a>
         </div>
         <div class="nav-right">
             <div class="nav-credits"><div>Developed by <span class="dev">Deepanshu yadav</span></div></div>
-            <button class="search-icon-btn" id="searchIconBtn"><i class="fas fa-search"></i></button>
-            <button class="watchlist-btn-nav" id="watchlistBtnNav">
-                <i class="fas fa-bell"></i>
+            <button class="search-icon-btn" id="searchIconBtn" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></button>
+            <button class="watchlist-btn-nav" id="watchlistBtnNav" aria-label="Notifications">
+                <i class="fas fa-bell" aria-hidden="true"></i>
                 <span class="notif-badge" id="notifBadge">0</span>
             </button>
-            <div class="profile-avatar">D</div>
+            <div class="profile-avatar" role="button" aria-label="Profile" tabindex="0">D</div>
         </div>
     </nav>
 
     <nav class="bottom-nav" id="bottomNav">
-        <a class="active" data-cat="home"><i class="fas fa-clapperboard"></i><span>Home</span></a>
-        <a data-cat="tv"><i class="fas fa-tv"></i><span>TV</span></a>
-        <a data-cat="movies"><i class="fas fa-film"></i><span>Movies</span></a>
-        <a data-cat="new"><i class="fas fa-fire"></i><span>New</span></a>
-        <a data-cat="mylist"><i class="fas fa-bookmark"></i><span>My List</span></a>
+        <a class="active" data-cat="home"><i class="fas fa-clapperboard" aria-hidden="true"></i><span>Home</span></a>
+        <a data-cat="tv"><i class="fas fa-tv" aria-hidden="true"></i><span>TV</span></a>
+        <a data-cat="movies"><i class="fas fa-film" aria-hidden="true"></i><span>Movies</span></a>
+        <a data-cat="new"><i class="fas fa-fire" aria-hidden="true"></i><span>New</span></a>
+        <a data-cat="mylist"><i class="fas fa-bookmark" aria-hidden="true"></i><span>My List</span></a>
     </nav>
 
     <div class="notif-panel" id="notifPanel">
         <div class="notif-header">
-            <h3><i class="fas fa-bell"></i> New Releases</h3>
+            <h3><i class="fas fa-bell" aria-hidden="true"></i> New Releases</h3>
             <button class="notif-mark-read" id="markAllRead">Mark all read</button>
         </div>
         <div class="notif-body" id="notifBody"></div>
@@ -427,19 +424,19 @@
     <div class="category-view" id="categoryView">
         <div class="cat-view-header">
             <h1 class="cat-view-title" id="categoryViewTitle">Category</h1>
-            <button class="btn-back" id="closeCategoryView"><i class="fas fa-arrow-left"></i> Back to Home</button>
+            <button class="btn-back" id="closeCategoryView"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home</button>
         </div>
         <div class="cat-view-grid" id="categoryGrid"></div>
     </div>
 
-    <div class="modal-overlay" id="movieModal">
+    <div class="modal-overlay" id="movieModal" role="dialog" aria-modal="true">
         <div class="modal-content">
-            <button class="modal-close" id="modalClose">&times;</button>
+            <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
             <div class="modal-hero">
                 <img id="modalBackdrop" src="" alt="">
                 <div class="modal-hero-content">
                     <h2 class="modal-title" id="modalTitle"></h2>
-                    <button class="modal-play-btn" id="modalPlayBtn"><i class="fas fa-play"></i> Play</button>
+                    <button class="modal-play-btn" id="modalPlayBtn"><i class="fas fa-play" aria-hidden="true"></i> Play</button>
                 </div>
             </div>
             <div class="modal-body">
@@ -460,20 +457,20 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="searchModal">
+    <div class="modal-overlay" id="searchModal" role="dialog" aria-modal="true">
         <div class="modal-content">
-            <button class="modal-close" id="searchModalClose">&times;</button>
+            <button class="modal-close" id="searchModalClose" aria-label="Close">&times;</button>
             <div class="search-modal-body">
                 <div class="search-input-wrapper">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="modalSearchInput" placeholder="Search for movies, TV shows..." autocomplete="off">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="modalSearchInput" placeholder="Search for movies, TV shows..." autocomplete="off" aria-label="Search query">
                 </div>
                 <div class="search-results-grid" id="searchResultsGrid"></div>
             </div>
         </div>
     </div>
 
-    <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 
     <footer>
         <p class="text-gray-600 text-xs">© 2024 Streamflix, Inc. — Infinite Cinema. All movie data provided by TMDB.</p>
@@ -530,14 +527,37 @@
                 }
             }
 
+            // Caching mechanism for API calls
             async function tmdbFetch(endpoint) {
+                const cacheKey = `tmdb_${endpoint}`;
+                
+                // 1. Check in-memory cache
                 if (tmdbCache.has(endpoint)) return tmdbCache.get(endpoint);
+                
+                // 2. Check localStorage cache (1 hour TTL)
+                try {
+                    const localCached = localStorage.getItem(cacheKey);
+                    if (localCached) {
+                        const { data, ts } = JSON.parse(localCached);
+                        if (Date.now() - ts < 3600000) { 
+                            tmdbCache.set(endpoint, data);
+                            return data;
+                        }
+                    }
+                } catch(e) {}
+
                 const url = `${API_BASE}?endpoint=${encodeURIComponent(endpoint)}`;
                 try {
                     const res = await fetchWithRetry(url);
                     if (!res.ok) { console.error(`API Error (${res.status}) for ${endpoint}`); throw new Error(`API fail: ${res.status}`); }
                     const data = await res.json();
                     tmdbCache.set(endpoint, data);
+                    
+                    // Save to localStorage
+                    try {
+                        localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() }));
+                    } catch(e) { /* LocalStorage might be full, ignore */ }
+                    
                     return data;
                 } catch (error) {
                     console.error(`Failed to fetch ${endpoint}:`, error);
@@ -603,6 +623,10 @@
             let lastNotifFetch = 0;
             let cachedNotifMovies = [];
 
+            // Focus trapping variables
+            let activeModal = null;
+            let lastFocusedElement = null;
+
             function loadStorage() {
                 try { 
                     watchlist=JSON.parse(localStorage.shoeb_wl||'[]'); 
@@ -635,16 +659,16 @@
                         <img src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onerror="this.style.background='#222';">
                         <div class="card-overlay">
                             <div class="card-buttons">
-                                <button class="circle-btn play-btn"><i class="fas fa-play"></i></button>
-                                <button class="circle-btn card-heart"><i class="far fa-heart"></i></button>
-                                <button class="circle-btn"><i class="fas fa-chevron-down"></i></button>
+                                <button class="circle-btn play-btn" aria-label="Play ${esc(title)}"><i class="fas fa-play" aria-hidden="true"></i></button>
+                                <button class="circle-btn card-heart" aria-label="Add to list"><i class="far fa-heart" aria-hidden="true"></i></button>
+                                <button class="circle-btn" aria-label="More info"><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="card-text">
                         <div class="card-title">${esc(title)}</div>
                         <div class="card-meta">
-                            <span class="match"><i class="fas fa-star"></i> ${rating}</span>
+                            <span class="match"><i class="fas fa-star" aria-hidden="true"></i> ${rating}</span>
                             <span>${year}</span>
                         </div>
                     </div>
@@ -666,7 +690,7 @@
                 card.className='top10-card'; 
                 card.dataset.id=id; card.dataset.type=type;
                 card.innerHTML = `
-                    <div class="top10-rank">${rank}</div>
+                    <div class="top10-rank" aria-hidden="true">${rank}</div>
                     <div class="top10-poster">
                         <img src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onerror="this.style.background='#222';">
                     </div>
@@ -703,7 +727,7 @@
                 const grid=document.getElementById('recentGrid'); grid.innerHTML='';
                 recent.forEach(r=>{
                     const c=document.createElement('div'); c.className='card';
-                    c.innerHTML=`<div class="card-thumb"><img src="${r.poster}" loading="lazy" decoding="async" alt="${esc(r.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn"><i class="fas fa-play"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(r.title)}</div><div class="card-meta"><span class="match">Recently Watched</span> <span>${r.year}</span></div></div>`;
+                    c.innerHTML=`<div class="card-thumb"><img src="${r.poster}" loading="lazy" decoding="async" alt="${esc(r.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(r.title)}"><i class="fas fa-play" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(r.title)}</div><div class="card-meta"><span class="match">Recently Watched</span> <span>${r.year}</span></div></div>`;
                     c.addEventListener('click', () => openMovieModal(r.id, r.type));
                     c.querySelector('.play-btn').addEventListener('click', e => { e.stopPropagation(); addRecent(r.id, r.title, r.poster, r.year, r.type); window.location.href=`player.html?id=${r.id}&type=${r.type}`; });
                     grid.appendChild(c);
@@ -715,14 +739,33 @@
             const modalPlayBtn = document.getElementById('modalPlayBtn');
             const searchModal = document.getElementById('searchModal');
 
+            function openModalUI(modalEl) {
+                lastFocusedElement = document.activeElement;
+                modalEl.classList.add('active');
+                activeModal = modalEl;
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    const focusable = modalEl.querySelector('button, [href], input');
+                    if (focusable) focusable.focus();
+                }, 100);
+            }
+
+            function closeModalUI(modalEl) {
+                modalEl.classList.remove('active');
+                if (!modal.classList.contains('active') && !searchModal.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+                activeModal = null;
+                if (lastFocusedElement) lastFocusedElement.focus();
+            }
+
             async function openMovieModal(id, type) {
                 if (searchModal.classList.contains('active')) {
-                    closeSearchModal();
+                    closeModalUI(searchModal);
                     await new Promise(r => setTimeout(r, 150));
                 }
                 
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                openModalUI(modal);
                 document.getElementById('modalBackdrop').src = '';
                 document.getElementById('modalTitle').textContent = 'Loading...';
                 document.getElementById('modalDesc').textContent = '';
@@ -744,6 +787,7 @@
                     const genres = data.genres ? data.genres.map(g => g.name).join(', ') : 'N/A';
                     
                     document.getElementById('modalBackdrop').src = backdrop;
+                    document.getElementById('modalBackdrop').alt = title;
                     document.getElementById('modalTitle').textContent = title;
                     document.getElementById('modalDesc').textContent = data.overview || 'No description available.';
                     document.getElementById('modalMeta').innerHTML = `<span class="match" style="color: var(--green); font-weight: 700;">${match}% Match</span><span>${year}</span><span class="maturity-badge">${rating}</span><span>${runtime} min</span>`;
@@ -783,10 +827,38 @@
                 }
             }
 
-            function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+            function closeModal() { closeModalUI(modal); }
             modalClose.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-            document.addEventListener('keydown', (e) => { if(e.key === 'Escape') { closeModal(); closeSearchModal(); closeNotifPanel(); } });
+            
+            function closeSearchModal() { closeModalUI(searchModal); modalSearchInput.value = ''; searchResultsGrid.innerHTML = ''; }
+
+            // Global keydown for Escape and Focus Trapping
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape') { 
+                    if (modal.classList.contains('active')) closeModal();
+                    if (searchModal.classList.contains('active')) closeSearchModal();
+                    closeNotifPanel();
+                }
+                if (e.key === 'Tab' && activeModal) {
+                    const focusable = activeModal.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+                    if (focusable.length === 0) return;
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+                    
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+            });
 
             function buildHero(movies, type = 'movie'){
                 currentHeroGen++; // Invalidate any previous async hero logo loads
@@ -830,14 +902,15 @@
                             <div class="hero-title-container"><h1 class="hero-title" data-movie-id="${m.id}">${title}</h1></div>
                             <div class="hero-meta"><span class="match">${match}% Match</span><span>${year}</span><span class="maturity-badge">${rating}</span><span class="maturity-badge">HD</span></div>
                             <div class="hero-buttons">
-                                <button class="hero-watch" data-id="${m.id}" data-type="${type}"><i class="fas fa-play"></i> Play</button>
-                                <button class="hero-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle"></i> More Info</button>
+                                <button class="hero-watch" data-id="${m.id}" data-type="${type}"><i class="fas fa-play" aria-hidden="true"></i> Play</button>
+                                <button class="hero-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle" aria-hidden="true"></i> More Info</button>
                             </div>
                         </div>
                     `;
                     heroL.appendChild(slideL);
                     const dotL = document.createElement('button'); 
                     dotL.className = 'hero-dot' + (i===0 ? ' active':''); 
+                    dotL.setAttribute('aria-label', `Go to slide ${i+1}`);
                     dotL.addEventListener('click', () => goHero(i)); 
                     dotsL.appendChild(dotL);
                     
@@ -857,14 +930,15 @@
                                 <span class="maturity-badge">HD</span>
                             </div>
                             <div class="hero-buttons">
-                                <button class="hero-watch" data-id="${m.id}" data-type="${type}"><i class="fas fa-play"></i> Play</button>
-                                <button class="hero-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle"></i> More Info</button>
+                                <button class="hero-watch" data-id="${m.id}" data-type="${type}"><i class="fas fa-play" aria-hidden="true"></i> Play</button>
+                                <button class="hero-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle" aria-hidden="true"></i> More Info</button>
                             </div>
                         </div>
                     `;
                     trackP.appendChild(slideP);
                     const dotP = document.createElement('button'); 
                     dotP.className = 'hero-dot' + (i===0 ? ' active':''); 
+                    dotP.setAttribute('aria-label', `Go to slide ${i+1}`);
                     dotP.addEventListener('click', () => goHero(i)); 
                     dotsP.appendChild(dotP);
                 });
@@ -900,9 +974,13 @@
                 }, { threshold: [0.6], root: trackP });
                 document.querySelectorAll('#heroTrackPortrait .hero-slide').forEach(s => observer.observe(s));
 
-                // Pause on hover for portrait track
+                // Pause on hover for Portrait
                 trackP.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
                 trackP.addEventListener('mouseleave', startHeroAuto);
+                
+                // Pause on hover for Landscape
+                heroL.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
+                heroL.addEventListener('mouseleave', startHeroAuto);
 
                 heroIdx = 0; 
                 startHeroAuto();
@@ -986,7 +1064,7 @@
 
             function createSecHTML(cfg){
                 const sec=document.createElement('div'); sec.className='section'; sec.dataset.key=cfg.key; sec.dataset.page='1'; sec.dataset.type=cfg.type;
-                sec.innerHTML=`<h2 class="section-title">${cfg.title} <i class="fas fa-chevron-right explore-icon"></i></h2><div class="row-scroll-area"><button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button><div class="row-track" id="grid-${cfg.key}"></div><button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button></div><div id="sentinel-${cfg.key}" style="height:1px;"></div>`;
+                sec.innerHTML=`<h2 class="section-title">${cfg.title} <i class="fas fa-chevron-right explore-icon" aria-hidden="true"></i></h2><div class="row-scroll-area"><button class="scroll-btn left" aria-label="Scroll left"><i class="fas fa-chevron-left" aria-hidden="true"></i></button><div class="row-track" id="grid-${cfg.key}"></div><button class="scroll-btn right" aria-label="Scroll right"><i class="fas fa-chevron-right" aria-hidden="true"></i></button></div><div id="sentinel-${cfg.key}" style="height:1px;"></div>`;
                 const leftBtn = sec.querySelector('.scroll-btn.left'); const rightBtn = sec.querySelector('.scroll-btn.right'); const track = sec.querySelector('.row-track');
                 leftBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.85, behavior: 'smooth' })); rightBtn.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * 0.85, behavior: 'smooth' }));
                 sec.querySelector('.section-title').addEventListener('click', () => showCategoryView(cfg));
@@ -1053,10 +1131,8 @@
                 container.innerHTML='';
                 SECTIONS.forEach(c=>container.appendChild(createSecHTML(c)));
                 
-                for (const c of SECTIONS) {
-                    fetchSectionData(c);
-                    await new Promise(r => setTimeout(r, 60));
-                }
+                // Parallelize all fetches for maximum speed
+                await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
             }
 
             let catViewCfg = null;
@@ -1152,7 +1228,7 @@
                 heroWrapper.style.display = 'none'; 
 
                 if (watchlist.length === 0) {
-                    container.innerHTML = `<div style="text-align: center; padding: 100px 20px; color: #888;"><i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 20px; display: block; color: var(--red);"></i><h2 style="font-size: 1.5rem; margin-bottom: 10px;">Your list is empty</h2><p>Add movies and shows to your list to watch them later!</p></div>`;
+                    container.innerHTML = `<div style="text-align: center; padding: 100px 20px; color: #888;"><i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 20px; display: block; color: var(--red);" aria-hidden="true"></i><h2 style="font-size: 1.5rem; margin-bottom: 10px;">Your list is empty</h2><p>Add movies and shows to your list to watch them later!</p></div>`;
                     return;
                 }
 
@@ -1163,7 +1239,7 @@
                 const grid = document.getElementById('grid-mylist');
                 watchlist.forEach(item => {
                     const card = document.createElement('div'); card.className = 'card'; card.dataset.id = item.id; card.dataset.type = item.type;
-                    card.innerHTML = `<div class="card-thumb"><img src="${item.poster}" loading="lazy" decoding="async" alt="${esc(item.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn"><i class="fas fa-play"></i></button><button class="circle-btn card-heart"><i class="fas fa-heart"></i></button><button class="circle-btn"><i class="fas fa-chevron-down"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(item.title)}</div><div class="card-meta"><span class="match">My List</span><span>${item.year || ''}</span></div></div>`;
+                    card.innerHTML = `<div class="card-thumb"><img src="${item.poster}" loading="lazy" decoding="async" alt="${esc(item.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(item.title)}"><i class="fas fa-play" aria-hidden="true"></i></button><button class="circle-btn card-heart" aria-label="Remove from list"><i class="fas fa-heart" aria-hidden="true"></i></button><button class="circle-btn" aria-label="More info"><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(item.title)}</div><div class="card-meta"><span class="match">My List</span><span>${item.year || ''}</span></div></div>`;
                     card.addEventListener('click', () => openMovieModal(item.id, item.type));
                     card.querySelector('.play-btn').addEventListener('click', e => { e.stopPropagation(); addRecent(item.id, item.title, item.poster, item.year, item.type); window.location.href = `player.html?id=${item.id}&type=${item.type}`; });
                     card.querySelector('.card-heart').addEventListener('click', e => { e.stopPropagation(); toggleWl(item.id, item.title, item.poster, item.year, item.type); card.remove(); });
@@ -1193,19 +1269,10 @@
 
             document.getElementById('searchIconBtn').addEventListener('click', () => {
                 closeNotifPanel();
-                searchModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                openModalUI(searchModal);
                 setTimeout(() => modalSearchInput.focus(), 100);
             });
 
-            function closeSearchModal() {
-                searchModal.classList.remove('active');
-                if (!modal.classList.contains('active')) {
-                    document.body.style.overflow = '';
-                }
-                modalSearchInput.value = '';
-                searchResultsGrid.innerHTML = '';
-            }
             searchModalClose.addEventListener('click', closeSearchModal);
             searchModal.addEventListener('click', (e) => { if(e.target === searchModal) closeSearchModal(); });
 
@@ -1284,7 +1351,7 @@
 
             function renderNotifPanel() {
                 if (cachedNotifMovies.length === 0) {
-                    notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-bell-slash"></i>No new releases yet. Check back later!</div>`;
+                    notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-bell-slash" aria-hidden="true"></i>No new releases yet. Check back later!</div>`;
                     return;
                 }
                 
@@ -1303,7 +1370,7 @@
                         <div class="notif-info">
                             <div class="notif-title">${esc(title)}</div>
                             <div class="notif-sub">
-                                <span class="rating"><i class="fas fa-star"></i> ${rating}</span>
+                                <span class="rating"><i class="fas fa-star" aria-hidden="true"></i> ${rating}</span>
                                 <span>${year}</span>
                             </div>
                         </div>
@@ -1337,7 +1404,7 @@
                 notifPanel.classList.add('open');
                 
                 if (cachedNotifMovies.length === 0) {
-                    notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-spinner fa-spin"></i>Loading new releases...</div>`;
+                    notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>Loading new releases...</div>`;
                 } else {
                     renderNotifPanel();
                 }
