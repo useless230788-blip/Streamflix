@@ -51,14 +51,17 @@
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 20px var(--red-glow); user-select: none; transition: transform 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); }
         
-        /* UNIFIED PILL STYLE CATEGORY BAR */
-        .nav-links { display: flex; gap: 4px; font-size: 13px; font-weight: 500; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 4px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        /* INDIVIDUAL PILL STYLE CATEGORY BAR */
+        .nav-links { display: flex; gap: 8px; font-size: 13px; font-weight: 500; align-items: center; }
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
             cursor: pointer;
             padding: 8px 16px;
             border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             transition: var(--premium-transition);
             white-space: nowrap;
             display: flex;
@@ -69,13 +72,15 @@
         .nav-links a i { font-size: 0.85rem; opacity: 0.8; }
         .nav-links a:hover {
             color: #fff;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.2);
         }
         .nav-links a:hover i { opacity: 1; }
         .nav-links a.active {
             color: #fff;
             font-weight: 700;
             background: linear-gradient(to bottom, var(--red), var(--red-dark));
+            border-color: rgba(0,0,0,0.2);
             box-shadow: 0 4px 15px var(--red-glow), inset 0 1px 0 rgba(255,255,255,0.25);
         }
         .nav-links a.active i { opacity: 1; }
@@ -124,115 +129,55 @@
         .bottom-nav a.active i { color: var(--red); transform: translateY(-1px) scale(1.1); }
         .bottom-nav .notif-badge { top: 4px; right: 50%; transform: translateX(20px); }
 
-        /* CINEMATIC HERO - PORTRAIT MODE */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            padding-top: 100px;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            background: var(--bg);
-        }
-        .hero-track {
-            display: flex;
-            gap: 15px;
-            padding: 20px 5vw;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            width: 100%;
-            position: relative;
-        }
-        .hero-track::-webkit-scrollbar { display: none; }
+        /* HERO WRAPPER - MANAGES BOTH HEROES */
+        .hero-wrapper { position: relative; z-index: 1; background: var(--bg); }
+        
+        /* LANDSCAPE CINEMATIC HERO (Desktop) */
+        .hero-landscape { height: 92vh; min-height: 620px; position: relative; overflow: hidden; margin-bottom: -120px; display: block; }
+        .hero-landscape .hero-slide { position: absolute; inset:0; background-size: cover; background-position: center top; opacity: 0; transition: opacity 1.5s ease; will-change: opacity; }
+        .hero-landscape .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 20s ease-in-out infinite alternate; }
+        @keyframes kenBurns { from { transform: scale(1.05) translateY(0); } to { transform: scale(1.15) translateY(-3%); } }
+        .hero-landscape .hero-overlay { position: absolute; inset:0; z-index: 3; background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.2) 40%, rgba(10,10,10,0.85) 85%, var(--bg) 100%), linear-gradient(90deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.5) 40%, rgba(10,10,10,0) 70%); }
+        .hero-landscape .hero-content { position: absolute; bottom: 35%; left: 50px; z-index: 4; max-width: 580px; }
+        .hero-landscape .hero-label { font-size: 12px; letter-spacing: 6px; font-weight: 700; color: var(--text-muted); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
+        .hero-landscape .hero-label::before { content: ''; width: 40px; height: 2px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
+        .hero-landscape .hero-title-container { margin-bottom: 20px; min-height: 50px; display: flex; align-items: flex-end; }
+        .hero-landscape .hero-title { font-family: var(--netflix-sans); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 0.95; text-shadow: 2px 4px 20px rgba(0,0,0,0.8); letter-spacing: -2px; margin: 0; }
+        .hero-landscape .hero-title-logo { max-width: 450px; max-height: 160px; width: auto; height: auto; object-fit: contain; object-position: left bottom; filter: drop-shadow(2px 4px 15px rgba(0,0,0,0.9)); display: block; }
+        .hero-landscape .hero-meta { display: flex; gap: 14px; align-items: center; margin: 0 0 24px; font-size: 14px; flex-wrap: wrap; }
+        .hero-landscape .hero-meta .match { color: var(--green); font-weight: 700; }
+        .hero-landscape .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hero-landscape .hero-watch, .hero-landscape .hero-info { display: flex; align-items: center; gap: 10px; padding: 12px 28px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--premium-transition); font-family: inherit; letter-spacing: 0.5px; }
+        .hero-landscape .hero-watch { background: #fff; color: #000; box-shadow: 0 4px 14px rgba(255,255,255,0.2); } 
+        .hero-landscape .hero-watch:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.3); }
+        .hero-landscape .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
+        .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px); }
+        .hero-landscape .hero-dots { position: absolute; bottom: 35%; right: 50px; z-index: 4; display: flex; gap: 6px; }
+        
+        /* PORTRAIT VERTICAL HERO (Mobile) */
+        .hero-portrait { display: none; padding-top: 100px; margin-bottom: -40px; position: relative; }
+        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; }
+        .hero-portrait .hero-track::-webkit-scrollbar { display: none; }
+        .hero-portrait .hero-slide { position: relative; flex: 0 0 100%; width: 100%; aspect-ratio: 2 / 3; scroll-snap-align: center; background: #111; }
+        .hero-portrait .hero-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 30%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%); z-index: 2; }
+        .hero-portrait .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 3; }
+        .hero-portrait .hero-label { font-size: 10px; letter-spacing: 3px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+        .hero-portrait .hero-label::before { content: ''; width: 20px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
+        .hero-portrait .hero-label::after { content: ''; width: 20px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
+        .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.6rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
+        .hero-portrait .hero-title-logo { max-width: 80%; max-height: 50px; margin: 0 auto 8px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
+        .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 12px 0; font-size: 11px; flex-wrap: wrap; justify-content: center; }
+        .hero-portrait .hero-meta .match { color: var(--green); font-weight: 700; }
+        .hero-portrait .hero-buttons { width: 100%; max-width: 400px; display: flex; gap: 8px; }
+        .hero-portrait .hero-watch, .hero-portrait .hero-info { flex: 1; padding: 10px; font-size: 14px; border-radius: 4px; justify-content: center; gap: 6px; display: flex; align-items: center; border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: var(--premium-transition); }
+        .hero-portrait .hero-watch { background: #fff; color: #000; box-shadow: 0 4px 10px rgba(255,255,255,0.2); } 
+        .hero-portrait .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
+        .hero-portrait .hero-dots { display: flex; justify-content: center; gap: 6px; margin-top: 0; position: relative; right: auto; bottom: auto; z-index: 10; padding: 10px 0; background: var(--bg); }
 
-        .hero-slide {
-            position: relative;
-            flex: 0 0 auto;
-            width: 260px;
-            aspect-ratio: 2 / 3;
-            border-radius: 12px;
-            overflow: hidden;
-            scroll-snap-align: center;
-            background: var(--bg-card);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            opacity: 0.5;
-            transform: scale(0.9);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            cursor: pointer;
-        }
-        .hero-slide.active {
-            opacity: 1;
-            transform: scale(1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,255,255,0.1);
-        }
-        .hero-poster {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 30%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%);
-            z-index: 2;
-        }
-        .hero-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 3;
-        }
-        .hero-label { font-size: 10px; letter-spacing: 3px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
-        .hero-label::before { content: ''; width: 20px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .hero-label::after { content: ''; width: 20px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .hero-title { font-family: var(--netflix-sans); font-size: 1.4rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
-        .hero-title-logo { max-width: 80%; max-height: 50px; margin: 0 auto 8px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
-        .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 12px 0; font-size: 11px; flex-wrap: wrap; justify-content: center; }
-        .hero-meta .match { color: var(--green); font-weight: 700; }
-        .maturity-badge { border: 1px solid rgba(255,255,255,0.3); padding: 1px 6px; border-radius: 2px; font-size: 10px; font-weight: 500; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
-        .hero-buttons { width: 100%; display: flex; gap: 8px; }
-        .hero-watch, .hero-info { flex: 1; padding: 8px 10px; font-size: 12px; border-radius: 4px; justify-content: center; gap: 6px; }
-        .hero-watch { background: #fff; color: #000; box-shadow: 0 4px 10px rgba(255,255,255,0.2); } 
-        .hero-watch:hover { background: rgba(255,255,255,0.85); transform: translateY(-1px); } 
-        .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
-        .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-1px); }
-
-        .hero-dots {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 15px;
-            position: relative;
-            right: auto;
-            bottom: auto;
-            z-index: 10;
-            padding: 10px 0;
-        }
-        .hero-dot { width: 24px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: var(--premium-transition); border-radius: 2px; }
+        .maturity-badge { border: 1px solid rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 2px; font-size: 12px; font-weight: 500; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+        .hero-dot { width: 24px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: var(--premium-transition); border-radius: 2px; border: none; padding: 0; }
         .hero-dot.active { background: var(--red); width: 32px; box-shadow: 0 0 8px var(--red-glow); }
-
-        /* Responsive Hero Sizing */
-        @media (min-width: 768px) {
-            .hero-slide { width: 320px; }
-            .hero-title { font-size: 1.6rem; }
-            .hero-buttons { max-width: 90%; margin: 0 auto; }
-            .hero-watch, .hero-info { font-size: 13px; padding: 10px 15px; }
-        }
-        @media (min-width: 1024px) {
-            .hero-slide { width: 360px; }
-            .hero-title { font-size: 1.8rem; }
-        }
 
         .rows-wrapper { position: relative; z-index: 5; padding-bottom: 40px; }
         .section { margin: 0 0 36px; position: relative; content-visibility: auto; contain-intrinsic-size: 400px; }
@@ -411,6 +356,10 @@
             body { padding-bottom: 90px; } 
             .back-to-top { bottom: 90px; } 
             #movieModal, #searchModal { padding-bottom: 90px; }
+
+            /* SWITCH HEROES ON MOBILE */
+            .hero-landscape { display: none; }
+            .hero-portrait { display: block; }
         }
 
         @media (min-width: 769px) {
@@ -464,7 +413,11 @@
         <div class="notif-body" id="notifBody"></div>
     </div>
 
-    <div class="hero" id="hero"><div class="hero-dots" id="heroDots"></div></div>
+    <div class="hero-wrapper" id="heroWrapper">
+        <div class="hero-landscape" id="heroLandscape"><div class="hero-dots" id="heroDotsLandscape"></div></div>
+        <div class="hero-portrait" id="heroPortrait"><div class="hero-dots" id="heroDotsPortrait"></div></div>
+    </div>
+    
     <div class="recent-wrap" id="recentSection">
         <h2 class="section-title">Continue Watching</h2>
         <div class="row-scroll-area"><div class="row-track" id="recentGrid"></div></div>
@@ -839,29 +792,60 @@
                 currentHeroGen++; // Invalidate any previous async hero logo loads
                 const heroGen = currentHeroGen;
 
-                heroMovies = movies.filter(m=>m.poster_path).slice(0,5);
-                const heroEl=document.getElementById('hero');
-                heroEl.innerHTML = '<div class="hero-track" id="heroTrack"></div><div class="hero-dots" id="heroDots"></div>';
-                const trackEl = document.getElementById('heroTrack');
-                const dotsEl = document.getElementById('heroDots');
+                heroMovies = movies.filter(m=>m.backdrop_path && m.poster_path).slice(0,5);
+                const heroL = document.getElementById('heroLandscape');
+                const heroP = document.getElementById('heroPortrait');
                 
                 if(heroMovies.length===0){ 
-                    heroEl.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:50vh;color:#888;">No Featured</div>'; 
+                    heroL.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#888;">No Featured</div>'; 
+                    heroP.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:50vh;color:#888;">No Featured</div>'; 
                     return; 
                 }
                 
+                // Build Landscape DOM
+                heroL.innerHTML = '<div class="hero-dots" id="heroDotsLandscape"></div>';
+                const dotsL = document.getElementById('heroDotsLandscape');
+                
+                // Build Portrait DOM
+                heroP.innerHTML = '<div class="hero-track" id="heroTrackPortrait"></div><div class="hero-dots" id="heroDotsPortrait"></div>';
+                const trackP = document.getElementById('heroTrackPortrait');
+                const dotsP = document.getElementById('heroDotsPortrait');
+                
                 heroMovies.forEach((m,i)=>{
-                    const slide=document.createElement('div'); 
-                    slide.className='hero-slide'+(i===0?' active':'');
-                    
-                    const posterPath = m.poster_path ? TMDB_IMG + m.poster_path : '';
+                    const backdrop = TMDB_BACK + m.backdrop_path;
+                    const poster = TMDB_IMG + m.poster_path;
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
                     const match = m.vote_average ? Math.round(m.vote_average * 10) : 0;
                     
-                    slide.innerHTML=`
-                        <img src="${posterPath}" class="hero-poster" alt="${title}">
+                    // Landscape Slide
+                    const slideL = document.createElement('div'); 
+                    slideL.className = 'hero-slide' + (i===0 ? ' active':'');
+                    slideL.style.backgroundImage = `url(${backdrop})`;
+                    slideL.innerHTML = `
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <div class="hero-label">S T R E A M F L I X &nbsp; O R I G I N A L</div>
+                            <div class="hero-title-container"><h1 class="hero-title" data-movie-id="${m.id}">${title}</h1></div>
+                            <div class="hero-meta"><span class="match">${match}% Match</span><span>${year}</span><span class="maturity-badge">${rating}</span><span class="maturity-badge">HD</span></div>
+                            <div class="hero-buttons">
+                                <button class="hero-watch" data-id="${m.id}" data-type="${type}"><i class="fas fa-play"></i> Play</button>
+                                <button class="hero-info" data-id="${m.id}" data-type="${type}"><i class="fas fa-info-circle"></i> More Info</button>
+                            </div>
+                        </div>
+                    `;
+                    heroL.appendChild(slideL);
+                    const dotL = document.createElement('button'); 
+                    dotL.className = 'hero-dot' + (i===0 ? ' active':''); 
+                    dotL.addEventListener('click', () => goHero(i)); 
+                    dotsL.appendChild(dotL);
+                    
+                    // Portrait Slide
+                    const slideP = document.createElement('div'); 
+                    slideP.className = 'hero-slide';
+                    slideP.innerHTML = `
+                        <img src="${poster}" class="hero-poster" alt="${title}">
                         <div class="hero-overlay"></div>
                         <div class="hero-content">
                             <div class="hero-label">STREAMFLIX</div>
@@ -878,15 +862,15 @@
                             </div>
                         </div>
                     `;
-                    trackEl.appendChild(slide);
-                    
-                    const dot=document.createElement('div'); 
-                    dot.className='hero-dot'+(i===0?' active':''); 
-                    dot.addEventListener('click',()=>goHero(i)); 
-                    dotsEl.appendChild(dot);
+                    trackP.appendChild(slideP);
+                    const dotP = document.createElement('button'); 
+                    dotP.className = 'hero-dot' + (i===0 ? ' active':''); 
+                    dotP.addEventListener('click', () => goHero(i)); 
+                    dotsP.appendChild(dotP);
                 });
                 
-                heroEl.querySelectorAll('.hero-watch').forEach(btn => btn.addEventListener('click', e => { 
+                // Bind Buttons
+                document.querySelectorAll('.hero-watch').forEach(btn => btn.addEventListener('click', e => { 
                     e.stopPropagation(); 
                     const id=btn.dataset.id, type=btn.dataset.type; 
                     const title = btn.closest('.hero-content').querySelector('.hero-title').textContent; 
@@ -896,34 +880,34 @@
                     addRecent(id, title, poster, year, type); 
                     window.location.href=`player.html?id=${id}&type=${type}`; 
                 }));
-                heroEl.querySelectorAll('.hero-info').forEach(btn => btn.addEventListener('click', e => { 
+                document.querySelectorAll('.hero-info').forEach(btn => btn.addEventListener('click', e => { 
                     e.stopPropagation(); 
                     openMovieModal(btn.dataset.id, btn.dataset.type); 
                 }));
 
-                // Sync active state with scroll position
+                // IntersectionObserver for portrait hero to sync dots and auto-advance
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
-                            document.querySelectorAll('.hero-slide').forEach(s => s.classList.remove('active'));
-                            entry.target.classList.add('active');
-                            
                             const idx = Array.from(entry.target.parentNode.children).indexOf(entry.target);
-                            heroIdx = idx;
-                            document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+                            if (idx !== heroIdx) {
+                                heroIdx = idx;
+                                document.querySelectorAll('#heroDotsLandscape .hero-dot, #heroDotsPortrait .hero-dot').forEach((d, i) => d.classList.toggle('active', i === heroIdx));
+                                document.querySelectorAll('#heroLandscape .hero-slide').forEach((s, i) => s.classList.toggle('active', i === heroIdx));
+                            }
                         }
                     });
-                }, { threshold: [0.6], root: trackEl });
-                document.querySelectorAll('.hero-slide').forEach(s => observer.observe(s));
+                }, { threshold: [0.6], root: trackP });
+                document.querySelectorAll('#heroTrackPortrait .hero-slide').forEach(s => observer.observe(s));
 
-                // Pause autoplay on hover
-                trackEl.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
-                trackEl.addEventListener('mouseleave', startHeroAuto);
+                // Pause on hover for portrait track
+                trackP.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
+                trackP.addEventListener('mouseleave', startHeroAuto);
 
-                heroIdx=0; 
+                heroIdx = 0; 
                 startHeroAuto();
                 
-                // Fetch and replace titles with logos
+                // Fetch and replace titles with logos for BOTH heroes
                 heroMovies.forEach(async (m, i) => {
                     try {
                         const endpoint = type === 'movie' 
@@ -934,17 +918,32 @@
                             ? data.images.logos.filter(l => l.iso_639_1 === 'en' && l.file_path)
                             : [];
                         if (logos.length > 0 && heroGen === currentHeroGen) {
-                            const slides = document.querySelectorAll('#hero .hero-slide');
-                            const slide = slides[i];
-                            if (slide) {
-                                const titleEl = slide.querySelector('.hero-title');
-                                if (titleEl) {
+                            // Landscape Logo
+                            const slidesL = document.querySelectorAll('#heroLandscape .hero-slide');
+                            const slideL = slidesL[i];
+                            if (slideL) {
+                                const titleElL = slideL.querySelector('.hero-title');
+                                if (titleElL) {
                                     const logoImg = document.createElement('img');
                                     logoImg.className = 'hero-title-logo';
                                     logoImg.src = TMDB_LOGO + logos[0].file_path;
-                                    logoImg.alt = titleEl.textContent;
+                                    logoImg.alt = titleElL.textContent;
                                     logoImg.loading = 'lazy';
-                                    titleEl.replaceWith(logoImg);
+                                    titleElL.replaceWith(logoImg);
+                                }
+                            }
+                            // Portrait Logo
+                            const slidesP = document.querySelectorAll('#heroTrackPortrait .hero-slide');
+                            const slideP = slidesP[i];
+                            if (slideP) {
+                                const titleElP = slideP.querySelector('.hero-title');
+                                if (titleElP) {
+                                    const logoImg = document.createElement('img');
+                                    logoImg.className = 'hero-title-logo';
+                                    logoImg.src = TMDB_LOGO + logos[0].file_path;
+                                    logoImg.alt = titleElP.textContent;
+                                    logoImg.loading = 'lazy';
+                                    titleElP.replaceWith(logoImg);
                                 }
                             }
                         }
@@ -955,30 +954,32 @@
             }
             
             function goHero(i){
-                const slides=document.querySelectorAll('#hero .hero-slide');
-                const dots=document.querySelectorAll('#hero .hero-dot'); 
-                if(!slides.length) return; 
+                const slidesL = document.querySelectorAll('#heroLandscape .hero-slide');
+                const trackP = document.getElementById('heroTrackPortrait');
+                if(!slidesL.length && !trackP) return;
                 
                 heroIdx = i;
-                const targetSlide = slides[heroIdx];
-                const track = document.getElementById('heroTrack');
-                if (targetSlide && track) {
-                    // Calculate scroll position to center the slide
-                    const scrollPos = targetSlide.offsetLeft - (track.clientWidth / 2) + (targetSlide.clientWidth / 2);
-                    track.scrollTo({ left: scrollPos, behavior: 'smooth' });
-                }
                 
-                // The IntersectionObserver will handle updating the active classes,
-                // but we update dots immediately for responsiveness
-                dots.forEach((d, idx) => d.classList.toggle('active', idx === heroIdx));
+                // Update Landscape
+                slidesL.forEach((s, idx) => s.classList.toggle('active', idx === heroIdx));
+                document.querySelectorAll('#heroDotsLandscape .hero-dot').forEach((d, idx) => d.classList.toggle('active', idx === heroIdx));
+                
+                // Update Portrait Scroll
+                if(trackP) {
+                    const targetSlide = trackP.children[heroIdx];
+                    if (targetSlide) {
+                        trackP.scrollTo({ left: targetSlide.offsetLeft, behavior: 'smooth' });
+                    }
+                }
+                document.querySelectorAll('#heroDotsPortrait .hero-dot').forEach((d, idx) => d.classList.toggle('active', idx === heroIdx));
             }
             
             function startHeroAuto(){ 
                 if(heroTimer) clearInterval(heroTimer); 
                 if(heroMovies.length>1) {
                     heroTimer = setInterval(() => {
-                        const slides = document.querySelectorAll('#hero .hero-slide');
-                        if(slides.length) goHero((heroIdx + 1) % slides.length); 
+                        const slides = document.querySelectorAll('#heroLandscape .hero-slide, #heroTrackPortrait .hero-slide');
+                        if(slides.length) goHero((heroIdx + 1) % heroMovies.length); 
                     }, 8000);
                 }
             }
@@ -1034,9 +1035,9 @@
                     if (secEl) setupScroll(secEl);
 
                     if (c === SECTIONS[0]) {
-                        const heroEl = document.getElementById('hero');
-                        if (data.length) { heroEl.style.display = 'flex'; buildHero(data, c.type); } 
-                        else { if(heroTimer) clearInterval(heroTimer); heroEl.style.display = 'none'; }
+                        const heroWrapper = document.getElementById('heroWrapper');
+                        if (data.length) { heroWrapper.style.display = 'block'; buildHero(data, c.type); } 
+                        else { if(heroTimer) clearInterval(heroTimer); heroWrapper.style.display = 'none'; }
                     }
                 } catch (error) {
                     console.error(`Failed to fetch section: ${c.key}`, error);
@@ -1062,7 +1063,7 @@
             let catViewPage = 1;
 
             async function showCategoryView(cfg) {
-                document.getElementById('hero').style.display = 'none';
+                document.getElementById('heroWrapper').style.display = 'none';
                 document.getElementById('recentSection').style.display = 'none';
                 document.getElementById('sectionsContainer').style.display = 'none';
                 document.getElementById('categoryView').style.display = 'block';
@@ -1136,7 +1137,7 @@
                 document.getElementById('sectionsContainer').style.display = 'block';
                 const activeLink = document.querySelector('.nav-links a.active') || document.querySelector('.bottom-nav a.active');
                 if (activeLink && activeLink.dataset.cat === 'home') {
-                    document.getElementById('hero').style.display = 'flex';
+                    document.getElementById('heroWrapper').style.display = 'block';
                     startHeroAuto();
                 }
                 if (recent.length > 0) document.getElementById('recentSection').style.display = 'block';
@@ -1146,9 +1147,9 @@
             function renderMyListSection() {
                 const container = document.getElementById('sectionsContainer');
                 container.innerHTML = '';
-                const heroEl = document.getElementById('hero');
+                const heroWrapper = document.getElementById('heroWrapper');
                 if(heroTimer) clearInterval(heroTimer); 
-                heroEl.style.display = 'none'; 
+                heroWrapper.style.display = 'none'; 
 
                 if (watchlist.length === 0) {
                     container.innerHTML = `<div style="text-align: center; padding: 100px 20px; color: #888;"><i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 20px; display: block; color: var(--red);"></i><h2 style="font-size: 1.5rem; margin-bottom: 10px;">Your list is empty</h2><p>Add movies and shows to your list to watch them later!</p></div>`;
