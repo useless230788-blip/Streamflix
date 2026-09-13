@@ -106,7 +106,7 @@
         .hero-wrapper { position: relative; z-index: 1; background: var(--bg); }
         
         /* LANDSCAPE CINEMATIC HERO (Desktop) */
-        .hero-landscape { height: 92vh; min-height: 620px; position: relative; overflow: hidden; margin-bottom: -120px; display: block; }
+        .hero-landscape { height: 92vh; min-height: 620px; position: relative; overflow: hidden; margin-bottom: -80px; display: block; }
         .hero-landscape .hero-slide { position: absolute; inset:0; background-size: cover; background-position: center top; opacity: 0; transition: opacity 1.5s ease; will-change: opacity; }
         .hero-landscape .hero-slide.active { opacity:1; z-index:2; animation: kenBurns 20s ease-in-out infinite alternate; }
         @keyframes kenBurns { from { transform: scale(1.05) translateY(0); } to { transform: scale(1.15) translateY(-3%); } }
@@ -127,23 +127,23 @@
         .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px); }
         .hero-landscape .hero-dots { position: absolute; bottom: 15%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         
-        /* PORTRAIT CARD HERO (Mobile) */
+        /* PORTRAIT VERTICAL CARD HERO (Mobile) */
         .hero-portrait { display: none; padding-top: 90px; padding-bottom: 10px; position: relative; background: var(--bg); }
-        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 10px; scroll-padding-left: 16px; }
+        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 15px; scroll-padding-left: 16px; justify-content: center; }
         .hero-portrait .hero-track::-webkit-scrollbar { display: none; }
-        .hero-portrait .hero-slide { position: relative; flex: 0 0 88%; width: 88%; aspect-ratio: 16 / 9; scroll-snap-align: center; background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-left: 6%; }
+        .hero-portrait .hero-slide { position: relative; flex: 0 0 65%; width: 65%; aspect-ratio: 3 / 4; scroll-snap-align: center; background: var(--bg-card); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-left: 6%; }
         .hero-portrait .hero-slide:last-child { margin-right: 6%; }
         .hero-portrait .hero-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.9) 100%); z-index: 2; }
-        .hero-portrait .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 3; }
-        .hero-portrait .hero-label { font-size: 9px; letter-spacing: 3px; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+        .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.95) 100%); z-index: 2; }
+        .hero-portrait .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 3; }
+        .hero-portrait .hero-label { font-size: 9px; letter-spacing: 3px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
         .hero-portrait .hero-label::before, .hero-portrait .hero-label::after { content: ''; width: 15px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.2rem; font-weight: 900; margin: 0 0 5px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
-        .hero-portrait .hero-title-logo { max-width: 70%; max-height: 40px; margin: 0 auto 5px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
-        .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 8px 0; font-size: 10px; flex-wrap: wrap; justify-content: center; }
+        .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.4rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
+        .hero-portrait .hero-title-logo { max-width: 70%; max-height: 50px; margin: 0 auto 8px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
+        .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 12px 0; font-size: 11px; flex-wrap: wrap; justify-content: center; }
         .hero-portrait .hero-meta .match { color: var(--green); font-weight: 700; }
         .hero-portrait .hero-buttons { width: 100%; max-width: 400px; display: flex; gap: 8px; }
-        .hero-portrait .hero-watch, .hero-portrait .hero-info { flex: 1; padding: 6px 10px; font-size: 12px; border-radius: 4px; justify-content: center; gap: 6px; display: flex; align-items: center; border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: var(--premium-transition); }
+        .hero-portrait .hero-watch, .hero-portrait .hero-info { flex: 1; padding: 8px 10px; font-size: 13px; border-radius: 4px; justify-content: center; gap: 6px; display: flex; align-items: center; border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: var(--premium-transition); }
         .hero-portrait .hero-watch { background: #fff; color: #000; box-shadow: 0 4px 10px rgba(255,255,255,0.2); } 
         .hero-portrait .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
         .hero-portrait .hero-dots { display: flex; justify-content: center; gap: 6px; margin-top: 0; position: relative; right: auto; bottom: auto; z-index: 10; padding: 10px 0; background: var(--bg); }
@@ -152,7 +152,7 @@
         .hero-dot { width: 24px; height: 3px; background: rgba(255,255,255,0.3); cursor: pointer; transition: var(--premium-transition); border-radius: 2px; border: none; padding: 0; }
         .hero-dot.active { background: var(--red); width: 32px; box-shadow: 0 0 8px var(--red-glow); }
 
-        .rows-wrapper { position: relative; z-index: 5; padding-bottom: 40px; }
+        .rows-wrapper { position: relative; z-index: 5; padding-bottom: 40px; padding-top: 40px; }
         .section { margin: 0 0 36px; position: relative; content-visibility: auto; contain-intrinsic-size: 400px; }
         
         .section-title { font-family: var(--netflix-sans); font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; padding: 0 50px; color: #e5e5e5; display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px; cursor: pointer; transition: color 0.3s ease; }
@@ -287,14 +287,18 @@
         .notif-empty { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 0.9rem; }
         .notif-empty i { display: block; font-size: 2.5rem; margin-bottom: 14px; color: var(--text-dim); }
 
+        /* SUB-CATEGORY VIEW (No filters here anymore) */
         .category-view { display: none; padding-top: 90px; padding-bottom: 50px; min-height: 100vh; }
         .cat-view-header { padding: 0 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
         .cat-view-title { font-family: var(--netflix-sans); font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 5px; }
-        .result-count { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
         .btn-back { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(255,255,255,0.08); color: var(--text); text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; transition: var(--premium-transition); cursor: pointer; border: 1px solid rgba(255,255,255,0.1); font-family: 'Inter', sans-serif; height: fit-content; }
         .btn-back:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.2); transform: translateX(-4px); }
+        .cat-view-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 0 50px; }
+        .cat-view-grid .card { width: 100%; flex: none; } 
         
-        /* FILTER BAR STYLES */
+        /* MAIN CATEGORY FILTER BAR */
+        .main-cat-header { padding: 0 50px; margin-bottom: 30px; display: none; }
+        .main-cat-header.visible { display: block; }
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
         .filter-bar::-webkit-scrollbar { display: none; }
         .filter-select {
@@ -330,8 +334,8 @@
         .sheet-body { display: flex; flex-direction: column; gap: 15px; }
         .sheet-body .filter-select { width: 100%; padding: 12px 30px 12px 14px; }
 
-        .cat-view-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 0 50px; }
-        .cat-view-grid .card { width: 100%; flex: none; } 
+        .filtered-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 0 50px; }
+        .filtered-grid .card { width: 100%; flex: none; } 
         
         .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; grid-column: 1 / -1; }
         .empty-state i { font-size: 3rem; margin-bottom: 20px; color: var(--text-dim); }
@@ -371,6 +375,8 @@
             .notif-panel { right: 10px; left: 10px; width: auto; top: 60px; max-height: 65vh; }
             .modal-cast-section { padding: 0 20px 30px; }
             .filter-bar { padding: 10px 20px; }
+            .main-cat-header { padding: 0 20px; }
+            .filtered-grid { padding: 0 20px; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
         }
 
         @media (max-width: 768px) {
@@ -453,48 +459,47 @@
         <h2 class="section-title">Continue Watching</h2>
         <div class="row-scroll-area"><div class="row-track" id="recentGrid"></div></div>
     </div>
-    <div class="rows-wrapper" id="sectionsContainer"></div>
+
+    <div class="rows-wrapper" id="sectionsContainer">
+        <div class="main-cat-header" id="mainCatHeader">
+            <button class="mobile-filter-btn" id="openMainFilterSheet"><i class="fas fa-sliders-h"></i> Filters</button>
+            <div class="filter-bar desktop-filters" id="mainFilterBar">
+                <select class="filter-select" id="mainSortBy">
+                    <option value="popularity.desc">Sort: Popular</option>
+                    <option value="vote_average.desc">Sort: Top Rated</option>
+                    <option value="primary_release_date.desc">Sort: Newest</option>
+                    <option value="primary_release_date.asc">Sort: Oldest</option>
+                    <option value="original_title.asc">Sort: A-Z</option>
+                    <option value="original_title.desc">Sort: Z-A</option>
+                </select>
+                <select class="filter-select" id="mainGenre"><option value="">All Genres</option></select>
+                <select class="filter-select" id="mainLang"><option value="">All Languages</option></select>
+                <select class="filter-select" id="mainYear">
+                    <option value="">All Years</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2020-2023">2020-2023</option>
+                    <option value="2010-2019">2010-2019</option>
+                    <option value="before2010">Before 2010</option>
+                </select>
+                <select class="filter-select" id="mainRating">
+                    <option value="">Any Rating</option>
+                    <option value="9">9+ Stars</option>
+                    <option value="8">8+ Stars</option>
+                    <option value="7">7+ Stars</option>
+                    <option value="6">6+ Stars</option>
+                    <option value="5">5+ Stars</option>
+                </select>
+                <select class="filter-select" id="mainCountry"><option value="">All Countries</option></select>
+            </div>
+            <div class="active-chips" id="mainActiveChips"></div>
+        </div>
+    </div>
 
     <div class="category-view" id="categoryView">
         <div class="cat-view-header">
-            <div style="flex:1; width: 100%;">
-                <h1 class="cat-view-title" id="categoryViewTitle">Category</h1>
-                <div class="result-count" id="resultCount"></div>
-                
-                <button class="mobile-filter-btn" id="openFilterSheet"><i class="fas fa-sliders-h"></i> Filters</button>
-                
-                <div class="filter-bar desktop-filters" id="catFilterBar">
-                    <select class="filter-select" id="catSortBy">
-                        <option value="popularity.desc">Sort: Popular</option>
-                        <option value="vote_average.desc">Sort: Top Rated</option>
-                        <option value="primary_release_date.desc">Sort: Newest</option>
-                        <option value="primary_release_date.asc">Sort: Oldest</option>
-                        <option value="original_title.asc">Sort: A-Z</option>
-                        <option value="original_title.desc">Sort: Z-A</option>
-                    </select>
-                    <select class="filter-select" id="catGenre"><option value="">All Genres</option></select>
-                    <select class="filter-select" id="catLang"><option value="">All Languages</option></select>
-                    <select class="filter-select" id="catYear">
-                        <option value="">All Years</option>
-                        <option value="2026">2026</option>
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                        <option value="2020-2023">2020-2023</option>
-                        <option value="2010-2019">2010-2019</option>
-                        <option value="before2010">Before 2010</option>
-                    </select>
-                    <select class="filter-select" id="catRating">
-                        <option value="">Any Rating</option>
-                        <option value="9">9+ Stars</option>
-                        <option value="8">8+ Stars</option>
-                        <option value="7">7+ Stars</option>
-                        <option value="6">6+ Stars</option>
-                        <option value="5">5+ Stars</option>
-                    </select>
-                    <select class="filter-select" id="catCountry"><option value="">All Countries</option></select>
-                </div>
-                <div class="active-chips" id="catActiveChips"></div>
-            </div>
+            <h1 class="cat-view-title" id="categoryViewTitle">Category</h1>
             <button class="btn-back" id="closeCategoryView"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home</button>
         </div>
         <div class="cat-view-grid" id="categoryGrid"></div>
@@ -506,9 +511,7 @@
             <h3>Filter & Sort</h3>
             <button class="sheet-close" id="closeFilterSheet">&times;</button>
         </div>
-        <div class="sheet-body" id="sheetBody">
-            <!-- Cloned selects will go here -->
-        </div>
+        <div class="sheet-body" id="sheetBody"></div>
     </div>
 
     <div class="modal-overlay" id="movieModal" role="dialog" aria-modal="true">
@@ -662,7 +665,6 @@
                 }
             }
 
-            // Dynamic Genres & Languages
             let GENRES = { movie: {}, tv: {} };
             const LANGUAGES = { en: 'English', hi: 'Hindi', ja: 'Japanese', ko: 'Korean', es: 'Spanish', fr: 'French', ta: 'Tamil', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', bn: 'Bengali', zh: 'Chinese', de: 'German', it: 'Italian' };
             const COUNTRIES = { US: 'United States', IN: 'India', GB: 'United Kingdom', JP: 'Japan', KR: 'South Korea', FR: 'France', DE: 'Germany', CA: 'Canada', AU: 'Australia' };
@@ -744,6 +746,9 @@
             let cachedNotifMovies = [];
             let activeModal = null;
             let lastFocusedElement = null;
+            let currentCat = 'home';
+            let mainFilterPage = 1;
+            let mainFilterDebounce;
 
             function loadStorage() {
                 try { 
@@ -802,11 +807,7 @@
             function createSkeleton() {
                 const card = document.createElement('div');
                 card.className = 'skeleton-card';
-                card.innerHTML = `
-                    <div class="skeleton-thumb"></div>
-                    <div class="skeleton-text"></div>
-                    <div class="skeleton-text short"></div>
-                `;
+                card.innerHTML = `<div class="skeleton-thumb"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div>`;
                 return card;
             }
 
@@ -1001,7 +1002,7 @@
                 
                 heroMovies.forEach((m,i)=>{
                     const backdrop = TMDB_BACK + m.backdrop_path;
-                    const poster = TMDB_BACK + m.backdrop_path; 
+                    const poster = TMDB_IMG + m.poster_path; // Vertical poster for mobile
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
@@ -1214,117 +1215,17 @@
 
             async function initSections(){
                 const container=document.getElementById('sectionsContainer'); 
-                container.innerHTML='';
+                container.innerHTML = '<div class="main-cat-header" id="mainCatHeaderClone"></div>'; // Keep header if re-init
+                const mainHeader = document.getElementById('mainCatHeader');
+                if(mainHeader) container.prepend(mainHeader);
+                
                 SECTIONS.forEach(c=>container.appendChild(createSecHTML(c)));
                 await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
             }
 
+            // Sub-category view (No filters now)
             let catViewCfg = null;
-            let catViewType = 'movie';
             let catViewPage = 1;
-            let catDebounceTimer;
-
-            function buildDiscoverUrl(type, page, filters, query = '') {
-                let endpoint = `/discover/${type}?page=${page}&sort_by=${filters.sort}&vote_count.gte=50`;
-                if (query) endpoint += `&with_text_query=${encodeURIComponent(query)}`;
-                if (filters.genre) endpoint += `&with_genres=${filters.genre}`;
-                if (filters.lang) endpoint += `&with_original_language=${filters.lang}`;
-                if (filters.country) endpoint += `&with_origin_country=${filters.country}`;
-                if (filters.year) {
-                    const dateField = type === 'movie' ? 'primary_release_date' : 'first_air_date';
-                    if (filters.year === '2020-2023') endpoint += `&${dateField}.gte=2020-01-01&${dateField}.lte=2023-12-31`;
-                    else if (filters.year === '2010-2019') endpoint += `&${dateField}.gte=2010-01-01&${dateField}.lte=2019-12-31`;
-                    else if (filters.year === 'before2010') endpoint += `&${dateField}.lte=2009-12-31`;
-                    else endpoint += `&${dateField}.gte=${filters.year}-01-01&${dateField}.lte=${filters.year}-12-31`;
-                }
-                if (filters.rating) endpoint += `&vote_average.gte=${filters.rating}`;
-                return endpoint;
-            }
-
-            function renderChips(containerId, state, type) {
-                const chipsContainer = document.getElementById(containerId);
-                chipsContainer.innerHTML = '';
-                
-                let activeCount = 0;
-                if (type !== 'multi' && containerId === 'searchActiveChips') { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="type">${type === 'movie' ? 'Movies' : 'TV'} <i class="fas fa-times"></i></div>`; }
-                if (state.sort && state.sort !== 'popularity.desc') { activeCount++; const sortText = document.getElementById(containerId === 'catActiveChips' ? 'catSortBy' : 'searchSortBy')?.selectedOptions[0]?.text || 'Sort'; chipsContainer.innerHTML += `<div class="chip" data-filter="sort">${sortText} <i class="fas fa-times"></i></div>`; }
-                if (state.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[type === 'tv' ? 'tv' : 'movie'][state.genre]} <i class="fas fa-times"></i></div>`; }
-                if (state.lang) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="lang">${LANGUAGES[state.lang]} <i class="fas fa-times"></i></div>`; }
-                if (state.country) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="country">${COUNTRIES[state.country]} <i class="fas fa-times"></i></div>`; }
-                if (state.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${state.year} <i class="fas fa-times"></i></div>`; }
-                if (state.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${state.rating}+ <i class="fas fa-times"></i></div>`; }
-                
-                if (activeCount > 0) {
-                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clear${containerId}">Clear All</button>`;
-                    document.getElementById(`clear${containerId}`).addEventListener('click', () => {
-                        clearFilters(containerId === 'catActiveChips' ? 'cat' : 'search');
-                    });
-                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
-                        chip.addEventListener('click', () => {
-                            const filterKey = chip.dataset.filter;
-                            const prefix = containerId === 'catActiveChips' ? 'cat' : 'search';
-                            const selectId = prefix + filterKey.charAt(0).toUpperCase() + filterKey.slice(1);
-                            if (filterKey === 'type') document.getElementById('searchType').value = 'multi';
-                            else document.getElementById(selectId).value = '';
-                            handleFilterChange(containerId === 'catActiveChips' ? 'cat' : 'search');
-                        });
-                    });
-                }
-            }
-            
-            function clearFilters(scope) {
-                if (scope === 'cat') {
-                    ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'].forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) el.value = id === 'catSortBy' ? 'popularity.desc' : '';
-                    });
-                    handleFilterChange('cat');
-                } else {
-                    ['searchType', 'searchGenre', 'searchYear', 'searchRating'].forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) el.value = id === 'searchType' ? 'multi' : '';
-                    });
-                    handleFilterChange('search');
-                    if (modalSearchInput.value.trim().length >= 2) modalSearchInput.dispatchEvent(new Event('input'));
-                }
-            }
-
-            function handleFilterChange(scope) {
-                if (scope === 'cat') {
-                    renderCatChips();
-                    clearTimeout(catDebounceTimer);
-                    catDebounceTimer = setTimeout(() => { catViewPage = 1; loadCategoryPage(); }, 300);
-                } else {
-                    renderSearchChips();
-                    if (modalSearchInput.value.trim().length >= 2) {
-                        clearTimeout(searchDebounceTimer);
-                        searchDebounceTimer = setTimeout(() => { modalSearchInput.dispatchEvent(new Event('input')); }, 300);
-                    }
-                }
-            }
-
-            function getFilterState(scope) {
-                const prefix = scope === 'cat' ? 'cat' : 'search';
-                return {
-                    sort: document.getElementById(prefix + 'SortBy')?.value || 'popularity.desc',
-                    genre: document.getElementById(prefix + 'Genre')?.value || '',
-                    lang: document.getElementById(prefix + 'Lang')?.value || '',
-                    year: document.getElementById(prefix + 'Year')?.value || '',
-                    rating: document.getElementById(prefix + 'Rating')?.value || '',
-                    country: document.getElementById(prefix + 'Country')?.value || ''
-                };
-            }
-
-            function renderCatChips() {
-                const state = getFilterState('cat');
-                renderChips('catActiveChips', state, catViewType);
-            }
-
-            function renderSearchChips() {
-                const type = document.getElementById('searchType').value;
-                const state = getFilterState('search');
-                renderChips('searchActiveChips', state, type === 'multi' ? 'movie' : type);
-            }
 
             async function showCategoryView(cfg) {
                 document.getElementById('heroWrapper').style.display = 'none';
@@ -1332,28 +1233,22 @@
                 document.getElementById('sectionsContainer').style.display = 'none';
                 document.getElementById('categoryView').style.display = 'block';
                 document.getElementById('categoryViewTitle').textContent = cfg.title;
-                document.getElementById('resultCount').textContent = '';
                 
                 catViewCfg = cfg;
-                catViewType = cfg.type;
                 catViewPage = 1;
-                
-                populateDropdown('catGenre', GENRES[catViewType], 'All Genres');
-                populateDropdown('catLang', LANGUAGES, 'All Languages');
-                populateDropdown('catCountry', COUNTRIES, 'All Countries');
-                clearFilters('cat');
 
                 const grid = document.getElementById('categoryGrid');
                 grid.innerHTML = '';
                 const oldBtn = document.getElementById('loadMoreBtn');
                 if (oldBtn) oldBtn.remove();
+                
+                await loadCategoryPage();
             }
 
             async function loadCategoryPage() {
                 const grid = document.getElementById('categoryGrid');
                 let loadMoreBtn = document.getElementById('loadMoreBtn');
-                const state = getFilterState('cat');
-
+                
                 if (catViewPage === 1) {
                     grid.innerHTML = '';
                     for(let i=0; i<18; i++) grid.appendChild(createSkeleton());
@@ -1363,22 +1258,19 @@
                 }
 
                 try {
-                    const endpoint = buildDiscoverUrl(catViewType, catViewPage, state);
+                    const endpoint = catViewCfg.ep + catViewPage;
                     const data = await tmdbFetch(endpoint);
                     const results = (data.results || []).filter(m => m.poster_path);
                     
-                    if (catViewPage === 1) {
-                        grid.innerHTML = '';
-                        document.getElementById('resultCount').textContent = `${data.total_results || 0} Movies Found`;
-                    }
+                    if (catViewPage === 1) grid.innerHTML = '';
 
                     if (results.length === 0 && catViewPage === 1) {
-                        grid.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><h3>No movies found</h3><p>Try adjusting your filters.</p><br><button class="clear-filters-btn" onclick="clearFilters('cat')">Clear Filters</button></div>`;
+                        grid.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><h3>No movies found</h3></div>`;
                         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
                         return;
                     }
 
-                    results.forEach(m => grid.appendChild(createCard(m, catViewType)));
+                    results.forEach(m => grid.appendChild(createCard(m, catViewCfg.type)));
                     catViewPage++;
 
                     if (data.page < data.total_pages) {
@@ -1398,13 +1290,9 @@
                         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
                     }
                 } catch (e) {
-                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Failed to load</h3><p>Please check your connection.</p></div>';
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Failed to load</h3></div>';
                 }
             }
-
-            ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'].forEach(id => {
-                document.getElementById(id).addEventListener('change', () => handleFilterChange('cat'));
-            });
 
             function closeCategoryView() {
                 document.getElementById('categoryView').style.display = 'none';
@@ -1418,12 +1306,143 @@
             }
             document.getElementById('closeCategoryView').addEventListener('click', closeCategoryView);
 
+            // MAIN CATEGORY FILTER LOGIC
+            function areMainFiltersActive() {
+                return ['mainGenre', 'mainLang', 'mainYear', 'mainRating', 'mainCountry'].some(id => document.getElementById(id).value) || 
+                       document.getElementById('mainSortBy').value !== 'popularity.desc';
+            }
+
+            function buildDiscoverUrl(type, page, filters) {
+                let endpoint = `/discover/${type}?page=${page}&sort_by=${filters.sort}&vote_count.gte=50`;
+                if (filters.genre) endpoint += `&with_genres=${filters.genre}`;
+                if (filters.lang) endpoint += `&with_original_language=${filters.lang}`;
+                if (filters.country) endpoint += `&with_origin_country=${filters.country}`;
+                if (filters.year) {
+                    const dateField = type === 'movie' ? 'primary_release_date' : 'first_air_date';
+                    if (filters.year === '2020-2023') endpoint += `&${dateField}.gte=2020-01-01&${dateField}.lte=2023-12-31`;
+                    else if (filters.year === '2010-2019') endpoint += `&${dateField}.gte=2010-01-01&${dateField}.lte=2019-12-31`;
+                    else if (filters.year === 'before2010') endpoint += `&${dateField}.lte=2009-12-31`;
+                    else endpoint += `&${dateField}.gte=${filters.year}-01-01&${dateField}.lte=${filters.year}-12-31`;
+                }
+                if (filters.rating) endpoint += `&vote_average.gte=${filters.rating}`;
+                return endpoint;
+            }
+
+            function getMainFilterState() {
+                return {
+                    sort: document.getElementById('mainSortBy').value,
+                    genre: document.getElementById('mainGenre').value,
+                    lang: document.getElementById('mainLang').value,
+                    year: document.getElementById('mainYear').value,
+                    rating: document.getElementById('mainRating').value,
+                    country: document.getElementById('mainCountry').value
+                };
+            }
+
+            function renderMainChips() {
+                const chipsContainer = document.getElementById('mainActiveChips');
+                chipsContainer.innerHTML = '';
+                const state = getMainFilterState();
+                const type = currentCat === 'tv' ? 'tv' : 'movie';
+                
+                let activeCount = 0;
+                if (state.sort && state.sort !== 'popularity.desc') { activeCount++; const sortText = document.getElementById('mainSortBy').selectedOptions[0].text; chipsContainer.innerHTML += `<div class="chip" data-filter="SortBy">${sortText} <i class="fas fa-times"></i></div>`; }
+                if (state.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Genre">${GENRES[type][state.genre]} <i class="fas fa-times"></i></div>`; }
+                if (state.lang) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Lang">${LANGUAGES[state.lang]} <i class="fas fa-times"></i></div>`; }
+                if (state.country) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Country">${COUNTRIES[state.country]} <i class="fas fa-times"></i></div>`; }
+                if (state.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Year">${state.year} <i class="fas fa-times"></i></div>`; }
+                if (state.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Rating">⭐ ${state.rating}+ <i class="fas fa-times"></i></div>`; }
+                
+                if (activeCount > 0) {
+                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearMainFilters">Clear All</button>`;
+                    document.getElementById('clearMainFilters').addEventListener('click', clearMainFilters);
+                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
+                        chip.addEventListener('click', () => {
+                            document.getElementById('main' + chip.dataset.filter).value = '';
+                            handleMainFilterChange();
+                        });
+                    });
+                }
+            }
+
+            function clearMainFilters() {
+                document.getElementById('mainSortBy').value = 'popularity.desc';
+                document.getElementById('mainGenre').value = '';
+                document.getElementById('mainLang').value = '';
+                document.getElementById('mainYear').value = '';
+                document.getElementById('mainRating').value = '';
+                document.getElementById('mainCountry').value = '';
+                handleMainFilterChange();
+            }
+
+            function handleMainFilterChange() {
+                renderMainChips();
+                clearTimeout(mainFilterDebounce);
+                mainFilterDebounce = setTimeout(() => {
+                    if (areMainFiltersActive()) {
+                        mainFilterPage = 1;
+                        loadMainFilteredGrid();
+                    } else {
+                        initSections();
+                    }
+                }, 300);
+            }
+
+            async function loadMainFilteredGrid() {
+                const container = document.getElementById('sectionsContainer');
+                container.innerHTML = '';
+                const mainHeader = document.getElementById('mainCatHeader');
+                container.appendChild(mainHeader);
+                
+                const grid = document.createElement('div');
+                grid.className = 'filtered-grid';
+                grid.id = 'mainFilterGrid';
+                container.appendChild(grid);
+                
+                for(let i=0; i<18; i++) grid.appendChild(createSkeleton());
+
+                try {
+                    const type = currentCat === 'tv' ? 'tv' : 'movie';
+                    const state = getMainFilterState();
+                    const endpoint = buildDiscoverUrl(type, mainFilterPage, state);
+                    const data = await tmdbFetch(endpoint);
+                    const results = (data.results || []).filter(m => m.poster_path);
+                    
+                    grid.innerHTML = '';
+                    results.forEach(m => grid.appendChild(createCard(m, type)));
+                    
+                    const oldBtn = document.getElementById('loadMoreBtn');
+                    if (oldBtn) oldBtn.remove();
+                    
+                    if (data.page < data.total_pages) {
+                        const btn = document.createElement('button');
+                        btn.id = 'loadMoreBtn';
+                        btn.className = 'load-more-btn';
+                        btn.textContent = 'Load More';
+                        btn.addEventListener('click', async () => {
+                            btn.textContent = 'Loading...';
+                            mainFilterPage++;
+                            const moreData = await tmdbFetch(buildDiscoverUrl(type, mainFilterPage, state));
+                            (moreData.results || []).filter(m => m.poster_path).forEach(m => grid.appendChild(createCard(m, type)));
+                            btn.textContent = 'Load More';
+                        });
+                        container.appendChild(btn);
+                    }
+                } catch(e) {
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Failed to load</h3></div>';
+                }
+            }
+
+            ['mainSortBy', 'mainGenre', 'mainLang', 'mainYear', 'mainRating', 'mainCountry'].forEach(id => {
+                document.getElementById(id).addEventListener('change', handleMainFilterChange);
+            });
+
             // Mobile Filter Sheet Logic
             function openFilterSheet() {
                 const sheet = document.getElementById('filterSheet');
                 const sheetBody = document.getElementById('sheetBody');
                 sheetBody.innerHTML = '';
-                const filters = ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating', 'catCountry'];
+                const filters = ['mainSortBy', 'mainGenre', 'mainLang', 'mainYear', 'mainRating', 'mainCountry'];
                 filters.forEach(id => {
                     const original = document.getElementById(id);
                     if (original) {
@@ -1431,7 +1450,7 @@
                         clone.id = id + '_clone';
                         clone.addEventListener('change', () => {
                             original.value = clone.value;
-                            handleFilterChange('cat');
+                            handleMainFilterChange();
                         });
                         sheetBody.appendChild(clone);
                     }
@@ -1439,12 +1458,14 @@
                 sheet.classList.add('open');
             }
             function closeFilterSheet() { document.getElementById('filterSheet').classList.remove('open'); }
-            document.getElementById('openFilterSheet').addEventListener('click', openFilterSheet);
+            document.getElementById('openMainFilterSheet').addEventListener('click', openFilterSheet);
             document.getElementById('closeFilterSheet').addEventListener('click', closeFilterSheet);
 
             function renderMyListSection() {
                 const container = document.getElementById('sectionsContainer');
                 container.innerHTML = '';
+                const mainHeader = document.getElementById('mainCatHeader');
+                if(mainHeader) mainHeader.classList.remove('visible');
                 const heroWrapper = document.getElementById('heroWrapper');
                 if(heroTimer) clearInterval(heroTimer); 
                 heroWrapper.style.display = 'none'; 
@@ -1473,13 +1494,31 @@
                 link.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     const cat = link.dataset.cat;
+                    currentCat = cat;
                     document.querySelectorAll('[data-cat]').forEach(a => a.classList.remove('active'));
                     document.querySelectorAll(`[data-cat="${cat}"]`).forEach(a => a.classList.add('active'));
                     
                     closeNotifPanel();
                     loadingSec.clear(); endedSec.clear();
                     closeCategoryView();
-                    if (cat === 'mylist') { renderMyListSection(); } else { SECTIONS = CATEGORIES[cat]; initSections(); }
+                    
+                    const mainHeader = document.getElementById('mainCatHeader');
+                    if (cat === 'movies' || cat === 'tv') {
+                        mainHeader.classList.add('visible');
+                        populateDropdown('mainGenre', GENRES[cat], 'All Genres');
+                        populateDropdown('mainLang', LANGUAGES, 'All Languages');
+                        populateDropdown('mainCountry', COUNTRIES, 'All Countries');
+                        if (areMainFiltersActive()) {
+                            loadMainFilteredGrid();
+                        } else {
+                            SECTIONS = CATEGORIES[cat]; 
+                            initSections();
+                        }
+                    } else {
+                        mainHeader.classList.remove('visible');
+                        if (cat === 'mylist') { renderMyListSection(); } 
+                        else { SECTIONS = CATEGORIES[cat]; initSections(); }
+                    }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
@@ -1502,7 +1541,7 @@
                         clone.id = id + '_clone';
                         clone.addEventListener('change', () => {
                             original.value = clone.value;
-                            handleFilterChange('search');
+                            handleSearchFilterChange();
                         });
                         sheetBody.appendChild(clone);
                     }
@@ -1521,8 +1560,58 @@
             searchModalClose.addEventListener('click', closeSearchModal);
             searchModal.addEventListener('click', (e) => { if(e.target === searchModal) closeSearchModal(); });
 
+            function getSearchFilterState() {
+                return {
+                    sort: 'popularity.desc',
+                    genre: document.getElementById('searchGenre').value,
+                    year: document.getElementById('searchYear').value,
+                    rating: document.getElementById('searchRating').value
+                };
+            }
+            
+            function renderSearchChips() {
+                const chipsContainer = document.getElementById('searchActiveChips');
+                chipsContainer.innerHTML = '';
+                const type = document.getElementById('searchType').value;
+                const state = getSearchFilterState();
+                
+                let activeCount = 0;
+                if (type !== 'multi') { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Type">${type === 'movie' ? 'Movies' : 'TV'} <i class="fas fa-times"></i></div>`; }
+                if (state.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Genre">${GENRES[type === 'tv' ? 'tv' : 'movie'][state.genre]} <i class="fas fa-times"></i></div>`; }
+                if (state.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Year">${state.year} <i class="fas fa-times"></i></div>`; }
+                if (state.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="Rating">⭐ ${state.rating}+ <i class="fas fa-times"></i></div>`; }
+                
+                if (activeCount > 0) {
+                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearSearchFilters">Clear All</button>`;
+                    document.getElementById('clearSearchFilters').addEventListener('click', () => {
+                        document.getElementById('searchType').value = 'multi';
+                        document.getElementById('searchGenre').value = '';
+                        document.getElementById('searchYear').value = '';
+                        document.getElementById('searchRating').value = '';
+                        handleSearchFilterChange();
+                        if (modalSearchInput.value.trim().length >= 2) modalSearchInput.dispatchEvent(new Event('input'));
+                    });
+                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
+                        chip.addEventListener('click', () => {
+                            const filterKey = chip.dataset.filter;
+                            document.getElementById('search' + filterKey).value = filterKey === 'Type' ? 'multi' : '';
+                            handleSearchFilterChange();
+                            if (modalSearchInput.value.trim().length >= 2) modalSearchInput.dispatchEvent(new Event('input'));
+                        });
+                    });
+                }
+            }
+
+            function handleSearchFilterChange() {
+                renderSearchChips();
+                if (modalSearchInput.value.trim().length >= 2) {
+                    clearTimeout(searchDebounceTimer);
+                    searchDebounceTimer = setTimeout(() => { modalSearchInput.dispatchEvent(new Event('input')); }, 300);
+                }
+            }
+
             ['searchType', 'searchGenre', 'searchYear', 'searchRating'].forEach(id => {
-                document.getElementById(id).addEventListener('change', () => handleFilterChange('search'));
+                document.getElementById(id).addEventListener('change', handleSearchFilterChange);
             });
 
             modalSearchInput.addEventListener('input', function() {
@@ -1536,15 +1625,14 @@
                 searchTimeout = setTimeout(async () => {
                     try {
                         const type = document.getElementById('searchType').value;
-                        const state = getFilterState('search');
-                        
+                        const state = getSearchFilterState();
                         const discoverType = type === 'multi' ? 'movie' : type;
                         const hasFilters = state.genre || state.year || state.rating;
                         
                         let items = [];
-                        
                         if (hasFilters || type !== 'multi') {
-                            const endpoint = buildDiscoverUrl(discoverType, 1, state, q);
+                            let endpoint = buildDiscoverUrl(discoverType, 1, state);
+                            endpoint += `&with_text_query=${encodeURIComponent(q)}`;
                             const data = await tmdbFetch(endpoint);
                             items = (data.results || []).filter(r => r.poster_path).slice(0, 18);
                             items.forEach(item => item.media_type = discoverType);
