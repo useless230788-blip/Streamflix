@@ -1002,7 +1002,7 @@
                 
                 heroMovies.forEach((m,i)=>{
                     const backdrop = TMDB_BACK + m.backdrop_path;
-                    const poster = TMDB_IMG + m.poster_path; // Vertical poster for mobile
+                    const poster = TMDB_IMG + m.poster_path; 
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
@@ -1214,16 +1214,15 @@
             }
 
             async function initSections(){
-                const container=document.getElementById('sectionsContainer'); 
-                container.innerHTML = '<div class="main-cat-header" id="mainCatHeaderClone"></div>'; // Keep header if re-init
-                const mainHeader = document.getElementById('mainCatHeader');
-                if(mainHeader) container.prepend(mainHeader);
+                const container = document.getElementById('sectionsContainer'); 
+                const mainHeader = document.getElementById('mainCatHeader'); // Grab before clearing
+                container.innerHTML = ''; // Clear container safely
+                if (mainHeader) container.appendChild(mainHeader); // Put it back
                 
-                SECTIONS.forEach(c=>container.appendChild(createSecHTML(c)));
+                SECTIONS.forEach(c => container.appendChild(createSecHTML(c)));
                 await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
             }
 
-            // Sub-category view (No filters now)
             let catViewCfg = null;
             let catViewPage = 1;
 
@@ -1383,6 +1382,7 @@
                         mainFilterPage = 1;
                         loadMainFilteredGrid();
                     } else {
+                        SECTIONS = CATEGORIES[currentCat]; 
                         initSections();
                     }
                 }, 300);
@@ -1390,8 +1390,8 @@
 
             async function loadMainFilteredGrid() {
                 const container = document.getElementById('sectionsContainer');
-                container.innerHTML = '';
                 const mainHeader = document.getElementById('mainCatHeader');
+                container.innerHTML = '';
                 container.appendChild(mainHeader);
                 
                 const grid = document.createElement('div');
@@ -1463,19 +1463,27 @@
 
             function renderMyListSection() {
                 const container = document.getElementById('sectionsContainer');
-                container.innerHTML = '';
                 const mainHeader = document.getElementById('mainCatHeader');
-                if(mainHeader) mainHeader.classList.remove('visible');
+                container.innerHTML = '';
+                if (mainHeader) {
+                    mainHeader.classList.remove('visible');
+                    container.appendChild(mainHeader);
+                }
+                
                 const heroWrapper = document.getElementById('heroWrapper');
                 if(heroTimer) clearInterval(heroTimer); 
                 heroWrapper.style.display = 'none'; 
 
                 if (watchlist.length === 0) {
-                    container.innerHTML = `<div style="text-align: center; padding: 100px 20px; color: #888;"><i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 20px; display: block; color: var(--red);" aria-hidden="true"></i><h2 style="font-size: 1.5rem; margin-bottom: 10px;">Your list is empty</h2><p>Add movies and shows to your list to watch them later!</p></div>`;
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.style.cssText = 'text-align: center; padding: 100px 20px; color: #888;';
+                    emptyDiv.innerHTML = `<i class="fas fa-bookmark" style="font-size: 3rem; margin-bottom: 20px; display: block; color: var(--red);" aria-hidden="true"></i><h2 style="font-size: 1.5rem; margin-bottom: 10px;">Your list is empty</h2><p>Add movies and shows to your list to watch them later!</p>`;
+                    container.appendChild(emptyDiv);
                     return;
                 }
 
-                const sec = document.createElement('div'); sec.className = 'section';
+                const sec = document.createElement('div');
+                sec.className = 'section';
                 sec.innerHTML = `<h2 class="section-title">My List</h2><div class="row-scroll-area"><div class="row-track" id="grid-mylist" style="overflow-x: auto; flex-wrap: wrap; gap: 16px;"></div></div>`;
                 container.appendChild(sec);
                 
