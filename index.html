@@ -51,32 +51,19 @@
         .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-shadow: 0 0 20px var(--red-glow); user-select: none; transition: transform 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); }
         
-        /* INDIVIDUAL PILL STYLE CATEGORY BAR (TEXT ONLY) */
         .nav-links { display: flex; gap: 8px; font-size: 13px; font-weight: 500; align-items: center; }
         .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted); text-decoration: none; cursor: pointer;
+            padding: 8px 16px; border-radius: 20px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            transition: var(--premium-transition);
-            white-space: nowrap;
-            letter-spacing: 0.3px;
+            transition: var(--premium-transition); white-space: nowrap; letter-spacing: 0.3px;
         }
-        .nav-links a:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.16);
-            border-color: rgba(255,255,255,0.2);
-        }
+        .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.2); }
         .nav-links a.active {
-            color: #fff;
-            font-weight: 700;
+            color: #fff; font-weight: 700;
             background: linear-gradient(to bottom, var(--red), var(--red-dark));
-            border-color: rgba(0,0,0,0.2);
-            box-shadow: 0 4px 15px var(--red-glow), inset 0 1px 0 rgba(255,255,255,0.25);
+            border-color: rgba(0,0,0,0.2); box-shadow: 0 4px 15px var(--red-glow), inset 0 1px 0 rgba(255,255,255,0.25);
         }
         
         .nav-right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
@@ -87,20 +74,16 @@
         .watchlist-btn-nav { background: none; border: none; font-size: 1.1rem; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--premium-transition); position: relative; padding: 8px; border-radius: 50%; }
         .watchlist-btn-nav:hover { color: var(--red); background: rgba(255,255,255,0.05); transform: scale(1.1); }
         .notif-badge {
-            position: absolute; top: 2px; right: 2px;
-            background: var(--red); color: #fff;
-            border-radius: 50%; min-width: 16px; height: 16px;
-            font-size: 9px; font-weight: 700; display: none;
-            align-items: center; justify-content: center; padding: 0 4px;
-            border: 2px solid var(--bg); box-shadow: 0 0 10px var(--red-glow);
-            animation: badgePulse 2s ease-in-out infinite;
+            position: absolute; top: 2px; right: 2px; background: var(--red); color: #fff;
+            border-radius: 50%; min-width: 16px; height: 16px; font-size: 9px; font-weight: 700; display: none;
+            align-items: center; justify-content: center; padding: 0 4px; border: 2px solid var(--bg);
+            box-shadow: 0 0 10px var(--red-glow); animation: badgePulse 2s ease-in-out infinite;
         }
         .notif-badge.visible { display: flex; }
         @keyframes badgePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .profile-avatar { width: 32px; height: 32px; border-radius: 6px; background: linear-gradient(135deg, #e50914, #4a0408); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); transition: var(--premium-transition); }
         .profile-avatar:hover { transform: scale(1.05); box-shadow: 0 0 0 2px rgba(255,255,255,0.2); }
         
-        /* FLOATING GLASS BOTTOM NAV (PORTRAIT MODE) */
         .bottom-nav { 
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); 
             width: calc(100% - 30px); max-width: 450px; height: 60px; 
@@ -108,22 +91,18 @@
             backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); 
             border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; 
             display: none; justify-content: space-around; align-items: center; 
-            z-index: 100; padding: 0 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            z-index: 100; padding: 0 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
         }
         .bottom-nav a { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            gap: 4px; color: var(--text-muted); font-size: 9px; font-weight: 600; 
-            cursor: pointer; text-decoration: none; flex: 1; height: 44px; 
-            transition: color 0.3s ease; user-select: none; position: relative;
-            border-radius: 20px;
+            gap: 4px; color: var(--text-muted); font-size: 9px; font-weight: 600; cursor: pointer; 
+            text-decoration: none; flex: 1; height: 44px; transition: color 0.3s ease; user-select: none; position: relative; border-radius: 20px;
         }
         .bottom-nav a i { font-size: 1.1rem; transition: transform 0.3s ease; }
         .bottom-nav a.active { color: #fff; background: rgba(229,9,20,0.15); }
         .bottom-nav a.active i { color: var(--red); transform: translateY(-1px) scale(1.1); }
         .bottom-nav .notif-badge { top: 4px; right: 50%; transform: translateX(20px); }
 
-        /* HERO WRAPPER - MANAGES BOTH HEROES */
         .hero-wrapper { position: relative; z-index: 1; background: var(--bg); }
         
         /* LANDSCAPE CINEMATIC HERO (Desktop) */
@@ -148,9 +127,9 @@
         .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px); }
         .hero-landscape .hero-dots { position: absolute; bottom: 20%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         
-        /* PORTRAIT CARD HERO (Mobile) */
-        .hero-portrait { display: none; padding-top: 100px; padding-bottom: 20px; position: relative; background: var(--bg); }
-        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 15px; scroll-padding-left: 16px; }
+        /* PORTRAIT CARD HERO (Mobile) - Ref Image Match */
+        .hero-portrait { display: none; padding-top: 90px; padding-bottom: 10px; position: relative; background: var(--bg); }
+        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 10px; scroll-padding-left: 16px; }
         .hero-portrait .hero-track::-webkit-scrollbar { display: none; }
         .hero-portrait .hero-slide { position: relative; flex: 0 0 88%; width: 88%; aspect-ratio: 16 / 9; scroll-snap-align: center; background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-left: 6%; }
         .hero-portrait .hero-slide:last-child { margin-right: 6%; }
@@ -158,8 +137,7 @@
         .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.9) 100%); z-index: 2; }
         .hero-portrait .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 3; }
         .hero-portrait .hero-label { font-size: 9px; letter-spacing: 3px; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
-        .hero-portrait .hero-label::before { content: ''; width: 15px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .hero-portrait .hero-label::after { content: ''; width: 15px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
+        .hero-portrait .hero-label::before, .hero-portrait .hero-label::after { content: ''; width: 15px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
         .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.2rem; font-weight: 900; margin: 0 0 5px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
         .hero-portrait .hero-title-logo { max-width: 70%; max-height: 40px; margin: 0 auto 5px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
         .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 8px 0; font-size: 10px; flex-wrap: wrap; justify-content: center; }
@@ -195,8 +173,10 @@
         .card { flex: 0 0 auto; width: 200px; background: var(--bg-card); border-radius: 8px; position: relative; cursor: pointer; transition: var(--premium-transition); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); }
         .card:hover { transform: scale(1.08) translateY(-8px); z-index: 50; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); }
         .card-thumb { position: relative; width: 100%; padding-top: 150%; background: #111; overflow: hidden; }
-        .card-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-        .card:hover .card-thumb img { transform: scale(1.1); }
+        /* Image Fade-in Fix */
+        .card-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease, opacity 0.3s ease; opacity: 0; }
+        .card-thumb img.loaded { opacity: 1; }
+        .card:hover .card-thumb img.loaded { transform: scale(1.1); }
         .card-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.85) 100%); opacity: 0; display: flex; align-items: flex-end; padding: 12px; transition: opacity 0.4s ease; }
         .card:hover .card-overlay { opacity: 1; }
         .card-buttons { display: flex; gap: 6px; }
@@ -218,8 +198,9 @@
         .top10-card:hover .top10-rank { -webkit-text-stroke: 3px #e50914; }
         .top10-poster { width: 200px; height: 300px; border-radius: 8px; overflow: hidden; z-index: 2; background: #111; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; border: 1px solid rgba(255,255,255,0.05); transition: var(--premium-transition); }
         .top10-card:hover .top10-poster { box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.2); }
-        .top10-poster img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-        .top10-card:hover .top10-poster img { transform: scale(1.1); }
+        .top10-poster img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; opacity: 0; }
+        .top10-poster img.loaded { opacity: 1; }
+        .top10-card:hover .top10-poster img.loaded { transform: scale(1.1); }
 
         .recent-wrap { margin: 0 0 36px; display:none; position: relative; }
         .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: var(--red); display: none; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; cursor: pointer; z-index: 90; box-shadow: 0 8px 25px var(--red-glow); transition: var(--premium-transition); border: 1px solid rgba(255,255,255,0.1); }
@@ -247,7 +228,6 @@
         .modal-body span.value { color: #fff; font-size: 0.95rem; font-weight: 400; }
         .modal-meta { display: flex; gap: 14px; align-items: center; font-size: 0.9rem; margin-bottom: 16px; }
         
-        /* PREMIUM CAST & STATS IN MODAL */
         .modal-cast-section { padding: 0 50px 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; }
         .cast-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; color: #fff; }
         .cast-grid { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px; }
@@ -264,11 +244,11 @@
         .stat-item .stat-val { font-size: 0.9rem; font-weight: 600; color: #fff; }
 
         .search-modal-body { padding: 40px; }
-        .search-input-wrapper { display: flex; align-items: center; background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px 20px; margin-bottom: 20px; transition: var(--premium-transition); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .search-input-wrapper { display: flex; align-items: center; background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 14px 20px; margin-bottom: 15px; transition: var(--premium-transition); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
         .search-input-wrapper:focus-within { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
         .search-input-wrapper i { color: var(--text-muted); font-size: 1.2rem; margin-right: 15px; }
         .search-input-wrapper input { background: transparent; border: none; outline: none; color: var(--text); font-size: 1.1rem; width: 100%; font-family: 'Inter', sans-serif; }
-        .search-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        
         .search-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; max-height: 50vh; overflow-y: auto; padding-right: 10px; }
         .search-results-grid .card { width: 100%; }
         .search-results-grid::-webkit-scrollbar { width: 6px; }
@@ -277,8 +257,7 @@
         .search-results-grid::-webkit-scrollbar-thumb:hover { background: #fff; }
 
         .notif-panel {
-            position: fixed; top: 75px; right: 50px;
-            width: 380px; max-height: 70vh; background: rgba(20,20,20,0.9);
+            position: fixed; top: 75px; right: 50px; width: 380px; max-height: 70vh; background: rgba(20,20,20,0.9);
             backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.05);
@@ -309,18 +288,44 @@
         .notif-empty { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 0.9rem; }
         .notif-empty i { display: block; font-size: 2.5rem; margin-bottom: 14px; color: var(--text-dim); }
 
-        .category-view { display: none; padding-top: 100px; padding-bottom: 50px; min-height: 100vh; }
+        .category-view { display: none; padding-top: 90px; padding-bottom: 50px; min-height: 100vh; }
         .cat-view-header { padding: 0 50px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
         .cat-view-title { font-family: var(--netflix-sans); font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
-        .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-        .filter-chip { background: rgba(255,255,255,0.1); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--premium-transition); font-family: 'Inter', sans-serif; }
-        .filter-chip:hover { background: rgba(255,255,255,0.2); color: #fff; }
-        .filter-chip.active { background: var(--red); color: #fff; border-color: var(--red); box-shadow: 0 4px 10px var(--red-glow); }
         .btn-back { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(255,255,255,0.08); color: var(--text); text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; transition: var(--premium-transition); cursor: pointer; border: 1px solid rgba(255,255,255,0.1); font-family: 'Inter', sans-serif; height: fit-content; }
         .btn-back:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.2); transform: translateX(-4px); }
+        
+        /* FILTER BAR STYLES */
+        .filter-bar { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; margin-bottom: 15px; }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        .filter-select {
+            appearance: none; -webkit-appearance: none;
+            background: rgba(255,255,255,0.1); color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 30px 8px 14px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%23fff' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat; background-position: right 8px center;
+            transition: var(--premium-transition); white-space: nowrap;
+        }
+        .filter-select:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); }
+        .filter-select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 2px var(--red-glow); }
+        .filter-select option { background: #141414; color: #fff; }
+        
+        .active-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .chip { background: rgba(229,9,20,0.2); color: #fff; border: 1px solid var(--red); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--premium-transition); }
+        .chip:hover { background: rgba(229,9,20,0.4); }
+        .chip i { font-size: 10px; }
+        .clear-filters-btn { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--premium-transition); font-family: 'Inter', sans-serif; }
+        .clear-filters-btn:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.1); }
+
         .cat-view-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 0 50px; }
         .cat-view-grid .card { width: 100%; flex: none; } 
         
+        .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; grid-column: 1 / -1; }
+        .empty-state i { font-size: 3rem; margin-bottom: 20px; color: var(--text-dim); }
+        .empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; color: #fff; }
+
         .load-more-btn { display: block; margin: 40px auto; padding: 14px 50px; background: var(--red); color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--premium-transition); font-family: 'Inter', sans-serif; box-shadow: 0 8px 20px var(--red-glow); }
         .load-more-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 12px 24px var(--red-glow); }
         .load-more-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
@@ -338,7 +343,6 @@
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; border: 2px solid transparent; background-clip: padding-box; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); background-clip: padding-box; border: 2px solid transparent; }
 
-        /* RESPONSIVE FIXES */
         @media (max-width: 900px) {
             .nav { padding: 14px 20px; } .nav.scrolled { padding: 10px 20px; } .nav-credits { display: none; }
             .section-title { padding: 0 20px; font-size: 1.2rem; } .row-track { padding: 0 20px; } footer { padding: 20px; }
@@ -348,6 +352,7 @@
             .search-modal-body { padding: 20px; } .search-results-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; }
             .notif-panel { right: 10px; left: 10px; width: auto; top: 60px; max-height: 65vh; }
             .modal-cast-section { padding: 0 20px 30px; }
+            .filter-bar { padding: 10px 20px; }
         }
 
         @media (max-width: 768px) {
@@ -359,12 +364,8 @@
             .nav { justify-content: space-between; padding: 12px 16px; }
             .nav-logo { font-size: 1.4rem; margin: 0; }
             .nav-right { gap: 10px; margin-left: 0; }
-
-            /* SWITCH HEROES ON MOBILE */
             .hero-landscape { display: none; }
             .hero-portrait { display: block; }
-            
-            /* Ensure at least 2 cards show in rows */
             .card { width: 140px; }
         }
 
@@ -432,13 +433,38 @@
 
     <div class="category-view" id="categoryView">
         <div class="cat-view-header">
-            <div>
+            <div style="flex:1; width: 100%;">
                 <h1 class="cat-view-title" id="categoryViewTitle">Category</h1>
-                <div class="filter-chips" id="catFilterChips" style="display: none;">
-                    <button class="filter-chip active" data-sort="popularity.desc">Popular</button>
-                    <button class="filter-chip" data-sort="vote_average.desc&vote_count.gte=200">Top Rated</button>
-                    <button class="filter-chip" data-sort="release_date.desc">Newest</button>
+                <div class="filter-bar" id="catFilterBar">
+                    <select class="filter-select" id="catSortBy">
+                        <option value="popularity.desc">Sort: Popular</option>
+                        <option value="vote_average.desc">Sort: Top Rated</option>
+                        <option value="primary_release_date.desc">Sort: Newest</option>
+                        <option value="primary_release_date.asc">Sort: Oldest</option>
+                        <option value="original_title.asc">Sort: A-Z</option>
+                        <option value="original_title.desc">Sort: Z-A</option>
+                    </select>
+                    <select class="filter-select" id="catGenre"><option value="">All Genres</option></select>
+                    <select class="filter-select" id="catLang"><option value="">All Languages</option></select>
+                    <select class="filter-select" id="catYear">
+                        <option value="">All Years</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2020-2023">2020-2023</option>
+                        <option value="2010-2019">2010-2019</option>
+                        <option value="before2010">Before 2010</option>
+                    </select>
+                    <select class="filter-select" id="catRating">
+                        <option value="">Any Rating</option>
+                        <option value="9">9+ Stars</option>
+                        <option value="8">8+ Stars</option>
+                        <option value="7">7+ Stars</option>
+                        <option value="6">6+ Stars</option>
+                        <option value="5">5+ Stars</option>
+                    </select>
                 </div>
+                <div class="active-chips" id="catActiveChips"></div>
             </div>
             <button class="btn-back" id="closeCategoryView"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Home</button>
         </div>
@@ -481,11 +507,30 @@
                     <i class="fas fa-search" aria-hidden="true"></i>
                     <input type="text" id="modalSearchInput" placeholder="Search for movies, TV shows..." autocomplete="off" aria-label="Search query">
                 </div>
-                <div class="search-filters" id="searchFilters">
-                    <button class="filter-chip active" data-type="multi">All</button>
-                    <button class="filter-chip" data-type="movie">Movies</button>
-                    <button class="filter-chip" data-type="tv">TV Shows</button>
+                <div class="filter-bar" id="searchFilterBar">
+                    <select class="filter-select" id="searchType">
+                        <option value="multi">All</option>
+                        <option value="movie">Movies</option>
+                        <option value="tv">TV Shows</option>
+                    </select>
+                    <select class="filter-select" id="searchGenre"><option value="">All Genres</option></select>
+                    <select class="filter-select" id="searchYear">
+                        <option value="">All Years</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2020-2023">2020-2023</option>
+                        <option value="2010-2019">2010-2019</option>
+                        <option value="before2010">Before 2010</option>
+                    </select>
+                    <select class="filter-select" id="searchRating">
+                        <option value="">Any Rating</option>
+                        <option value="9">9+ Stars</option>
+                        <option value="8">8+ Stars</option>
+                        <option value="7">7+ Stars</option>
+                    </select>
                 </div>
+                <div class="active-chips" id="searchActiveChips"></div>
                 <div class="search-results-grid" id="searchResultsGrid"></div>
             </div>
         </div>
@@ -506,6 +551,13 @@
         });
 
         (function() {
+            // Image Fade-in Helper
+            document.addEventListener('load', (e) => {
+                if (e.target.tagName === 'IMG' && e.target.classList.contains('card-thumb-img')) {
+                    e.target.classList.add('loaded');
+                }
+            }, true);
+
             const canvas = document.getElementById('starCanvas');
             const ctx = canvas.getContext('2d');
             let stars = [];
@@ -527,7 +579,7 @@
 
             const API_BASE = '/api/tmdb';
             const TMDB_IMG = 'https://image.tmdb.org/t/p/w342'; 
-            const TMDB_BACK = 'https://image.tmdb.org/t/p/w1280'; 
+            const TMDB_BACK = 'https://image.tmdb.org/t/p/w780'; // Optimized size
             const TMDB_LOGO = 'https://image.tmdb.org/t/p/w500'; 
             const TMDB_CAST = 'https://image.tmdb.org/t/p/w185';
             const tmdbCache = new Map();
@@ -548,14 +600,9 @@
                 }
             }
 
-            // Caching mechanism for API calls
             async function tmdbFetch(endpoint) {
                 const cacheKey = `tmdb_${endpoint}`;
-                
-                // 1. Check in-memory cache
                 if (tmdbCache.has(endpoint)) return tmdbCache.get(endpoint);
-                
-                // 2. Check localStorage cache (1 hour TTL)
                 try {
                     const localCached = localStorage.getItem(cacheKey);
                     if (localCached) {
@@ -573,16 +620,38 @@
                     if (!res.ok) { console.error(`API Error (${res.status}) for ${endpoint}`); throw new Error(`API fail: ${res.status}`); }
                     const data = await res.json();
                     tmdbCache.set(endpoint, data);
-                    
-                    // Save to localStorage
-                    try {
-                        localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() }));
-                    } catch(e) { /* LocalStorage might be full, ignore */ }
-                    
+                    try { localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() })); } catch(e) {}
                     return data;
                 } catch (error) {
                     console.error(`Failed to fetch ${endpoint}:`, error);
                     throw error;
+                }
+            }
+
+            const GENRES = {
+                movie: { 28: 'Action', 12: 'Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 14: 'Fantasy', 36: 'History', 27: 'Horror', 10402: 'Music', 9648: 'Mystery', 10749: 'Romance', 878: 'Sci-Fi', 53: 'Thriller', 10752: 'War', 37: 'Western' },
+                tv: { 10759: 'Action & Adventure', 16: 'Animation', 35: 'Comedy', 80: 'Crime', 99: 'Documentary', 18: 'Drama', 10751: 'Family', 10762: 'Kids', 9648: 'Mystery', 10763: 'News', 10764: 'Reality', 10765: 'Sci-Fi & Fantasy', 10766: 'Soap', 10767: 'Talk', 10768: 'War & Politics', 37: 'Western' }
+            };
+            const LANGUAGES = { en: 'English', hi: 'Hindi', ja: 'Japanese', ko: 'Korean', es: 'Spanish', fr: 'French', ta: 'Tamil', te: 'Telugu', ml: 'Malayalam', kn: 'Kannada', bn: 'Bengali', zh: 'Chinese', de: 'German', it: 'Italian' };
+            
+            function populateGenreDropdown(elId, type) {
+                const sel = document.getElementById(elId);
+                const currentVal = sel.value;
+                sel.innerHTML = '<option value="">All Genres</option>';
+                for (const [id, name] of Object.entries(GENRES[type])) {
+                    const opt = document.createElement('option');
+                    opt.value = id; opt.textContent = name;
+                    sel.appendChild(opt);
+                }
+                sel.value = currentVal;
+            }
+            function populateLangDropdown(elId) {
+                const sel = document.getElementById(elId);
+                sel.innerHTML = '<option value="">All Languages</option>';
+                for (const [code, name] of Object.entries(LANGUAGES)) {
+                    const opt = document.createElement('option');
+                    opt.value = code; opt.textContent = name;
+                    sel.appendChild(opt);
                 }
             }
 
@@ -638,13 +707,10 @@
             let SECTIONS = CATEGORIES.home;
             let watchlist=[], recent=[], heroMovies=[], heroIdx=0, heroTimer;
             let loadingSec = new Set(), endedSec = new Set();
-            let currentHeroGen = 0; // To prevent race conditions
-            
+            let currentHeroGen = 0;
             let seenNotifIds = new Set();
             let lastNotifFetch = 0;
             let cachedNotifMovies = [];
-
-            // Focus trapping variables
             let activeModal = null;
             let lastFocusedElement = null;
 
@@ -677,7 +743,7 @@
                 card.dataset.id=id; card.dataset.type=type;
                 card.innerHTML = `
                     <div class="card-thumb">
-                        <img src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onerror="this.style.background='#222';">
+                        <img class="card-thumb-img" src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onload="this.classList.add('loaded')" onerror="this.style.background='#222';this.classList.add('loaded');">
                         <div class="card-overlay">
                             <div class="card-buttons">
                                 <button class="circle-btn play-btn" aria-label="Play ${esc(title)}"><i class="fas fa-play" aria-hidden="true"></i></button>
@@ -713,10 +779,9 @@
                 card.innerHTML = `
                     <div class="top10-rank" aria-hidden="true">${rank}</div>
                     <div class="top10-poster">
-                        <img src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onerror="this.style.background='#222';">
+                        <img class="card-thumb-img" src="${posterPath}" loading="lazy" decoding="async" alt="${esc(title)}" onload="this.classList.add('loaded')" onerror="this.style.background='#222';this.classList.add('loaded');">
                     </div>
                 `;
-                
                 card.addEventListener('click', () => openMovieModal(id, type));
                 return card;
             }
@@ -748,7 +813,7 @@
                 const grid=document.getElementById('recentGrid'); grid.innerHTML='';
                 recent.forEach(r=>{
                     const c=document.createElement('div'); c.className='card';
-                    c.innerHTML=`<div class="card-thumb"><img src="${r.poster}" loading="lazy" decoding="async" alt="${esc(r.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(r.title)}"><i class="fas fa-play" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(r.title)}</div><div class="card-meta"><span class="match">Recently Watched</span> <span>${r.year}</span></div></div>`;
+                    c.innerHTML=`<div class="card-thumb"><img class="card-thumb-img" src="${r.poster}" loading="lazy" decoding="async" alt="${esc(r.title)}" onload="this.classList.add('loaded')" onerror="this.style.background='#222';this.classList.add('loaded');"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(r.title)}"><i class="fas fa-play" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(r.title)}</div><div class="card-meta"><span class="match">Recently Watched</span> <span>${r.year}</span></div></div>`;
                     c.addEventListener('click', () => openMovieModal(r.id, r.type));
                     c.querySelector('.play-btn').addEventListener('click', e => { e.stopPropagation(); addRecent(r.id, r.title, r.poster, r.year, r.type); window.location.href=`player.html?id=${r.id}&type=${r.type}`; });
                     grid.appendChild(c);
@@ -770,7 +835,6 @@
                     if (focusable) focusable.focus();
                 }, 100);
             }
-
             function closeModalUI(modalEl) {
                 modalEl.classList.remove('active');
                 if (!modal.classList.contains('active') && !searchModal.classList.contains('active')) {
@@ -785,7 +849,6 @@
                     closeModalUI(searchModal);
                     await new Promise(r => setTimeout(r, 150));
                 }
-                
                 openModalUI(modal);
                 document.getElementById('modalBackdrop').src = '';
                 document.getElementById('modalTitle').textContent = 'Loading...';
@@ -851,10 +914,8 @@
             function closeModal() { closeModalUI(modal); }
             modalClose.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-            
             function closeSearchModal() { closeModalUI(searchModal); modalSearchInput.value = ''; searchResultsGrid.innerHTML = ''; }
 
-            // Global keydown for Escape and Focus Trapping
             document.addEventListener('keydown', (e) => {
                 if(e.key === 'Escape') { 
                     if (modal.classList.contains('active')) closeModal();
@@ -866,23 +927,16 @@
                     if (focusable.length === 0) return;
                     const first = focusable[0];
                     const last = focusable[focusable.length - 1];
-                    
                     if (e.shiftKey) {
-                        if (document.activeElement === first) {
-                            e.preventDefault();
-                            last.focus();
-                        }
+                        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
                     } else {
-                        if (document.activeElement === last) {
-                            e.preventDefault();
-                            first.focus();
-                        }
+                        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
                     }
                 }
             });
 
             function buildHero(movies, type = 'movie'){
-                currentHeroGen++; // Invalidate any previous async hero logo loads
+                currentHeroGen++; 
                 const heroGen = currentHeroGen;
 
                 heroMovies = movies.filter(m=>m.backdrop_path && m.poster_path).slice(0,5);
@@ -895,24 +949,21 @@
                     return; 
                 }
                 
-                // Build Landscape DOM
                 heroL.innerHTML = '<div class="hero-dots" id="heroDotsLandscape"></div>';
                 const dotsL = document.getElementById('heroDotsLandscape');
                 
-                // Build Portrait DOM
                 heroP.innerHTML = '<div class="hero-track" id="heroTrackPortrait"></div><div class="hero-dots" id="heroDotsPortrait"></div>';
                 const trackP = document.getElementById('heroTrackPortrait');
                 const dotsP = document.getElementById('heroDotsPortrait');
                 
                 heroMovies.forEach((m,i)=>{
                     const backdrop = TMDB_BACK + m.backdrop_path;
-                    const poster = TMDB_BACK + m.backdrop_path; // Use backdrop for portrait card 16:9
+                    const poster = TMDB_BACK + m.backdrop_path; 
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
                     const match = m.vote_average ? Math.round(m.vote_average * 10) : 0;
                     
-                    // Landscape Slide
                     const slideL = document.createElement('div'); 
                     slideL.className = 'hero-slide' + (i===0 ? ' active':'');
                     slideL.style.backgroundImage = `url(${backdrop})`;
@@ -935,7 +986,6 @@
                     dotL.addEventListener('click', () => goHero(i)); 
                     dotsL.appendChild(dotL);
                     
-                    // Portrait Slide
                     const slideP = document.createElement('div'); 
                     slideP.className = 'hero-slide';
                     slideP.innerHTML = `
@@ -964,7 +1014,6 @@
                     dotsP.appendChild(dotP);
                 });
                 
-                // Bind Buttons - Fixed safe title lookup
                 document.querySelectorAll('.hero-watch').forEach(btn => btn.addEventListener('click', e => { 
                     e.stopPropagation(); 
                     const id = btn.dataset.id, type = btn.dataset.type; 
@@ -980,7 +1029,6 @@
                     openMovieModal(btn.dataset.id, btn.dataset.type); 
                 }));
 
-                // IntersectionObserver for portrait hero to sync dots and auto-advance
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
@@ -995,29 +1043,20 @@
                 }, { threshold: [0.6], root: trackP });
                 document.querySelectorAll('#heroTrackPortrait .hero-slide').forEach(s => observer.observe(s));
 
-                // Pause on hover for Portrait
                 trackP.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
                 trackP.addEventListener('mouseleave', startHeroAuto);
-                
-                // Pause on hover for Landscape
                 heroL.addEventListener('mouseenter', () => { if(heroTimer) clearInterval(heroTimer); });
                 heroL.addEventListener('mouseleave', startHeroAuto);
 
                 heroIdx = 0; 
                 startHeroAuto();
                 
-                // Fetch and replace titles with logos for BOTH heroes
                 heroMovies.forEach(async (m, i) => {
                     try {
-                        const endpoint = type === 'movie' 
-                            ? `/movie/${m.id}?append_to_response=images` 
-                            : `/tv/${m.id}?append_to_response=images`;
+                        const endpoint = type === 'movie' ? `/movie/${m.id}?append_to_response=images` : `/tv/${m.id}?append_to_response=images`;
                         const data = await tmdbFetch(endpoint);
-                        const logos = data.images && data.images.logos 
-                            ? data.images.logos.filter(l => l.iso_639_1 === 'en' && l.file_path)
-                            : [];
+                        const logos = data.images && data.images.logos ? data.images.logos.filter(l => l.iso_639_1 === 'en' && l.file_path) : [];
                         if (logos.length > 0 && heroGen === currentHeroGen) {
-                            // Landscape Logo
                             const slidesL = document.querySelectorAll('#heroLandscape .hero-slide');
                             const slideL = slidesL[i];
                             if (slideL) {
@@ -1031,7 +1070,6 @@
                                     titleElL.replaceWith(logoImg);
                                 }
                             }
-                            // Portrait Logo
                             const slidesP = document.querySelectorAll('#heroTrackPortrait .hero-slide');
                             const slideP = slidesP[i];
                             if (slideP) {
@@ -1046,9 +1084,7 @@
                                 }
                             }
                         }
-                    } catch(e) { 
-                        // Silent fail
-                    }
+                    } catch(e) {}
                 });
             }
             
@@ -1056,23 +1092,15 @@
                 const slidesL = document.querySelectorAll('#heroLandscape .hero-slide');
                 const trackP = document.getElementById('heroTrackPortrait');
                 if(!slidesL.length && !trackP) return;
-                
                 heroIdx = i;
-                
-                // Update Landscape
                 slidesL.forEach((s, idx) => s.classList.toggle('active', idx === heroIdx));
                 document.querySelectorAll('#heroDotsLandscape .hero-dot').forEach((d, idx) => d.classList.toggle('active', idx === heroIdx));
-                
-                // Update Portrait Scroll
                 if(trackP) {
                     const targetSlide = trackP.children[heroIdx];
-                    if (targetSlide) {
-                        trackP.scrollTo({ left: targetSlide.offsetLeft, behavior: 'smooth' });
-                    }
+                    if (targetSlide) { trackP.scrollTo({ left: targetSlide.offsetLeft, behavior: 'smooth' }); }
                 }
                 document.querySelectorAll('#heroDotsPortrait .hero-dot').forEach((d, idx) => d.classList.toggle('active', idx === heroIdx));
             }
-            
             function startHeroAuto(){ 
                 if(heroTimer) clearInterval(heroTimer); 
                 if(heroMovies.length>1) {
@@ -1095,11 +1123,8 @@
             function populateGrid(key, movies, type, append=false){
                 const grid=document.getElementById('grid-'+key); if(!grid) return 0;
                 if(!append) grid.innerHTML='';
-                
                 if (key === 'top_streamflix' || key === 'top_streamflix_m') {
-                    movies.slice(0, 10).forEach((m, index) => {
-                        grid.appendChild(createTop10Card(m, type, index + 1));
-                    });
+                    movies.slice(0, 10).forEach((m, index) => { grid.appendChild(createTop10Card(m, type, index + 1)); });
                 } else {
                     movies.filter(m=>m.poster_path || m.backdrop_path).forEach(m=>grid.appendChild(createCard(m,type)));
                 }
@@ -1132,7 +1157,6 @@
                     populateGrid(c.key, data.slice(0, 10), c.type);
                     const secEl = document.querySelector(`.section[data-key="${c.key}"]`);
                     if (secEl) setupScroll(secEl);
-
                     if (c === SECTIONS[0]) {
                         const heroWrapper = document.getElementById('heroWrapper');
                         if (data.length) { heroWrapper.style.display = 'block'; buildHero(data, c.type); } 
@@ -1141,9 +1165,7 @@
                 } catch (error) {
                     console.error(`Failed to fetch section: ${c.key}`, error);
                     const grid = document.getElementById('grid-' + c.key);
-                    if (grid) {
-                        grid.innerHTML = `<div style="color: var(--text-muted); padding: 20px; text-align: center; width: 100%; font-size: 0.9rem;">Failed to load movies. Please disable ad-blockers or check connection.</div>`;
-                    }
+                    if (grid) { grid.innerHTML = `<div style="color: var(--text-muted); padding: 20px; text-align: center; width: 100%; font-size: 0.9rem;">Failed to load movies. Please disable ad-blockers or check connection.</div>`; }
                 }
             }
 
@@ -1151,14 +1173,76 @@
                 const container=document.getElementById('sectionsContainer'); 
                 container.innerHTML='';
                 SECTIONS.forEach(c=>container.appendChild(createSecHTML(c)));
-                
-                // Parallelize all fetches for maximum speed
                 await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
             }
 
             let catViewCfg = null;
-            let catViewEndpoint = '';
+            let catViewType = 'movie';
             let catViewPage = 1;
+            let catDebounceTimer;
+
+            function buildDiscoverUrl(type, page, filters, query = '') {
+                let endpoint = `/discover/${type}?page=${page}&sort_by=${filters.sort}&vote_count.gte=50`;
+                if (query) endpoint += `&with_text_query=${encodeURIComponent(query)}`;
+                if (filters.genre) endpoint += `&with_genres=${filters.genre}`;
+                if (filters.lang) endpoint += `&with_original_language=${filters.lang}`;
+                if (filters.year) {
+                    if (filters.year === '2020-2023') endpoint += `&primary_release_date.gte=2020-01-01&primary_release_date.lte=2023-12-31`;
+                    else if (filters.year === '2010-2019') endpoint += `&primary_release_date.gte=2010-01-01&primary_release_date.lte=2019-12-31`;
+                    else if (filters.year === 'before2010') endpoint += `&primary_release_date.lte=2009-12-31`;
+                    else endpoint += `&primary_release_date.gte=${filters.year}-01-01&primary_release_date.lte=${filters.year}-12-31`;
+                }
+                if (filters.rating) endpoint += `&vote_average.gte=${filters.rating}`;
+                return endpoint;
+            }
+
+            function renderCatChips() {
+                const chipsContainer = document.getElementById('catActiveChips');
+                chipsContainer.innerHTML = '';
+                const filters = {
+                    genre: document.getElementById('catGenre').value,
+                    lang: document.getElementById('catLang').value,
+                    year: document.getElementById('catYear').value,
+                    rating: document.getElementById('catRating').value
+                };
+                
+                let activeCount = 0;
+                if (filters.genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[catViewType][filters.genre]} <i class="fas fa-times"></i></div>`; }
+                if (filters.lang) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="lang">${LANGUAGES[filters.lang]} <i class="fas fa-times"></i></div>`; }
+                if (filters.year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${filters.year} <i class="fas fa-times"></i></div>`; }
+                if (filters.rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${filters.rating}+ <i class="fas fa-times"></i></div>`; }
+                
+                if (activeCount > 0) {
+                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearCatFilters">Clear All</button>`;
+                    document.getElementById('clearCatFilters').addEventListener('click', clearCatFilters);
+                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
+                        chip.addEventListener('click', () => {
+                            const filterKey = chip.dataset.filter;
+                            const selectId = 'cat' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1);
+                            document.getElementById(selectId).value = '';
+                            handleCatFilterChange();
+                        });
+                    });
+                }
+            }
+
+            function clearCatFilters() {
+                document.getElementById('catGenre').value = '';
+                document.getElementById('catLang').value = '';
+                document.getElementById('catYear').value = '';
+                document.getElementById('catRating').value = '';
+                document.getElementById('catSortBy').value = 'popularity.desc';
+                handleCatFilterChange();
+            }
+
+            function handleCatFilterChange() {
+                renderCatChips();
+                clearTimeout(catDebounceTimer);
+                catDebounceTimer = setTimeout(() => {
+                    catViewPage = 1;
+                    loadCategoryPage();
+                }, 300);
+            }
 
             async function showCategoryView(cfg) {
                 document.getElementById('heroWrapper').style.display = 'none';
@@ -1167,58 +1251,56 @@
                 document.getElementById('categoryView').style.display = 'block';
                 document.getElementById('categoryViewTitle').textContent = cfg.title;
                 
-                const isDiscover = cfg.ep.includes('/discover/');
-                document.getElementById('catFilterChips').style.display = isDiscover ? 'flex' : 'none';
+                catViewCfg = cfg;
+                catViewType = cfg.type;
+                catViewPage = 1;
                 
-                // reset active filter
-                document.querySelectorAll('#catFilterChips .filter-chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+                populateGenreDropdown('catGenre', catViewType);
+                populateLangDropdown('catLang');
+                clearCatFilters(); // This will trigger initial load
                 
                 const grid = document.getElementById('categoryGrid');
                 grid.innerHTML = '';
-                
                 const oldBtn = document.getElementById('loadMoreBtn');
                 if (oldBtn) oldBtn.remove();
-
-                catViewCfg = cfg;
-                catViewEndpoint = cfg.ep;
-                catViewPage = 1;
-                
-                await loadCategoryPage();
             }
 
             async function loadCategoryPage() {
                 const grid = document.getElementById('categoryGrid');
                 let loadMoreBtn = document.getElementById('loadMoreBtn');
                 
+                const filters = {
+                    sort: document.getElementById('catSortBy').value,
+                    genre: document.getElementById('catGenre').value,
+                    lang: document.getElementById('catLang').value,
+                    year: document.getElementById('catYear').value,
+                    rating: document.getElementById('catRating').value
+                };
+
                 if (catViewPage === 1) {
-                    grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">Loading movies...</div>';
+                    grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
                 } else if (loadMoreBtn) {
                     loadMoreBtn.textContent = 'Loading more...';
                     loadMoreBtn.disabled = true;
                 }
 
                 try {
-                    const promises = [1, 2, 3].map(offset => tmdbFetch(`${catViewEndpoint}${catViewPage + offset - 1}`));
-                    const results = await Promise.allSettled(promises);
+                    const endpoint = buildDiscoverUrl(catViewType, catViewPage, filters);
+                    const data = await tmdbFetch(endpoint);
+                    const results = (data.results || []).filter(m => m.poster_path);
                     
                     if (catViewPage === 1) grid.innerHTML = '';
 
-                    let count = 0;
-                    results.forEach(res => {
-                        if (res.status === 'fulfilled') {
-                            (res.value.results || []).filter(m => m.poster_path).forEach(m => {
-                                grid.appendChild(createCard(m, catViewCfg.type));
-                                count++;
-                            });
-                        }
-                    });
-
-                    catViewPage += 3;
-
-                    if (count === 0 && catViewPage === 4) {
-                        grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">No movies found.</div>';
+                    if (results.length === 0 && catViewPage === 1) {
+                        grid.innerHTML = `<div class="empty-state"><i class="fas fa-film"></i><h3>No movies found</h3><p>Try adjusting your filters.</p><br><button class="clear-filters-btn" onclick="clearCatFilters()">Clear Filters</button></div>`;
                         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-                    } else {
+                        return;
+                    }
+
+                    results.forEach(m => grid.appendChild(createCard(m, catViewType)));
+                    catViewPage++;
+
+                    if (data.page < data.total_pages) {
                         if (loadMoreBtn) {
                             loadMoreBtn.style.display = 'block';
                             loadMoreBtn.textContent = 'Load More';
@@ -1231,24 +1313,17 @@
                             btn.addEventListener('click', loadCategoryPage);
                             document.getElementById('categoryView').appendChild(btn);
                         }
+                    } else {
+                        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
                     }
                 } catch (e) {
-                    grid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 50px;">Failed to load movies.</div>';
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Failed to load</h3><p>Please check your connection.</p></div>';
                 }
             }
 
-            // Category Filter Event Listeners
-            document.querySelectorAll('#catFilterChips .filter-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('#catFilterChips .filter-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    const sortVal = chip.dataset.sort;
-                    let ep = catViewEndpoint.split('&sort_by=')[0];
-                    ep += `&sort_by=${sortVal}`;
-                    catViewEndpoint = ep;
-                    catViewPage = 1;
-                    loadCategoryPage();
-                });
+            // Bind Category Filter Events
+            ['catSortBy', 'catGenre', 'catLang', 'catYear', 'catRating'].forEach(id => {
+                document.getElementById(id).addEventListener('change', handleCatFilterChange);
             });
 
             function closeCategoryView() {
@@ -1282,7 +1357,7 @@
                 const grid = document.getElementById('grid-mylist');
                 watchlist.forEach(item => {
                     const card = document.createElement('div'); card.className = 'card'; card.dataset.id = item.id; card.dataset.type = item.type;
-                    card.innerHTML = `<div class="card-thumb"><img src="${item.poster}" loading="lazy" decoding="async" alt="${esc(item.title)}" onerror="this.style.background='#222';"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(item.title)}"><i class="fas fa-play" aria-hidden="true"></i></button><button class="circle-btn card-heart" aria-label="Remove from list"><i class="fas fa-heart" aria-hidden="true"></i></button><button class="circle-btn" aria-label="More info"><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(item.title)}</div><div class="card-meta"><span class="match">My List</span><span>${item.year || ''}</span></div></div>`;
+                    card.innerHTML = `<div class="card-thumb"><img class="card-thumb-img" src="${item.poster}" loading="lazy" decoding="async" alt="${esc(item.title)}" onload="this.classList.add('loaded')" onerror="this.style.background='#222';this.classList.add('loaded');"><div class="card-overlay"><div class="card-buttons"><button class="circle-btn play-btn" aria-label="Play ${esc(item.title)}"><i class="fas fa-play" aria-hidden="true"></i></button><button class="circle-btn card-heart" aria-label="Remove from list"><i class="fas fa-heart" aria-hidden="true"></i></button><button class="circle-btn" aria-label="More info"><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div></div></div><div class="card-text"><div class="card-title">${esc(item.title)}</div><div class="card-meta"><span class="match">My List</span><span>${item.year || ''}</span></div></div>`;
                     card.addEventListener('click', () => openMovieModal(item.id, item.type));
                     card.querySelector('.play-btn').addEventListener('click', e => { e.stopPropagation(); addRecent(item.id, item.title, item.poster, item.year, item.type); window.location.href = `player.html?id=${item.id}&type=${item.type}`; });
                     card.querySelector('.card-heart').addEventListener('click', e => { e.stopPropagation(); toggleWl(item.id, item.title, item.poster, item.year, item.type); card.remove(); });
@@ -1309,27 +1384,68 @@
             const modalSearchInput = document.getElementById('modalSearchInput');
             const searchResultsGrid = document.getElementById('searchResultsGrid');
             let searchTimeout;
-            let activeSearchType = 'multi';
+            let searchDebounceTimer;
+
+            function renderSearchChips() {
+                const chipsContainer = document.getElementById('searchActiveChips');
+                chipsContainer.innerHTML = '';
+                const type = document.getElementById('searchType').value;
+                const genre = document.getElementById('searchGenre').value;
+                const year = document.getElementById('searchYear').value;
+                const rating = document.getElementById('searchRating').value;
+                
+                let activeCount = 0;
+                if (type !== 'multi') { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="type">${type === 'movie' ? 'Movies' : 'TV'} <i class="fas fa-times"></i></div>`; }
+                if (genre) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="genre">${GENRES[type === 'tv' ? 'tv' : 'movie'][genre]} <i class="fas fa-times"></i></div>`; }
+                if (year) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="year">${year} <i class="fas fa-times"></i></div>`; }
+                if (rating) { activeCount++; chipsContainer.innerHTML += `<div class="chip" data-filter="rating">⭐ ${rating}+ <i class="fas fa-times"></i></div>`; }
+                
+                if (activeCount > 0) {
+                    chipsContainer.innerHTML += `<button class="clear-filters-btn" id="clearSearchFilters">Clear All</button>`;
+                    document.getElementById('clearSearchFilters').addEventListener('click', clearSearchFilters);
+                    chipsContainer.querySelectorAll('.chip').forEach(chip => {
+                        chip.addEventListener('click', () => {
+                            const filterKey = chip.dataset.filter;
+                            if (filterKey === 'type') document.getElementById('searchType').value = 'multi';
+                            else document.getElementById('search' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1)).value = '';
+                            handleSearchFilterChange();
+                        });
+                    });
+                }
+            }
+
+            function clearSearchFilters() {
+                document.getElementById('searchType').value = 'multi';
+                document.getElementById('searchGenre').value = '';
+                document.getElementById('searchYear').value = '';
+                document.getElementById('searchRating').value = '';
+                handleSearchFilterChange();
+            }
+
+            function handleSearchFilterChange() {
+                const type = document.getElementById('searchType').value;
+                populateGenreDropdown('searchGenre', type === 'multi' ? 'movie' : type);
+                renderSearchChips();
+                if (modalSearchInput.value.trim().length >= 2) {
+                    clearTimeout(searchDebounceTimer);
+                    searchDebounceTimer = setTimeout(() => {
+                        modalSearchInput.dispatchEvent(new Event('input'));
+                    }, 300);
+                }
+            }
 
             document.getElementById('searchIconBtn').addEventListener('click', () => {
                 closeNotifPanel();
                 openModalUI(searchModal);
+                populateGenreDropdown('searchGenre', 'movie');
                 setTimeout(() => modalSearchInput.focus(), 100);
             });
 
             searchModalClose.addEventListener('click', closeSearchModal);
             searchModal.addEventListener('click', (e) => { if(e.target === searchModal) closeSearchModal(); });
 
-            // Search Filter Event Listeners
-            document.querySelectorAll('#searchFilters .filter-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('#searchFilters .filter-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    activeSearchType = chip.dataset.type;
-                    if (modalSearchInput.value.trim().length >= 2) {
-                        modalSearchInput.dispatchEvent(new Event('input'));
-                    }
-                });
+            ['searchType', 'searchGenre', 'searchYear', 'searchRating'].forEach(id => {
+                document.getElementById(id).addEventListener('change', handleSearchFilterChange);
             });
 
             modalSearchInput.addEventListener('input', function() {
@@ -1337,29 +1453,46 @@
                 const q = this.value.trim();
                 if (q.length < 2) { searchResultsGrid.innerHTML = ''; return; }
                 
-                searchResultsGrid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 30px;">Searching...</div>';
+                searchResultsGrid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 30px;"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
                 
                 searchTimeout = setTimeout(async () => {
                     try {
-                        const data = await tmdbFetch(`/search/${activeSearchType}?query=` + encodeURIComponent(q));
+                        const type = document.getElementById('searchType').value;
+                        const genre = document.getElementById('searchGenre').value;
+                        const year = document.getElementById('searchYear').value;
+                        const rating = document.getElementById('searchRating').value;
+                        
                         let items = [];
-                        if (activeSearchType === 'multi') {
-                            items = (data.results || []).filter(r => ['movie','tv'].includes(r.media_type) && r.poster_path).slice(0, 18);
-                        } else {
+                        
+                        // If filters are active, use /discover with text query
+                        if (genre || year || rating || type !== 'multi') {
+                            const discoverType = type === 'multi' ? 'movie' : type;
+                            const filters = {
+                                sort: 'popularity.desc',
+                                genre: genre,
+                                year: year,
+                                rating: rating
+                            };
+                            const endpoint = buildDiscoverUrl(discoverType, 1, filters, q);
+                            const data = await tmdbFetch(endpoint);
                             items = (data.results || []).filter(r => r.poster_path).slice(0, 18);
-                            items.forEach(item => item.media_type = activeSearchType);
+                            items.forEach(item => item.media_type = discoverType);
+                        } else {
+                            // Standard search
+                            const data = await tmdbFetch(`/search/multi?query=` + encodeURIComponent(q));
+                            items = (data.results || []).filter(r => ['movie','tv'].includes(r.media_type) && r.poster_path).slice(0, 18);
                         }
                         
                         if (items.length) {
                             searchResultsGrid.innerHTML = '';
                             items.forEach(item => {
-                                searchResultsGrid.appendChild(createCard(item, item.media_type));
+                                searchResultsGrid.appendChild(createCard(item, item.media_type || (item.title ? 'movie' : 'tv')));
                             });
                         } else {
-                            searchResultsGrid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 30px;">No results found.</div>';
+                            searchResultsGrid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><i class="fas fa-search"></i><h3>No results found</h3><p>Try different keywords or filters.</p></div>';
                         }
                     } catch (e) {
-                        searchResultsGrid.innerHTML = '<div style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; padding: 30px;">Search error. Try again.</div>';
+                        searchResultsGrid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><i class="fas fa-exclamation-triangle"></i><h3>Search error</h3></div>';
                     }
                 }, 350);
             });
@@ -1375,30 +1508,22 @@
                         tmdbFetch('/movie/now_playing?page=1'),
                         tmdbFetch('/trending/movie/day?page=1')
                     ]);
-                    
                     const nowPlayingMovies = nowPlaying.status === 'fulfilled' ? (nowPlaying.value.results || []) : [];
                     const trendingMovies = trendingToday.status === 'fulfilled' ? (trendingToday.value.results || []) : [];
-                    
                     const merged = [...nowPlayingMovies, ...trendingMovies];
                     const seen = new Set();
                     const unique = merged.filter(m => {
                         if (seen.has(m.id) || !m.poster_path) return false;
-                        seen.add(m.id);
-                        return true;
+                        seen.add(m.id); return true;
                     });
-                    
                     unique.sort((a, b) => {
                         const da = new Date(a.release_date || 0);
                         const db = new Date(b.release_date || 0);
                         if (db - da !== 0) return db - da;
                         return (b.popularity || 0) - (a.popularity || 0);
                     });
-                    
                     return unique.slice(0, 12);
-                } catch(e) {
-                    console.error('Failed to fetch notifications:', e);
-                    return [];
-                }
+                } catch(e) { return []; }
             }
 
             function updateNotifBadge() {
@@ -1406,9 +1531,7 @@
                 if (unseenCount > 0) {
                     notifBadge.textContent = unseenCount > 99 ? '99+' : unseenCount;
                     notifBadge.classList.add('visible');
-                } else {
-                    notifBadge.classList.remove('visible');
-                }
+                } else { notifBadge.classList.remove('visible'); }
             }
 
             function renderNotifPanel() {
@@ -1416,7 +1539,6 @@
                     notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-bell-slash" aria-hidden="true"></i>No new releases yet. Check back later!</div>`;
                     return;
                 }
-                
                 notifBody.innerHTML = '';
                 cachedNotifMovies.forEach(m => {
                     const isUnread = !seenNotifIds.has(m.id);
@@ -1424,7 +1546,6 @@
                     const year = (m.release_date || '').substring(0, 4);
                     const rating = m.vote_average ? Number(m.vote_average).toFixed(1) : '?';
                     const poster = m.poster_path ? TMDB_IMG + m.poster_path : '';
-                    
                     const item = document.createElement('div');
                     item.className = 'notif-item' + (isUnread ? ' unread' : '');
                     item.innerHTML = `
@@ -1438,66 +1559,42 @@
                         </div>
                         ${isUnread ? '<span class="notif-new-tag">NEW</span>' : ''}
                     `;
-                    item.addEventListener('click', () => {
-                        openMovieModal(m.id, 'movie');
-                        closeNotifPanel();
-                    });
+                    item.addEventListener('click', () => { openMovieModal(m.id, 'movie'); closeNotifPanel(); });
                     notifBody.appendChild(item);
                 });
             }
 
             async function refreshNotifications() {
                 cachedNotifMovies = await fetchNewReleases();
-                saveNotifFetchTime();
-                updateNotifBadge();
-                if (notifPanel.classList.contains('open')) {
-                    renderNotifPanel();
-                }
+                saveNotifFetchTime(); updateNotifBadge();
+                if (notifPanel.classList.contains('open')) renderNotifPanel();
             }
 
             async function toggleNotifPanel() {
-                if (notifPanel.classList.contains('open')) {
-                    closeNotifPanel();
-                    return;
-                }
-                
+                if (notifPanel.classList.contains('open')) { closeNotifPanel(); return; }
                 if (searchModal.classList.contains('active')) closeSearchModal();
-                
                 notifPanel.classList.add('open');
-                
                 if (cachedNotifMovies.length === 0) {
                     notifBody.innerHTML = `<div class="notif-empty"><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>Loading new releases...</div>`;
-                } else {
-                    renderNotifPanel();
-                }
-                
+                } else { renderNotifPanel(); }
                 await refreshNotifications();
             }
 
-            function closeNotifPanel() {
-                notifPanel.classList.remove('open');
-            }
+            function closeNotifPanel() { notifPanel.classList.remove('open'); }
 
             function markAllNotifRead() {
                 cachedNotifMovies.forEach(m => seenNotifIds.add(m.id));
-                saveSeenNotif();
-                updateNotifBadge();
-                renderNotifPanel();
+                saveSeenNotif(); updateNotifBadge(); renderNotifPanel();
                 toast('All notifications marked as read');
             }
 
             document.addEventListener('click', (e) => {
-                if (notifPanel.classList.contains('open') && 
-                    !notifPanel.contains(e.target) && 
-                    !watchlistBtnNav.contains(e.target)) {
+                if (notifPanel.classList.contains('open') && !notifPanel.contains(e.target) && !watchlistBtnNav.contains(e.target)) {
                     closeNotifPanel();
                 }
             });
 
-            watchlistBtnNav.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleNotifPanel();
-            });
+            watchlistBtnNav.addEventListener('click', (e) => { e.stopPropagation(); toggleNotifPanel(); });
             document.getElementById('markAllRead').addEventListener('click', markAllNotifRead);
 
             const backBtn=document.getElementById('backToTop');
@@ -1510,17 +1607,9 @@
                     loadStorage(); 
                     renderRecent();
                     await initSections();
-                    
                     const thirtyMins = 30 * 60 * 1000;
-                    if (Date.now() - lastNotifFetch > thirtyMins) {
-                        refreshNotifications();
-                    } else {
-                        fetchNewReleases().then(movies => {
-                            cachedNotifMovies = movies;
-                            updateNotifBadge();
-                        });
-                    }
-                    
+                    if (Date.now() - lastNotifFetch > thirtyMins) { refreshNotifications(); } 
+                    else { fetchNewReleases().then(movies => { cachedNotifMovies = movies; updateNotifBadge(); }); }
                     setInterval(refreshNotifications, 10 * 60 * 1000);
                 } catch (error) { console.error("Initialization error:", error); } 
                 finally { refreshHearts(); }
