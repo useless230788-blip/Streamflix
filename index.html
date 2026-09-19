@@ -1250,7 +1250,6 @@
                 return 1;
             }
             
-            // FIX: Passed `cfg` directly to observer to prevent race conditions where it looks up the wrong global category
             function setupScroll(sec, cfg){
                 const key=sec.dataset.key, type=sec.dataset.type, sentinel=document.getElementById('sentinel-'+key); 
                 if(!sentinel||endedSec.has(key) || key === 'top_streamflix' || key === 'top_streamflix_m') return;
@@ -1269,7 +1268,6 @@
                 },{rootMargin:'400px'}).observe(sentinel);
             }
 
-            // FIX: Capture local `isHero` flag so it doesn't rely on the global SECTIONS array which might change
             async function fetchSectionData(c, isHero = false) {
                 try {
                     const d = await tmdbFetch(c.ep + '1');
@@ -1289,12 +1287,13 @@
                 }
             }
 
-            // FIX: Capture the array locally so clicking another category doesn't corrupt running fetches
             async function initSections(){
                 const container = document.getElementById('sectionsContainer'); 
                 const mainHeader = document.getElementById('mainCatHeader');
-                container.innerHTML = ''; 
-                if (mainHeader) container.appendChild(mainHeader); 
+                
+                // Safely clear old sections without destroying the filter header
+                container.querySelectorAll('.section, .filtered-grid, #loadMoreBtn').forEach(el => el.remove());
+                if (mainHeader) container.appendChild(mainHeader); // Keep header at top
                 
                 const currentSections = SECTIONS; 
                 const firstKey = currentSections[0].key;
@@ -1462,13 +1461,11 @@
                     if (areMainFiltersActive()) {
                         mainFilterPage = 1;
                         loadMainFilteredGrid();
-                        // Hide hero when filtering
                         if(heroTimer) clearInterval(heroTimer);
                         document.getElementById('heroWrapper').style.display = 'none';
                     } else {
                         SECTIONS = CATEGORIES[currentCat]; 
                         initSections();
-                        // Show hero when filters cleared
                         document.getElementById('heroWrapper').style.display = 'block';
                     }
                 }, 300);
@@ -1477,9 +1474,13 @@
             async function loadMainFilteredGrid() {
                 const container = document.getElementById('sectionsContainer');
                 const mainHeader = document.getElementById('mainCatHeader');
-                container.innerHTML = '';
+                
+                container.querySelectorAll('.section, .filtered-grid, #loadMoreBtn').forEach(el => el.remove());
                 container.appendChild(mainHeader);
                 
+                if(heroTimer) clearInterval(heroTimer);
+                document.getElementById('heroWrapper').style.display = 'none';
+
                 const grid = document.createElement('div');
                 grid.className = 'filtered-grid';
                 grid.id = 'mainFilterGrid';
@@ -1559,7 +1560,8 @@
             function renderMyListSection() {
                 const container = document.getElementById('sectionsContainer');
                 const mainHeader = document.getElementById('mainCatHeader');
-                container.innerHTML = '';
+                
+                container.querySelectorAll('.section, .filtered-grid, #loadMoreBtn').forEach(el => el.remove());
                 if (mainHeader) {
                     mainHeader.classList.remove('visible');
                     container.appendChild(mainHeader);
@@ -1605,18 +1607,23 @@
                     loadingSec.clear(); endedSec.clear();
                     closeCategoryView();
                     
+                    // FIX: Clear filters when switching to categories that don't support them
+                    if (cat !== 'movies' && cat !== 'tv') {
+                        document.getElementById('mainSortBy').value = 'popularity.desc';
+                        document.getElementById('mainGenre').value = '';
+                        document.getElementById('mainLang').value = '';
+                        document.getElementById('mainYear').value = '';
+                        document.getElementById('mainRating').value = '';
+                        document.getElementById('mainCountry').value = '';
+                        renderMainChips();
+                    }
+                    
                     const heroWrapper = document.getElementById('heroWrapper');
                     if (cat === 'mylist') {
                         if(heroTimer) clearInterval(heroTimer);
                         heroWrapper.style.display = 'none';
                     } else {
-                        if (!areMainFiltersActive()) {
-                            heroWrapper.style.display = 'block'; 
-                            // startHeroAuto is called by buildHero inside initSections
-                        } else {
-                            if(heroTimer) clearInterval(heroTimer);
-                            heroWrapper.style.display = 'none';
-                        }
+                        heroWrapper.style.display = 'block'; 
                     }
                     
                     const mainHeader = document.getElementById('mainCatHeader');
@@ -1625,6 +1632,7 @@
                         populateDropdown('mainGenre', GENRES[cat], 'All Genres');
                         populateDropdown('mainLang', LANGUAGES, 'All Languages');
                         populateDropdown('mainCountry', COUNTRIES, 'All Countries');
+                        
                         if (areMainFiltersActive()) {
                             loadMainFilteredGrid();
                         } else {
@@ -1634,7 +1642,10 @@
                     } else {
                         mainHeader.classList.remove('visible');
                         if (cat === 'mylist') { renderMyListSection(); } 
-                        else { SECTIONS = CATEGORIES[cat]; initSections(); }
+                        else { 
+                            SECTIONS = CATEGORIES[cat]; 
+                            initSections();
+                        }
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
