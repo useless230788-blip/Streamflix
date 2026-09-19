@@ -143,23 +143,23 @@
         .hero-landscape .hero-info:hover { background: rgba(109,109,110,0.4); transform: translateY(-2px) scale(1.03); border-color: rgba(255,255,255,0.3); }
         .hero-landscape .hero-dots { position: absolute; bottom: 15%; right: 50px; z-index: 4; display: flex; gap: 6px; }
         
-        /* PORTRAIT VERTICAL CARD HERO (Mobile) */
+        /* PORTRAIT CINEMATIC HERO (Mobile) - Made Larger & Cinematic */
         .hero-portrait { display: none; padding-top: 90px; padding-bottom: 10px; position: relative; background: var(--bg); }
-        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 15px; scroll-padding-left: 16px; justify-content: center; }
+        .hero-portrait .hero-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; width: 100%; padding: 20px 0; gap: 15px; scroll-padding-left: 7%; justify-content: flex-start; }
         .hero-portrait .hero-track::-webkit-scrollbar { display: none; }
-        .hero-portrait .hero-slide { position: relative; flex: 0 0 65%; width: 65%; aspect-ratio: 3 / 4; scroll-snap-align: center; background: var(--bg-card); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-left: 6%; }
-        .hero-portrait .hero-slide:last-child { margin-right: 6%; }
+        .hero-portrait .hero-slide { position: relative; flex: 0 0 86%; width: 86%; aspect-ratio: 16 / 10; scroll-snap-align: center; background: var(--bg-card); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-left: 7%; }
+        .hero-portrait .hero-slide:last-child { margin-right: 7%; }
         .hero-portrait .hero-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.95) 100%); z-index: 2; }
+        .hero-portrait .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.95) 100%); z-index: 2; }
         .hero-portrait .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 15px; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 3; }
         .hero-portrait .hero-label { font-size: 9px; letter-spacing: 3px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
         .hero-portrait .hero-label::before, .hero-portrait .hero-label::after { content: ''; width: 15px; height: 1px; background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
-        .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.4rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
+        .hero-portrait .hero-title { font-family: var(--netflix-sans); font-size: 1.6rem; font-weight: 900; margin: 0 0 8px 0; line-height: 1.1; max-width: 100%; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); letter-spacing: -0.5px; }
         .hero-portrait .hero-title-logo { max-width: 70%; max-height: 50px; margin: 0 auto 8px; object-fit: contain; display: block; filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.9)); }
-        .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 12px 0; font-size: 11px; flex-wrap: wrap; justify-content: center; }
+        .hero-portrait .hero-meta { display: flex; gap: 8px; align-items: center; margin: 0 0 12px 0; font-size: 12px; flex-wrap: wrap; justify-content: center; }
         .hero-portrait .hero-meta .match { color: var(--green); font-weight: 700; }
         .hero-portrait .hero-buttons { width: 100%; max-width: 400px; display: flex; gap: 8px; }
-        .hero-portrait .hero-watch, .hero-portrait .hero-info { flex: 1; padding: 8px 10px; font-size: 13px; border-radius: 4px; justify-content: center; gap: 6px; display: flex; align-items: center; border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: var(--premium-transition); }
+        .hero-portrait .hero-watch, .hero-portrait .hero-info { flex: 1; padding: 10px 12px; font-size: 14px; border-radius: 4px; justify-content: center; gap: 6px; display: flex; align-items: center; border: none; cursor: pointer; font-family: inherit; font-weight: 600; transition: var(--premium-transition); }
         .hero-portrait .hero-watch { background: #fff; color: #000; box-shadow: 0 4px 10px rgba(255,255,255,0.2); } 
         .hero-portrait .hero-info { background: rgba(109,109,110,0.6); color: white; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); } 
         .hero-portrait .hero-dots { display: flex; justify-content: center; gap: 6px; margin-top: 0; position: relative; right: auto; bottom: auto; z-index: 10; padding: 10px 0; background: var(--bg); }
@@ -794,7 +794,7 @@
             let watchlist=[], recent=[], heroMovies=[], heroIdx=0, heroTimer;
             let loadingSec = new Set(), endedSec = new Set();
             let currentHeroGen = 0;
-            let heroObserver = null; // Added for Bug Fix 3
+            let heroObserver = null;
             let seenNotifIds = new Set();
             let lastNotifFetch = 0;
             let cachedNotifMovies = [];
@@ -897,7 +897,7 @@
                 if(idx>=0){ watchlist.splice(idx,1); toast('Removed from My List'); }
                 else { watchlist.push({id,title,poster,year,type}); toast('Added to My List'); }
                 saveWl(); 
-                refreshHearts(id); // Pass specific ID for optimization
+                refreshHearts(id);
                 const activeLink = document.querySelector('.nav-links a.active') || document.querySelector('.bottom-nav a.active');
                 if (activeLink && activeLink.dataset.cat === 'mylist') { renderMyListSection(); }
             }
@@ -1062,7 +1062,6 @@
                 
                 heroMovies.forEach((m,i)=>{
                     const backdrop = TMDB_BACK + m.backdrop_path;
-                    const poster = TMDB_IMG + m.poster_path; 
                     const title = esc(m.title||m.name);
                     const year = (m.release_date||m.first_air_date||'').substring(0,4);
                     const rating = m.vote_average?Number(m.vote_average).toFixed(1):'?';
@@ -1093,7 +1092,7 @@
                     const slideP = document.createElement('div'); 
                     slideP.className = 'hero-slide';
                     slideP.innerHTML = `
-                        <img src="${poster}" class="hero-poster" alt="${title}">
+                        <img src="${backdrop}" class="hero-poster" alt="${title}">
                         <div class="hero-overlay"></div>
                         <div class="hero-content">
                             <div class="hero-label">STREAMFLIX</div>
@@ -1118,7 +1117,6 @@
                     dotsP.appendChild(dotP);
                 });
                 
-                // Scoped event listeners to prevent duplicates
                 heroL.querySelectorAll('.hero-watch').forEach(btn => btn.addEventListener('click', e => { 
                     e.stopPropagation(); 
                     const id = btn.dataset.id, type = btn.dataset.type; 
@@ -1149,7 +1147,7 @@
                     openMovieModal(btn.dataset.id, btn.dataset.type); 
                 }));
 
-                if (heroObserver) heroObserver.disconnect(); // Fix 3: Disconnect old observer
+                if (heroObserver) heroObserver.disconnect();
                 heroObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
@@ -1275,7 +1273,7 @@
                 try {
                     const d = await tmdbFetch(c.ep + '1');
                     const data = (d.results || []).filter(m => m.poster_path);
-                    populateGrid(c.key, data, c.type); // Fix 2: Removed .slice(0, 10) to show all fetched items
+                    populateGrid(c.key, data, c.type);
                     const secEl = document.querySelector(`.section[data-key="${c.key}"]`);
                     if (secEl) setupScroll(secEl);
                     if (c === SECTIONS[0]) {
@@ -1292,9 +1290,9 @@
 
             async function initSections(){
                 const container = document.getElementById('sectionsContainer'); 
-                const mainHeader = document.getElementById('mainCatHeader'); // Grab before clearing
-                container.innerHTML = ''; // Clear container safely
-                if (mainHeader) container.appendChild(mainHeader); // Put it back
+                const mainHeader = document.getElementById('mainCatHeader');
+                container.innerHTML = ''; 
+                if (mainHeader) container.appendChild(mainHeader); 
                 
                 SECTIONS.forEach(c => container.appendChild(createSecHTML(c)));
                 await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
@@ -1374,9 +1372,11 @@
                 document.getElementById('categoryView').style.display = 'none';
                 document.getElementById('sectionsContainer').style.display = 'block';
                 const activeLink = document.querySelector('.nav-links a.active') || document.querySelector('.bottom-nav a.active');
-                if (activeLink && activeLink.dataset.cat === 'home') {
-                    document.getElementById('heroWrapper').style.display = 'block';
-                    startHeroAuto();
+                if (activeLink && activeLink.dataset.cat !== 'mylist') {
+                    if (!areMainFiltersActive()) {
+                        document.getElementById('heroWrapper').style.display = 'block';
+                        startHeroAuto();
+                    }
                 }
                 if (recent.length > 0) document.getElementById('recentSection').style.display = 'block';
             }
@@ -1458,9 +1458,14 @@
                     if (areMainFiltersActive()) {
                         mainFilterPage = 1;
                         loadMainFilteredGrid();
+                        // Hide hero when filtering
+                        if(heroTimer) clearInterval(heroTimer);
+                        document.getElementById('heroWrapper').style.display = 'none';
                     } else {
                         SECTIONS = CATEGORIES[currentCat]; 
                         initSections();
+                        // Show hero when filters cleared
+                        document.getElementById('heroWrapper').style.display = 'block';
                     }
                 }, 300);
             }
@@ -1538,7 +1543,6 @@
             document.getElementById('openMainFilterSheet').addEventListener('click', (e) => { e.stopPropagation(); openFilterSheet(); });
             document.getElementById('closeFilterSheet').addEventListener('click', closeFilterSheet);
 
-            // Click outside for filter sheet
             document.addEventListener('click', (e) => {
                 const sheet = document.getElementById('filterSheet');
                 if (sheet.classList.contains('open') && !sheet.contains(e.target) && !e.target.closest('#openMainFilterSheet') && !e.target.closest('#openSearchFilterSheet')) {
@@ -1571,7 +1575,6 @@
 
                 const sec = document.createElement('div');
                 sec.className = 'section';
-                // Fix 5: Use CSS Grid for proper wrapping
                 sec.innerHTML = `<h2 class="section-title">My List</h2><div class="row-scroll-area"><div id="grid-mylist" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; padding: 0 50px;"></div></div>`;
                 container.appendChild(sec);
                 
@@ -1598,14 +1601,18 @@
                     loadingSec.clear(); endedSec.clear();
                     closeCategoryView();
                     
-                    // Fix 1: Hide/Show hero based on category
                     const heroWrapper = document.getElementById('heroWrapper');
-                    if (cat === 'home') {
-                        heroWrapper.style.display = 'block';
-                        startHeroAuto();
-                    } else {
+                    if (cat === 'mylist') {
                         if(heroTimer) clearInterval(heroTimer);
                         heroWrapper.style.display = 'none';
+                    } else {
+                        if (!areMainFiltersActive()) {
+                            heroWrapper.style.display = 'block'; 
+                            // startHeroAuto is called by buildHero inside initSections
+                        } else {
+                            if(heroTimer) clearInterval(heroTimer);
+                            heroWrapper.style.display = 'none';
+                        }
                     }
                     
                     const mainHeader = document.getElementById('mainCatHeader');
@@ -1878,7 +1885,6 @@
                 } catch (error) { 
                     console.error("Initialization error:", error); 
                 } finally { 
-                    // Fix 6: Hide loading screen after initialization instead of hardcoded timeout
                     const ls = document.getElementById('loadingScreen');
                     if (ls) { 
                         ls.classList.add('hidden'); 
@@ -1893,4 +1899,4 @@
 
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
-  </html>
+</html>
