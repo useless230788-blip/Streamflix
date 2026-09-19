@@ -1250,7 +1250,8 @@
                 return 1;
             }
             
-            function setupScroll(sec){
+            // FIX: Passed `cfg` directly to observer to prevent race conditions where it looks up the wrong global category
+            function setupScroll(sec, cfg){
                 const key=sec.dataset.key, type=sec.dataset.type, sentinel=document.getElementById('sentinel-'+key); 
                 if(!sentinel||endedSec.has(key) || key === 'top_streamflix' || key === 'top_streamflix_m') return;
                 new IntersectionObserver(async entries=>{
@@ -1258,7 +1259,6 @@
                     if(loadingSec.has(key)||endedSec.has(key)) return;
                     loadingSec.add(key);
                     const page=parseInt(sec.dataset.page)+1;
-                    const cfg=SECTIONS.find(s=>s.key===key);
                     const endpoint=cfg?cfg.ep+page:(type==='tv'?'/trending/tv/week?page=':'/trending/movie/week?page=')+page;
                     try{
                         const data=await tmdbFetch(endpoint);
@@ -1269,14 +1269,15 @@
                 },{rootMargin:'400px'}).observe(sentinel);
             }
 
-            async function fetchSectionData(c) {
+            // FIX: Capture local `isHero` flag so it doesn't rely on the global SECTIONS array which might change
+            async function fetchSectionData(c, isHero = false) {
                 try {
                     const d = await tmdbFetch(c.ep + '1');
                     const data = (d.results || []).filter(m => m.poster_path);
                     populateGrid(c.key, data, c.type);
                     const secEl = document.querySelector(`.section[data-key="${c.key}"]`);
-                    if (secEl) setupScroll(secEl);
-                    if (c === SECTIONS[0]) {
+                    if (secEl) setupScroll(secEl, c); 
+                    if (isHero) {
                         const heroWrapper = document.getElementById('heroWrapper');
                         if (data.length) { heroWrapper.style.display = 'block'; buildHero(data, c.type); } 
                         else { if(heroTimer) clearInterval(heroTimer); heroWrapper.style.display = 'none'; }
@@ -1288,14 +1289,17 @@
                 }
             }
 
+            // FIX: Capture the array locally so clicking another category doesn't corrupt running fetches
             async function initSections(){
                 const container = document.getElementById('sectionsContainer'); 
                 const mainHeader = document.getElementById('mainCatHeader');
                 container.innerHTML = ''; 
                 if (mainHeader) container.appendChild(mainHeader); 
                 
-                SECTIONS.forEach(c => container.appendChild(createSecHTML(c)));
-                await Promise.all(SECTIONS.map(c => fetchSectionData(c)));
+                const currentSections = SECTIONS; 
+                const firstKey = currentSections[0].key;
+                currentSections.forEach(c => container.appendChild(createSecHTML(c)));
+                await Promise.all(currentSections.map(c => fetchSectionData(c, c.key === firstKey)));
             }
 
             let catViewCfg = null;
