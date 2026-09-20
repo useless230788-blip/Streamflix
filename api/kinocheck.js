@@ -13,9 +13,7 @@ export default async function handler(req, res) {
 
     // Use /shows for TV types and /movies for movie types
     const endpointPath = type === 'tv' ? 'shows' : 'movies';
-    
-    // Filter strictly by Trailer and exclude Clips to get the official trailer
-    const url = `https://api.kinocheck.com/${endpointPath}?tmdb_id=${id}&language=en&categories=Trailer,-Clip`;
+    const url = `https://api.kinocheck.com/${endpointPath}?tmdb_id=${id}&language=en`;
 
     try {
         const response = await fetch(url, {
