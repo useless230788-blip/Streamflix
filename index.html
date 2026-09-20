@@ -264,7 +264,23 @@
         
         .modal-hero { position: relative; height: 70vh; min-height: 400px; width: 100%; background: #000; overflow: hidden; }
         .modal-hero img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease; }
-        .modal-hero iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+        
+        /* Adjusted to make the trailer fill the banner completely */
+        .modal-hero iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            min-height: 100%;
+            min-width: 100%;
+            transform: translate(-50%, -50%);
+            border: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            scale: 1.1; /* Slight scale up to hide YouTube UI bars */
+        }
         .modal-hero iframe.loaded { opacity: 1; pointer-events: auto; }
         
         .modal-video-controls { position: absolute; bottom: 100px; right: 50px; display: flex; gap: 12px; z-index: 10; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
@@ -1072,17 +1088,22 @@
                         galleryGrid.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem;">No screenshots available.</div>';
                     }
 
-                    // TRAILER LOGIC: Try Kinocheck first, fallback to TMDB
+                    // TRAILER LOGIC: Try Kinocheck first, fallback to TMDB, fallback to YouTube Search
+                    let videoUrl = '';
                     let ytKey = null;
                     
                     try {
                         const kinoRes = await fetchWithRetry(`/api/kinocheck?id=${id}`);
                         if (kinoRes.ok) {
                             const kinoData = await kinoRes.json();
-                            if (kinoData.trailer && kinoData.trailer.youtube_id) {
-                                ytKey = kinoData.trailer.youtube_id;
-                            } else if (kinoData.trailers && kinoData.trailers.length > 0 && kinoData.trailers[0].youtube_id) {
-                                ytKey = kinoData.trailers[0].youtube_id;
+                            // Check for trailer array or single trailer object
+                            let trailers = [];
+                            if (Array.isArray(kinoData)) trailers = kinoData;
+                            else if (kinoData.trailers) trailers = kinoData.trailers;
+                            else if (kinoData.trailer) trailers = [kinoData.trailer];
+                            
+                            for (const t of trailers) {
+                                if (t.youtube_id) { ytKey = t.youtube_id; break; }
                             }
                         }
                     } catch(e) { console.error("Kinocheck fetch failed, falling back to TMDB", e); }
@@ -1094,15 +1115,21 @@
                     }
 
                     if (ytKey) {
-                        // Wait 2 seconds, then load video
-                        videoTimeout = setTimeout(() => {
-                            modalVideo.src = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
-                            modalVideo.classList.add('loaded');
-                            modalVideoControls.classList.add('visible');
-                            isVideoMuted = true;
-                            updateMuteBtn();
-                        }, 2000);
+                        videoUrl = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
+                    } else {
+                        // Fallback to YouTube search for the official trailer
+                        const searchQuery = encodeURIComponent(`${title} ${type === 'movie' ? 'movie' : 'tv show'} official trailer`);
+                        videoUrl = `https://www.youtube.com/embed?listType=search&list=${searchQuery}&autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1`;
                     }
+
+                    // Wait 2 seconds, then load video
+                    videoTimeout = setTimeout(() => {
+                        modalVideo.src = videoUrl;
+                        modalVideo.classList.add('loaded');
+                        modalVideoControls.classList.add('visible');
+                        isVideoMuted = true;
+                        updateMuteBtn();
+                    }, 2000);
 
                     modalPlayBtn.onclick = () => { const posterPath = data.poster_path ? TMDB_IMG + data.poster_path : ''; addRecent(id, title, posterPath, year, type); window.location.href = `player.html?id=${id}&type=${type}`; };
                 } catch (error) {
