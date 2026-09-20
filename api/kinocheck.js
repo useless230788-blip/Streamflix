@@ -1,6 +1,6 @@
 // /api/kinocheck.js
 export default async function handler(req, res) {
-    const { id } = req.query;
+    const { id, type } = req.query;
     
     if (!id) {
         return res.status(400).json({ error: 'TMDB ID is required' });
@@ -11,8 +11,11 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Kinocheck API key is not configured on the server.' });
     }
 
-    // Correct Kinocheck endpoint
-    const url = `https://api.kinocheck.com/trailers?tmdb_id=${id}&language=en`;
+    // Use /shows for TV types and /movies for movie types
+    const endpointPath = type === 'tv' ? 'shows' : 'movies';
+    
+    // Filter strictly by Trailer and exclude Clips to get the official trailer
+    const url = `https://api.kinocheck.com/${endpointPath}?tmdb_id=${id}&language=en&categories=Trailer,-Clip`;
 
     try {
         const response = await fetch(url, {
