@@ -1088,41 +1088,42 @@
                         galleryGrid.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem;">No screenshots available.</div>';
                     }
 
-                    // TRAILER LOGIC: Use ONLY Kinocheck for official trailers
+                    // TRAILER LOGIC: Use ONLY Kinocheck for trailers
                     let ytKey = null;
                     try {
-                        const kinoRes = await fetchWithRetry(`/api/kinocheck?id=${id}&type=${type}`);
+                        const kinoRes = await fetch(`/api/kinocheck?id=${id}&type=${type}`);
                         if (kinoRes.ok) {
                             const kinoData = await kinoRes.json();
                             
-                            // Robust parsing for Kinocheck API response structure
-                            let trailers = [];
-                            if (Array.isArray(kinoData)) {
-                                trailers = kinoData;
-                            } else if (kinoData.trailers) {
-                                trailers = kinoData.trailers;
-                            } else if (kinoData.trailer) {
-                                trailers = [kinoData.trailer];
-                            }
-                            
-                            if (trailers.length > 0) {
-                                // Try to find an actual trailer first
-                                const officialTrailer = trailers.find(t => t.category === 'Trailer' && t.youtube_id);
-                                if (officialTrailer) {
-                                    ytKey = officialTrailer.youtube_id;
-                                } else {
-                                    // Fallback to the first available video with a YouTube ID (like a Teaser or Clip)
-                                    const firstAvailable = trailers.find(t => t.youtube_id);
-                                    if (firstAvailable) {
-                                        ytKey = firstAvailable.youtube_id;
+                            // Extremely robust parsing for any Kinocheck response format
+                            if (kinoData.trailer && kinoData.trailer.youtube_id) {
+                                ytKey = kinoData.trailer.youtube_id;
+                            } else if (kinoData.trailers && Array.isArray(kinoData.trailers) && kinoData.trailers.length > 0) {
+                                const t = kinoData.trailers.find(t => t.youtube_id);
+                                if (t) ytKey = t.youtube_id;
+                            } else if (Array.isArray(kinoData)) {
+                                const t = kinoData.find(t => t.youtube_id);
+                                if (t) ytKey = t.youtube_id;
+                            } else {
+                                // Search recursively in the object just in case
+                                const findKey = (obj) => {
+                                    if (!obj || typeof obj !== 'object') return null;
+                                    if (obj.youtube_id) return obj.youtube_id;
+                                    for (const k in obj) {
+                                        if (typeof obj[k] === 'object') {
+                                            const found = findKey(obj[k]);
+                                            if (found) return found;
+                                        }
                                     }
-                                }
+                                    return null;
+                                };
+                                ytKey = findKey(kinoData);
                             }
                         }
                     } catch(e) { console.error("Kinocheck fetch failed", e); }
 
                     if (ytKey) {
-                        const videoUrl = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
+                        const videoUrl = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}&playsinline=1`;
                         // Wait 2 seconds, then load video
                         videoTimeout = setTimeout(() => {
                             modalVideo.src = videoUrl;
