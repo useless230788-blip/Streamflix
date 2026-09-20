@@ -1012,7 +1012,7 @@
                 document.getElementById('modalGalleryGrid').innerHTML = '';
 
                 try {
-                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits,videos,images` : `/tv/${id}?append_to_response=credits,videos,images`;
+                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits,images,videos` : `/tv/${id}?append_to_response=credits,images,videos`;
                     const data = await tmdbFetch(endpoint);
                     const title = data.title || data.name || 'Untitled';
                     const year = (data.release_date || data.first_air_date || '').substring(0,4);
@@ -1072,20 +1072,36 @@
                         galleryGrid.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem;">No screenshots available.</div>';
                     }
 
-                    // YouTube Trailer Logic
-                    if (data.videos && data.videos.results && data.videos.results.length > 0) {
-                        const ytVideos = data.videos.results.filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
-                        if (ytVideos.length > 0) {
-                            const ytKey = ytVideos[0].key;
-                            // Wait 2 seconds, then load video
-                            videoTimeout = setTimeout(() => {
-                                modalVideo.src = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
-                                modalVideo.classList.add('loaded');
-                                modalVideoControls.classList.add('visible');
-                                isVideoMuted = true;
-                                updateMuteBtn();
-                            }, 2000);
+                    // TRAILER LOGIC: Try Kinocheck first, fallback to TMDB
+                    let ytKey = null;
+                    
+                    try {
+                        const kinoRes = await fetchWithRetry(`/api/kinocheck?id=${id}`);
+                        if (kinoRes.ok) {
+                            const kinoData = await kinoRes.json();
+                            if (kinoData.trailer && kinoData.trailer.youtube_id) {
+                                ytKey = kinoData.trailer.youtube_id;
+                            } else if (kinoData.trailers && kinoData.trailers.length > 0 && kinoData.trailers[0].youtube_id) {
+                                ytKey = kinoData.trailers[0].youtube_id;
+                            }
                         }
+                    } catch(e) { console.error("Kinocheck fetch failed, falling back to TMDB", e); }
+                    
+                    // Fallback to TMDB if Kinocheck didn't find a trailer
+                    if (!ytKey && data.videos && data.videos.results && data.videos.results.length > 0) {
+                        const ytVideos = data.videos.results.filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
+                        if (ytVideos.length > 0) ytKey = ytVideos[0].key;
+                    }
+
+                    if (ytKey) {
+                        // Wait 2 seconds, then load video
+                        videoTimeout = setTimeout(() => {
+                            modalVideo.src = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
+                            modalVideo.classList.add('loaded');
+                            modalVideoControls.classList.add('visible');
+                            isVideoMuted = true;
+                            updateMuteBtn();
+                        }, 2000);
                     }
 
                     modalPlayBtn.onclick = () => { const posterPath = data.poster_path ? TMDB_IMG + data.poster_path : ''; addRecent(id, title, posterPath, year, type); window.location.href = `player.html?id=${id}&type=${type}`; };
