@@ -11,8 +11,8 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Kinocheck API key is not configured on the server.' });
     }
 
-    // Kinocheck endpoint for getting trailers by TMDB ID
-    const url = `https://api.kinocheck.com/movies?tmdb_id=${id}&language=en`;
+    // Correct Kinocheck endpoint
+    const url = `https://api.kinocheck.com/trailers?tmdb_id=${id}&language=en`;
 
     try {
         const response = await fetch(url, {
