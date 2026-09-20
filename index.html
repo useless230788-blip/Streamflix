@@ -1028,7 +1028,7 @@
                 document.getElementById('modalGalleryGrid').innerHTML = '';
 
                 try {
-                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits,images,videos` : `/tv/${id}?append_to_response=credits,images,videos`;
+                    const endpoint = type === 'movie' ? `/movie/${id}?append_to_response=credits,images` : `/tv/${id}?append_to_response=credits,images`;
                     const data = await tmdbFetch(endpoint);
                     const title = data.title || data.name || 'Untitled';
                     const year = (data.release_date || data.first_air_date || '').substring(0,4);
@@ -1088,48 +1088,44 @@
                         galleryGrid.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem;">No screenshots available.</div>';
                     }
 
-                    // TRAILER LOGIC: Try Kinocheck first, fallback to TMDB, fallback to YouTube Search
-                    let videoUrl = '';
+                    // TRAILER LOGIC: Use ONLY Kinocheck for official trailers
                     let ytKey = null;
-                    
                     try {
-                        const kinoRes = await fetchWithRetry(`/api/kinocheck?id=${id}`);
+                        // Pass type to backend to switch between /movies and /shows endpoints
+                        const kinoRes = await fetchWithRetry(`/api/kinocheck?id=${id}&type=${type}`);
                         if (kinoRes.ok) {
                             const kinoData = await kinoRes.json();
-                            // Check for trailer array or single trailer object
-                            let trailers = [];
-                            if (Array.isArray(kinoData)) trailers = kinoData;
-                            else if (kinoData.trailers) trailers = kinoData.trailers;
-                            else if (kinoData.trailer) trailers = [kinoData.trailer];
                             
-                            for (const t of trailers) {
-                                if (t.youtube_id) { ytKey = t.youtube_id; break; }
+                            // The Kinocheck /movies and /shows endpoints return a single object 
+                            // representing the movie/show, which contains a `trailer` object.
+                            if (kinoData.trailer && kinoData.trailer.youtube_id) {
+                                ytKey = kinoData.trailer.youtube_id;
+                            } 
+                            // Fallback if it returns an array of trailers directly
+                            else if (Array.isArray(kinoData) && kinoData.length > 0) {
+                                const t = kinoData.find(t => t.youtube_id);
+                                if (t) ytKey = t.youtube_id;
                             }
                         }
-                    } catch(e) { console.error("Kinocheck fetch failed, falling back to TMDB", e); }
-                    
-                    // Fallback to TMDB if Kinocheck didn't find a trailer
-                    if (!ytKey && data.videos && data.videos.results && data.videos.results.length > 0) {
-                        const ytVideos = data.videos.results.filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
-                        if (ytVideos.length > 0) ytKey = ytVideos[0].key;
-                    }
+                    } catch(e) { console.error("Kinocheck fetch failed", e); }
 
                     if (ytKey) {
-                        videoUrl = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
+                        const videoUrl = `https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1&loop=1&playlist=${ytKey}`;
+                        // Wait 2 seconds, then load video
+                        videoTimeout = setTimeout(() => {
+                            modalVideo.src = videoUrl;
+                            modalVideo.classList.add('loaded');
+                            modalVideoControls.classList.add('visible');
+                            isVideoMuted = true;
+                            updateMuteBtn();
+                        }, 2000);
                     } else {
-                        // Fallback to YouTube search for the official trailer
-                        const searchQuery = encodeURIComponent(`${title} ${type === 'movie' ? 'movie' : 'tv show'} official trailer`);
-                        videoUrl = `https://www.youtube.com/embed?listType=search&list=${searchQuery}&autoplay=1&mute=1&controls=0&enablejsapi=1&rel=0&modestbranding=1`;
+                        // No trailer found on Kinocheck, ensure backdrop stays visible and no video loads
+                        clearTimeout(videoTimeout);
+                        modalVideo.src = '';
+                        modalVideo.classList.remove('loaded');
+                        modalVideoControls.classList.remove('visible');
                     }
-
-                    // Wait 2 seconds, then load video
-                    videoTimeout = setTimeout(() => {
-                        modalVideo.src = videoUrl;
-                        modalVideo.classList.add('loaded');
-                        modalVideoControls.classList.add('visible');
-                        isVideoMuted = true;
-                        updateMuteBtn();
-                    }, 2000);
 
                     modalPlayBtn.onclick = () => { const posterPath = data.poster_path ? TMDB_IMG + data.poster_path : ''; addRecent(id, title, posterPath, year, type); window.location.href = `player.html?id=${id}&type=${type}`; };
                 } catch (error) {
