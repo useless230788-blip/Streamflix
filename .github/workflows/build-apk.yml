@@ -29,16 +29,31 @@ jobs:
           distribution: temurin
           java-version: "21"
 
-      - name: Install Capacitor and icon tools
+      - name: Install Capacitor
         run: |
           npm init -y
-          npm install @capacitor/core @capacitor/android
-          npm install --save-dev @capacitor/cli @capacitor/assets
+          npm install @capacitor/core@6 @capacitor/android@6
+          npm install --save-dev @capacitor/cli@6 @capacitor/assets
 
-      - name: Create web wrapper
+      - name: Create local wrapper
         run: |
           mkdir -p www assets
-          echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body></body></html>' > www/index.html
+          cat > www/index.html <<'EOF'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Streamflix</title>
+          </head>
+          <body>
+            <script>
+              window.location.replace("https://streamflix123.vercel.app/");
+            </script>
+            <p>Opening Streamflix...</p>
+          </body>
+          </html>
+          EOF
           cp streamflix-icon.png assets/icon.png
 
       - name: Configure Capacitor
@@ -49,8 +64,7 @@ jobs:
             "appName": "Streamflix",
             "webDir": "www",
             "server": {
-              "url": "https://streamflix123.vercel.app",
-              "cleartext": false
+              "androidScheme": "https"
             }
           }
           EOF
@@ -64,27 +78,13 @@ jobs:
       - name: Sync Android project
         run: npx cap sync android
 
-      - name: Align Kotlin dependencies
-        run: |
-          cat >> android/app/build.gradle <<'EOF'
-
-          configurations.configureEach {
-              resolutionStrategy.eachDependency { details ->
-                  if (details.requested.group == "org.jetbrains.kotlin" &&
-                      details.requested.name.startsWith("kotlin-stdlib")) {
-                      details.useVersion "1.8.22"
-                  }
-              }
-          }
-          EOF
-
-      - name: Build debug APK
+      - name: Build APK
         working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
-      - name: Upload Streamflix APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Streamflix-APK
