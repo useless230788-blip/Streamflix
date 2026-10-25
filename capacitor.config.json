@@ -1,13 +1,15 @@
 {
-"appId": "com.streamflix.app",
-"appName": "Streamflix",
-"webDir": "www",
-"server": {
-"url": "https://streamflix123.vercel.app",
-"cleartext": false,
-"androidScheme": "https",
-"allowNavigation": [
-"streamflix123.vercel.app"
-]
-}
+  "appId": "com.streamflix.app",
+  "appName": "Streamflix",
+  "webDir": "www",
+  "backgroundColor": "#000000",
+  "server": {
+    "url": "https://streamflix-psi-one.vercel.app",
+    "cleartext": false,
+    "androidScheme": "https",
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": true
+  }
 }
