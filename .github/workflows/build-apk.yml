@@ -18,8 +18,8 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Capacitor
+        run: npm install @capacitor/core@6 @capacitor/android@6 @capacitor/cli@6
 
       - name: Prepare web folder
         run: |
@@ -37,9 +37,11 @@ jobs:
             for d in android/app/src/main/res/mipmap-*; do
               cp streamflix-icon.png "$d/ic_launcher.png"
               cp streamflix-icon.png "$d/ic_launcher_round.png"
-              cp streamflix-icon.png "$d/ic_launcher_foreground.png"
             done
           fi
+
+      - name: Sync
+        run: npx cap sync android
 
       - name: Build APK
         run: |
