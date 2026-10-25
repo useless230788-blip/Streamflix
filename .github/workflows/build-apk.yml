@@ -2,6 +2,10 @@ name: Build Streamflix APK
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "streamflix-icon.png"
+      - ".github/workflows/build-apk.yml"
 
 permissions:
   contents: read
@@ -14,26 +18,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
 
-      - name: Setup Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: "21"
 
-      - name: Install Capacitor
+      - name: Install Capacitor and icon tools
         run: |
+          npm init -y
           npm install @capacitor/core @capacitor/android
-          npm install --save-dev @capacitor/cli
+          npm install --save-dev @capacitor/cli @capacitor/assets
 
-      - name: Create web directory
+      - name: Create web wrapper
         run: |
-          mkdir -p www
-          echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body></body></html>' > www/index.html
+          mkdir -p www assets
+          echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body></body></html>' > www/index.html
+          cp streamflix-icon.png assets/icon.png
 
       - name: Configure Capacitor
         run: |
@@ -50,18 +56,38 @@ jobs:
           EOF
 
       - name: Generate Android project
-        run: |
-          npx cap add android
+        run: npx cap add android
 
-      - name: Build APK
+      - name: Generate custom app icons
+        run: npx capacitor-assets generate --android
+
+      - name: Sync Android project
+        run: npx cap sync android
+
+      - name: Align Kotlin dependencies
         run: |
-          cd android
+          cat >> android/app/build.gradle <<'EOF'
+
+          configurations.configureEach {
+              resolutionStrategy.eachDependency { details ->
+                  if (details.requested.group == "org.jetbrains.kotlin" &&
+                      details.requested.name.startsWith("kotlin-stdlib")) {
+                      details.useVersion "1.8.22"
+                  }
+              }
+          }
+          EOF
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
 
-      - name: Upload APK
+      - name: Upload Streamflix APK
         uses: actions/upload-artifact@v4
         with:
           name: Streamflix-APK
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 30
