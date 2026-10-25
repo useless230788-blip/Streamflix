@@ -4,7 +4,7 @@
   "webDir": "www",
   "backgroundColor": "#000000",
   "server": {
-    "url": "https://streamflix-psi-one.vercel.app",
+    "url": "https://streamflix123.vercel.app",
     "cleartext": false,
     "androidScheme": "https",
     "allowNavigation": ["*"]
