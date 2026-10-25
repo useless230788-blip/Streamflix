@@ -1,0 +1,9 @@
+{
+  "appId": "com.streamflix.app",
+  "appName": "Streamflix",
+  "webDir": "www",
+  "server": {
+    "url": "https://streamflix123.vercel.app",
+    "cleartext": false
+  }
+}
