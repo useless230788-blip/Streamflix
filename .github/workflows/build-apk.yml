@@ -9,47 +9,271 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Install Capacitor
-        run: npm install @capacitor/core@6 @capacitor/android@6 @capacitor/cli@6
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
 
-      - name: Prepare web folder
+      - name: Create Android project
         run: |
-          mkdir -p www
-          cp *.html www/
-          cp streamflix-icon.png www/ || true
+          APP=streamflix-android
+          PKG=app/src/main/java/com/streamflix/app
+          mkdir -p $APP/$PKG $APP/app/src/main/res/mipmap-xxhdpi $APP/app/src/main/res/values
+          echo "sdk.dir=$ANDROID_HOME" > $APP/local.properties
 
-      - name: Add Android platform
-        run: npx cap add android
+          cat > $APP/settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "Streamflix"
+          include ':app'
+          EOF
 
-      - name: Set app icon
-        run: |
+          cat > $APP/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application' version '8.5.2' apply false
+          }
+          EOF
+
+          cat > $APP/gradle.properties <<'EOF'
+          org.gradle.jvmargs=-Xmx2g
+          android.nonTransitiveRClass=true
+          EOF
+
+          cat > $APP/app/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application'
+          }
+          android {
+              namespace 'com.streamflix.app'
+              compileSdk 34
+              defaultConfig {
+                  applicationId 'com.streamflix.app'
+                  minSdk 24
+                  targetSdk 34
+                  versionCode 1
+                  versionName '1.0'
+              }
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+          }
+          EOF
+
+          cat > $APP/app/src/main/res/values/strings.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <string name="app_name">Streamflix</string>
+          </resources>
+          EOF
+
+          cat > $APP/app/src/main/AndroidManifest.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.INTERNET" />
+              <application
+                  android:label="@string/app_name"
+                  android:icon="ICON_PLACEHOLDER"
+                  android:usesCleartextTraffic="true"
+                  android:hardwareAccelerated="true"
+                  android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:launchMode="singleTask"
+                      android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOF
+
           if [ -f streamflix-icon.png ]; then
-            rm -rf android/app/src/main/res/mipmap-anydpi-v26
-            for d in android/app/src/main/res/mipmap-*; do
-              cp streamflix-icon.png "$d/ic_launcher.png"
-              cp streamflix-icon.png "$d/ic_launcher_round.png"
-            done
+            cp streamflix-icon.png $APP/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+            sed -i 's#ICON_PLACEHOLDER#@mipmap/ic_launcher#' $APP/app/src/main/AndroidManifest.xml
+          else
+            sed -i 's#ICON_PLACEHOLDER#@android:drawable/sym_def_app_icon#' $APP/app/src/main/AndroidManifest.xml
           fi
 
-      - name: Sync
-        run: npx cap sync android
+          cat > $APP/$PKG/MainActivity.java <<'EOF'
+          package com.streamflix.app;
+
+          import android.app.Activity;
+          import android.graphics.Color;
+          import android.os.Bundle;
+          import android.view.View;
+          import android.webkit.CookieManager;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.widget.FrameLayout;
+
+          public class MainActivity extends Activity {
+
+              private static final String START_URL = "https://streamflix123.vercel.app";
+
+              private FrameLayout root;
+              private WebView web;
+              private View customView;
+              private WebChromeClient.CustomViewCallback customCallback;
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  root = new FrameLayout(this);
+                  root.setBackgroundColor(Color.BLACK);
+
+                  web = new WebView(this);
+                  web.setBackgroundColor(Color.BLACK);
+                  root.addView(web, new FrameLayout.LayoutParams(
+                          FrameLayout.LayoutParams.MATCH_PARENT,
+                          FrameLayout.LayoutParams.MATCH_PARENT));
+                  setContentView(root);
+
+                  WebSettings s = web.getSettings();
+                  s.setJavaScriptEnabled(true);
+                  s.setDomStorageEnabled(true);
+                  s.setMediaPlaybackRequiresUserGesture(false);
+                  s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+                  s.setLoadWithOverviewMode(true);
+                  s.setUseWideViewPort(true);
+
+                  CookieManager cm = CookieManager.getInstance();
+                  cm.setAcceptCookie(true);
+                  cm.setAcceptThirdPartyCookies(web, true);
+
+                  WebView.setWebContentsDebuggingEnabled(true);
+
+                  web.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                          String scheme = request.getUrl().getScheme();
+                          // Keep every web page inside the app; ignore non-web links
+                          return !("http".equals(scheme) || "https".equals(scheme));
+                      }
+                  });
+
+                  web.setWebChromeClient(new WebChromeClient() {
+                      @Override
+                      public void onShowCustomView(View view, CustomViewCallback callback) {
+                          if (customView != null) {
+                              callback.onCustomViewHidden();
+                              return;
+                          }
+                          customView = view;
+                          customCallback = callback;
+                          web.setVisibility(View.GONE);
+                          root.addView(view, new FrameLayout.LayoutParams(
+                                  FrameLayout.LayoutParams.MATCH_PARENT,
+                                  FrameLayout.LayoutParams.MATCH_PARENT));
+                          hideSystemBars();
+                      }
+
+                      @Override
+                      public void onHideCustomView() {
+                          if (customView == null) {
+                              return;
+                          }
+                          root.removeView(customView);
+                          customView = null;
+                          web.setVisibility(View.VISIBLE);
+                          if (customCallback != null) {
+                              customCallback.onCustomViewHidden();
+                              customCallback = null;
+                          }
+                          showSystemBars();
+                      }
+                  });
+
+                  if (savedInstanceState != null) {
+                      web.restoreState(savedInstanceState);
+                  } else {
+                      web.loadUrl(START_URL);
+                  }
+              }
+
+              @SuppressWarnings("deprecation")
+              private void hideSystemBars() {
+                  getWindow().getDecorView().setSystemUiVisibility(
+                          View.SYSTEM_UI_FLAG_FULLSCREEN
+                                  | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                  | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                                  | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                  | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+              }
+
+              @SuppressWarnings("deprecation")
+              private void showSystemBars() {
+                  getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+              }
+
+              @Override
+              protected void onSaveInstanceState(Bundle outState) {
+                  super.onSaveInstanceState(outState);
+                  web.saveState(outState);
+              }
+
+              @Override
+              @SuppressWarnings("deprecation")
+              public void onBackPressed() {
+                  if (customView != null) {
+                      web.getWebChromeClient().onHideCustomView();
+                  } else if (web.canGoBack()) {
+                      web.goBack();
+                  } else {
+                      super.onBackPressed();
+                  }
+              }
+
+              @Override
+              protected void onPause() {
+                  super.onPause();
+                  web.onPause();
+              }
+
+              @Override
+              protected void onResume() {
+                  super.onResume();
+                  web.onResume();
+              }
+
+              @Override
+              protected void onDestroy() {
+                  if (web != null) {
+                      web.destroy();
+                  }
+                  super.onDestroy();
+              }
+          }
+          EOF
 
       - name: Build APK
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+        working-directory: streamflix-android
+        run: gradle assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
           name: streamflix-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: streamflix-android/app/build/outputs/apk/debug/app-debug.apk
