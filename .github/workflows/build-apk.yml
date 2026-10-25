@@ -1,110 +1,108 @@
 name: Build Streamflix APK
 
 on:
-workflow_dispatch:
-push:
-paths:
-- "streamflix-icon.png"
-- ".github/workflows/build-apk.yml"
-- "capacitor.config.json"
+  workflow_dispatch:
+  push:
+    paths:
+      - "streamflix-icon.png"
+      - ".github/workflows/build-apk.yml"
+      - "capacitor.config.json"
 
 permissions:
-contents: read
+  contents: read
 
 jobs:
-build:
-runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Set up Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: "20"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-  - name: Set up Java
-    uses: actions/setup-java@v4
-    with:
-      distribution: temurin
-      java-version: "21"
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
 
-  - name: Install Capacitor
-    run: |
-      npm init -y
-      npm install @capacitor/core@6 @capacitor/android@6
-      npm install --save-dev @capacitor/cli@6 @capacitor/assets
+      - name: Install Capacitor
+        run: |
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/android@6
+          npm install --save-dev @capacitor/cli@6 @capacitor/assets
 
-  - name: Create local wrapper and icon
-    run: |
-      mkdir -p www assets
-      cat > www/index.html <<'EOF'
-      <!doctype html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Streamflix</title>
-      </head>
-      <body>
-        <p>Loading Streamflix...</p>
-      </body>
-      </html>
-      EOF
-      cp streamflix-icon.png assets/icon.png
+      - name: Prepare wrapper and icon
+        run: |
+          mkdir -p www assets
+          cat > www/index.html <<'EOF'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Streamflix</title>
+          </head>
+          <body>
+            <p>Loading Streamflix...</p>
+          </body>
+          </html>
+          EOF
+          test -f streamflix-icon.png
+          cp streamflix-icon.png assets/icon.png
 
-  - name: Configure Capacitor
-    run: |
-      cat > capacitor.config.json <<'EOF'
-      {
-        "appId": "com.streamflix.app",
-        "appName": "Streamflix",
-        "webDir": "www",
-        "server": {
-          "url": "https://streamflix123.vercel.app",
-          "cleartext": false,
-          "androidScheme": "https",
-          "allowNavigation": [
-            "streamflix123.vercel.app"
-          ]
-        }
-      }
-      EOF
+      - name: Configure Capacitor
+        run: |
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.streamflix.app",
+            "appName": "Streamflix",
+            "webDir": "www",
+            "server": {
+              "url": "https://streamflix123.vercel.app",
+              "cleartext": false,
+              "androidScheme": "https"
+            }
+          }
+          EOF
 
-  - name: Generate Android project
-    run: npx cap add android
+      - name: Generate Android project
+        run: npx cap add android
 
-  - name: Generate custom app icons
-    run: npx capacitor-assets generate --android
+      - name: Generate custom app icons
+        run: npx capacitor-assets generate --android
 
-  - name: Sync Android project
-    run: npx cap sync android
+      - name: Sync Android project
+        run: npx cap sync android
 
-  - name: Align Kotlin dependencies
-    run: |
-      cat >> android/app/build.gradle <<'EOF'
+      - name: Align Kotlin dependencies
+        run: |
+          cat >> android/app/build.gradle <<'EOF'
 
-      configurations.configureEach {
-          resolutionStrategy.eachDependency { details ->
-              if (details.requested.group == "org.jetbrains.kotlin" &&
-                  details.requested.name.startsWith("kotlin-stdlib")) {
-                  details.useVersion "1.8.22"
+          configurations.configureEach {
+              resolutionStrategy.eachDependency { details ->
+                  if (details.requested.group == "org.jetbrains.kotlin" &&
+                      details.requested.name.startsWith("kotlin-stdlib")) {
+                      details.useVersion "1.8.22"
+                  }
               }
           }
-      }
-      EOF
+          EOF
 
-  - name: Build APK
-    working-directory: android
-    run: |
-      chmod +x gradlew
-      ./gradlew assembleDebug --no-daemon
+      - name: Build APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
-  - name: Upload APK
-    uses: actions/upload-artifact@v4
-    with:
-      name: Streamflix-APK
-      path: android/app/build/outputs/apk/debug/app-debug.apk
-      if-no-files-found: error
-      retention-days: 30
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Streamflix-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
